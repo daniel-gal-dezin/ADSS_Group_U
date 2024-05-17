@@ -65,7 +65,7 @@ public class Shift {
     public void removeConstraint(Employee employee) {
         constraints.remove(employee);
     }
-    
+
 
     public int getDeadlinedfault() {
         return deadlinedfault;
