@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Shift {
 
-    private Pair<LocalTime, ShiftType> shiftID;
+    private Pair<LocalDate, ShiftType> shiftID;
     private List<Employee.Role> rolesneeded;
     private Employee shiftmanager;
     private List<Employee> employees;
     private List<Employee> constraints;
-    private LocalTime deadLine;//until when worker can put constraints on this shift
+    private LocalDate deadLine;//until when worker can put constraints on this shift
     private LocalTime start;
     private LocalTime end;
 
 
-    private int deadlinedfault = 168;// 7 days
+    private int deadlinedfault = 1;// 1 week
     private LocalTime startmorning = LocalTime.of(6, 0);
     private LocalTime startevening = LocalTime.of(14, 0);
     private LocalTime endmorning = LocalTime.of(14, 0);
@@ -25,18 +25,13 @@ public class Shift {
     public Shift() {
     }
 
-    public Shift(Pair<LocalTime, ShiftType> shiftID, Employee shiftmanager) {
+    public Shift(Pair<LocalDate, ShiftType> shiftID,List<Employee.Role> rolesneeded) {
         this.shiftID = shiftID;
-        List<Employee.Role> rolesneeded1 = new ArrayList<>();
-        rolesneeded1.add(Employee.Role.CASHIER);// defualt role needed
-        rolesneeded1.add(Employee.Role.DRIVER);
-        rolesneeded1.add(Employee.Role.MANAGER);
-        rolesneeded1.add(Employee.Role.STOREKEEPER);
-        this.rolesneeded = rolesneeded1;
-        this.shiftmanager = shiftmanager;
+        this.rolesneeded = rolesneeded;
+        this.shiftmanager = null;
         this.employees = new ArrayList<>();
         this.constraints = new ArrayList<>();
-        this.deadLine = shiftID.getFirst().minusHours(deadlinedfault);//default value
+        this.deadLine = shiftID.getFirst().minusWeeks(deadlinedfault);//default value
         if (this.shiftID.getSecond() == ShiftType.MORNING) {// defualt value
             this.start = LocalTime.of(startmorning.getHour(), startmorning.getMinute());
             this.end = LocalTime.of(endmorning.getHour(), endmorning.getMinute());
@@ -47,6 +42,7 @@ public class Shift {
     }
 
 
+
     public void addEmployee(Employee employee) {
         employees.add(employee);
     }
@@ -54,6 +50,9 @@ public class Shift {
 
     public void removeEmployee(Employee employee) {
         employees.remove(employee);
+    }
+    public void removeEmployees() {
+        employees.clear();
     }
 
 
@@ -107,11 +106,11 @@ public class Shift {
         this.endevening = endevening;
     }
 
-    public Pair<LocalTime, ShiftType> getShiftID() {
+    public Pair<LocalDate, ShiftType> getShiftID() {
         return shiftID;
     }
 
-    public void setShiftID(Pair<LocalTime, ShiftType> shiftID) {
+    public void setShiftID(Pair<LocalDate, ShiftType> shiftID) {
         this.shiftID = shiftID;
     }
 
@@ -147,11 +146,11 @@ public class Shift {
         this.constraints = constraints;
     }
 
-    public LocalTime getDeadLine() {
+    public LocalDate getDeadLine() {
         return deadLine;
     }
 
-    public void setDeadLine(LocalTime deadLine) {
+    public void setDeadLine(LocalDate deadLine) {
         this.deadLine = deadLine;
     }
 

@@ -19,6 +19,7 @@ public class Employee {
     private boolean ismanagar;
 
 
+
     public Employee() {
     }
 
@@ -28,6 +29,7 @@ public class Employee {
         BankAccount = bankAccount;
         this.roles = roles;
         this.termsofem = termsofem;
+
     }
 
     public void addRole(Role role) {
@@ -44,6 +46,7 @@ public class Employee {
             System.out.println(role);
         }
     }
+
 
 
 
