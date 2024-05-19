@@ -1,4 +1,4 @@
-package Main;
+package Domain_Layer;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class ShiftManager {
         this.difaultrolesneeded = rolesneeded;
     }
 
-    public void createShift(Pair<LocalDate, ShiftType> shift, List<Role> rolesneeded) {
+    public void createShift(Pair<LocalDate, ShiftType> shift, List<Role> rolesneeded) throws IllegalArgumentException{
 
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
@@ -50,7 +50,7 @@ public class ShiftManager {
     }
 
 
-    public void createShift(Pair<LocalDate, ShiftType> shift) {//create shift without knowing which roles needed
+    public void createShift(Pair<LocalDate, ShiftType> shift) throws IllegalArgumentException {//create shift without knowing which roles needed
 
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
@@ -67,7 +67,7 @@ public class ShiftManager {
     }
 
 
-    public void deleteShift(Pair<LocalDate, ShiftType> shift) {
+    public void deleteShift(Pair<LocalDate, ShiftType> shift) throws IllegalArgumentException {
         if (!shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift does not exist");
         shifts.get(shift).removeEmployees();
@@ -75,7 +75,7 @@ public class ShiftManager {
     }
 
 
-    public void blockShift(Pair<LocalDate, ShiftType> shift) {
+    public void blockShift(Pair<LocalDate, ShiftType> shift) throws IllegalArgumentException {
         if (shift.getFirst().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Main.Shift is in the past");
         }
@@ -86,7 +86,7 @@ public class ShiftManager {
     }
 
 
-    public void unblockShift(Pair<LocalDate, ShiftType> shift) {
+    public void unblockShift(Pair<LocalDate, ShiftType> shift) throws IllegalArgumentException {
         if (!blockedshift.contains(shift)) {
             throw new IllegalArgumentException("Main.Shift is not blocked");
         }

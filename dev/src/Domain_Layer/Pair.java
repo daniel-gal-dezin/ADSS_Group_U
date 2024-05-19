@@ -1,4 +1,4 @@
-package Main;
+package Domain_Layer;
 
 public class Pair<L, S> {
         private final L first;

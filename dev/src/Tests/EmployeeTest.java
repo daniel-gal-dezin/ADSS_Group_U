@@ -1,8 +1,8 @@
 package Tests;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import Main.Employee;
-import Main.Role;
+import Domain_Layer.Employee;
+import Domain_Layer.Role;
 import java.util.Arrays;
 public class EmployeeTest {
     @Test

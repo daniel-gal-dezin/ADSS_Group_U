@@ -1,4 +1,4 @@
-package Main;
+package Domain_Layer;
 
 public enum Role {
     MANAGER,
