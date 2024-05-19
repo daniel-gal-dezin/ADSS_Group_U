@@ -1,3 +1,5 @@
+package Main;
+
 import java.time.LocalDate;
 
 public class Terms {

@@ -1,4 +1,4 @@
-import java.time.LocalDate;
+package Main;
 
 public class Pair<L, S> {
         private final L first;
@@ -9,6 +9,7 @@ public class Pair<L, S> {
             this.second = second;
         }
 
+        
         public L getFirst() {
             return first;
         }
@@ -17,7 +18,7 @@ public class Pair<L, S> {
             return second;
         }
         public String toString() {
-            return "Pair{" +
+            return "Main.Pair{" +
                     "first=" + first +
                     ", second=" + second +
                     '}';

@@ -1,3 +1,5 @@
+package Main;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -6,7 +8,7 @@ import java.util.List;
 public class Shift {
 
     private Pair<LocalDate, ShiftType> shiftID;
-    private List<Employee.Role> rolesneeded;
+    private List<Role> rolesneeded;
     private Employee shiftmanager;
     private List<Employee> employees;
     private List<Employee> constraints;
@@ -25,7 +27,7 @@ public class Shift {
     public Shift() {
     }
 
-    public Shift(Pair<LocalDate, ShiftType> shiftID,List<Employee.Role> rolesneeded) {
+    public Shift(Pair<LocalDate, ShiftType> shiftID,List<Role> rolesneeded) {
         this.shiftID = shiftID;
         this.rolesneeded = rolesneeded;
         this.shiftmanager = null;
@@ -114,11 +116,11 @@ public class Shift {
         this.shiftID = shiftID;
     }
 
-    public List<Employee.Role> getRolesneeded() {
+    public List<Role> getRolesneeded() {
         return rolesneeded;
     }
 
-    public void setRolesneeded(List<Employee.Role> rolesneeded) {
+    public void setRolesneeded(List<Role> rolesneeded) {
         this.rolesneeded = rolesneeded;
     }
 

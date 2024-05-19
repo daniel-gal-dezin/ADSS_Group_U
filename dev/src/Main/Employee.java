@@ -1,33 +1,30 @@
-import java.security.PublicKey;
+package Main;
+
+import java.util.LinkedList;
 import java.util.List;
 
 public class Employee {
-    public enum Role {
-        MANAGER,
-        STOREKEEPER,
-        CASHIER,
-        DRIVER
-    }
 
 
 
     private int id;
     private String name;
     private String BankAccount;
-    private List<Role> roles;
+    private List<Role> roles = new LinkedList<Role>();
     private Terms termsofem;
     private boolean ismanagar;
 
 
 
-    public Employee() {
-    }
+
 
     public Employee(int id, String name, String bankAccount, List<Role> roles, Terms termsofem) {
         this.id = id;
         this.name = name;
         BankAccount = bankAccount;
-        this.roles = roles;
+        if(!roles.isEmpty()){
+            this.roles.addAll(roles);
+        }
         this.termsofem = termsofem;
 
     }
