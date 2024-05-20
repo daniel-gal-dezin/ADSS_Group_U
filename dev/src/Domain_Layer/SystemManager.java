@@ -81,10 +81,6 @@ public class SystemManager {
         sm.createShift(new Pair<>(date,convertShiftType(sType)), roles, manager);
     }
 
-    public void deleteShift(LocalDate date, String sType){
-        sm.deleteShift(new Pair<>(date,convertShiftType(sType)));
-    }
-
     public void blockShift(LocalDate date, String sType){
         sm.blockShift(new Pair<>(date,convertShiftType(sType)));
     }
