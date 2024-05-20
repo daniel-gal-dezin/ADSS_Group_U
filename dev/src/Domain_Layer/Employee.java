@@ -113,4 +113,10 @@ public class Employee {
             throw new IllegalArgumentException("no such employment type. the options are full or partial");
     }
 
+
+    @Override
+    public String toString() {
+        //TODO: implement
+        return "";
+    }
 }

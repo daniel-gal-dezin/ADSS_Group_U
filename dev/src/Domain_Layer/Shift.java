@@ -2,6 +2,7 @@ package Domain_Layer;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +28,9 @@ public class Shift {
     public Shift() {
     }
 
-    public Shift(Pair<LocalDate, ShiftType> shiftID,List<Role> rolesneeded) {
+    public Shift(Pair<LocalDate, ShiftType> shiftID,List<Role> rolesneeded, Employee manager) {
+        if(!manager.isIsmanagar())
+            throw new IllegalArgumentException("can't create a shift, need a manager! the employee inserted isn't one.");
         this.shiftID = shiftID;
         this.rolesneeded = rolesneeded;
         this.shiftmanager = null;
@@ -46,11 +49,33 @@ public class Shift {
 
 
     public void addEmployee(Employee employee) {
+        if(employees.contains(employee))
+            throw new IllegalArgumentException("can't add employee to shift! He is already in it");
+        if(this.shiftmanager == null){
+            throw new IllegalArgumentException("can't add employee to shift! there is no manager yet!");
+        }
         employees.add(employee);
     }
 
 
     public void removeEmployee(Employee employee) {
+        if(!employees.contains(employee))
+            throw new IllegalArgumentException("can't remove employee from shift! He is not in it");
+        List<Role> roles = employee.getRoles();
+        for(Role role: roles){
+            if(rolesneeded.contains(role)){
+                boolean b = false;
+                for(Employee e: employees){
+                    if(e.getRoles().contains(role)) {
+                        b = true;
+                        break;
+                    }
+                }
+                if(!b){
+                    throw new IllegalArgumentException("can't remove employee from shift! the role " + role + " is missing without him");
+                }
+            }
+        }
         employees.remove(employee);
     }
     public void removeEmployees() {
@@ -59,11 +84,15 @@ public class Shift {
 
 
     public void addConstraint(Employee employee) {
+        if(constraints.contains(employee))
+            throw new IllegalArgumentException("can't add employee's constraint! he is already written");
         constraints.add(employee);
     }
 
 
     public void removeConstraint(Employee employee) {
+        if(!constraints.contains(employee))
+            throw new IllegalArgumentException("can't remove employee's constraint! he is not written");
         constraints.remove(employee);
     }
 
@@ -129,6 +158,13 @@ public class Shift {
     }
 
     public void setShiftmanager(Employee shiftmanager) {
+        if(shiftmanager == null)
+            throw new IllegalArgumentException("can't add null employee to shift");
+        if(!shiftmanager.isIsmanagar())
+            throw new IllegalArgumentException("can't asign eployee as manager. S.he is not certified");
+
+        if(employees.contains(shiftmanager))
+            employees.remove(shiftmanager);
         this.shiftmanager = shiftmanager;
     }
 
@@ -139,6 +175,7 @@ public class Shift {
     public void setEmployees(List<Employee> employees) {
         this.employees = employees;
     }
+
 
     public List<Employee> getConstraints() {
         return constraints;
@@ -153,6 +190,9 @@ public class Shift {
     }
 
     public void setDeadLine(LocalDate deadLine) {
+        if(deadLine.isAfter(ChronoLocalDate.from(this.start))){
+            throw new IllegalArgumentException("can't asign dead line for shift after it's date");
+        }
         this.deadLine = deadLine;
     }
 
@@ -170,5 +210,12 @@ public class Shift {
 
     public void setEnd(LocalTime end) {
         this.end = end;
+    }
+
+
+    @Override
+    public String toString() {
+        //TODO: implement
+        return "";
     }
 }

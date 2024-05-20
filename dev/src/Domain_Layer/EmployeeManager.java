@@ -31,18 +31,9 @@ public class EmployeeManager {
         currentEmployees.remove(id);
     }
 
-    public void addRole(int id, String role) throws IllegalArgumentException{
+    public void addRole(int id, Role role) throws IllegalArgumentException{
         Employee em = getEmployee(id);
-        if(role.toLowerCase().compareTo("manager") != 0)
-            em.addRole(Role.MANAGER);
-        else if(role.toLowerCase().compareTo("storekeeper") != 0)
-            em.addRole(Role.STOREKEEPER);
-        else if((role.toLowerCase().compareTo("cashier") != 0))
-            em.addRole(Role.CASHIER);
-        else if ((role.toLowerCase().compareTo("driver") != 0))
-            em.addRole(Role.DRIVER);
-        else
-            throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
+        em.addRole(role);
     }
 
     public List<Role> getEmployeeRoles(int id) throws IllegalArgumentException{
@@ -99,4 +90,12 @@ public class EmployeeManager {
     public List<Employee> getHistoryEmployees(){
         return historyEmployees.values().stream().toList();
     }
+
+    //peulat hamashlim
+    public List<Employee> getComplement(List<Employee> empl){
+        List<Employee> ans = new ArrayList<>(this.currentEmployees.values());
+        ans.removeAll(empl);
+        return ans;
+    }
+
 }
