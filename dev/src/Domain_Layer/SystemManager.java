@@ -13,8 +13,12 @@ public class SystemManager {
         sm = new ShiftManager();
     }
 
-    public void deleteEmployeeFromShift(int id){
-        em.deleteEmployee(id);
+    public void addEmployeeToShift(LocalDate date, String sType, int id){
+        sm.addEmployeeToShift(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
+    }
+
+    public void removeEmployeeFromShift(LocalDate date, String sType, int id){
+        sm.removeEmployeeFromShift(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
     }
 
     public void addRole(int id, String role){
@@ -110,14 +114,6 @@ public class SystemManager {
         else
             throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
 
-    }
-
-    public void addEmployeeToShift(LocalDate date, String sType, int id){
-        sm.addEmployeeToShift(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
-    }
-
-    public void removeEmployeeFromShift(LocalDate date, String sType, int id){
-        sm.removeEmployeeFromShift(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
     }
 
 
