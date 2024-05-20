@@ -28,6 +28,7 @@ public class EmployeeManager {
     public void deleteEmployee(int id) throws IllegalArgumentException{
         if(currentEmployees.get(id) == null)
             throw new IllegalArgumentException("Could't delete employee #" + id + ". id not found!");
+        historyEmployees.put(id,currentEmployees.get(id));
         currentEmployees.remove(id);
     }
 

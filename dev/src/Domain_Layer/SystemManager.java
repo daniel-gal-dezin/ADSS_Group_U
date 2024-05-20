@@ -13,7 +13,7 @@ public class SystemManager {
         sm = new ShiftManager();
     }
 
-    public void deleteEmployee(int id){
+    public void deleteEmployeeFromShift(int id){
         em.deleteEmployee(id);
     }
 
@@ -29,7 +29,7 @@ public class SystemManager {
         return em.getEmployeeRoles(id);
     }
 
-    public Employee getEmployee(int id){
+    private Employee getEmployee(int id){
         return em.getEmployee(id);
     }
 
@@ -120,6 +120,11 @@ public class SystemManager {
         sm.addEmployeeToShift(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
     }
 
+    public void removeEmployeeFromShift(LocalDate date, String sType, int id){
+        sm.removeEmployeeFromShift(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
+    }
+
+
     public void changeManager(LocalDate date, String sType, int id){
         sm.changeManager(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
     }
@@ -133,10 +138,6 @@ public class SystemManager {
 
     public void changeShift(int id1, int id2,LocalDate date1, String sType1,LocalDate date2, String sType2){
         sm.changeShift(getEmployee(id1),getEmployee(id2),new Pair<>(date1,convertShiftType(sType1)),new Pair<>(date2,convertShiftType(sType2)));
-    }
-
-    public void removeEmployeeFromShift(LocalDate date, String sType, int id){
-        sm.removeEmployeeFromShift(new Pair<>(date,convertShiftType(sType)),getEmployee(id));
     }
 
     public void changeDeadLine(LocalDate date, String sType,LocalDate newDate){
