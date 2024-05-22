@@ -22,9 +22,8 @@ public class EmployeeService {
         }
     }
 
-    public String removeRole(int id, String name, String bankAcc, Terms terms){
-        em.addEmployee(id,name,bankAcc,terms);
-
+    public String addEmployee(String name, String bankAcc, Terms terms){
+        em.addEmployee(name,bankAcc,terms);
         return new Response().toJson();
     }
 

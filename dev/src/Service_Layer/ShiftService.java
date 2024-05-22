@@ -26,10 +26,10 @@ public class ShiftService {
     }
 
 
-    public String createShift(int year, int month, int day, String sType, List<Role> roles, Employee manager){
+    public String createShift(int year, int month, int day, String sType, List<String> roles, int managerId){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.createShift(date, sType, roles, manager);
+            sm.createShift(date, sType, roles, getEmployee(managerId));
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();

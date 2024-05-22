@@ -41,7 +41,7 @@ public void setDefaultRolesForShift(List<String> roles){
         this.defaultRolesNeeded = rolesneeded;
     }
 
-    public void createShift(LocalDate date, String sType, List<Role> rolesneeded, Employee manager) throws IllegalArgumentException{
+    public void createShift(LocalDate date, String sType, List<String> rolesneeded, Employee manager) throws IllegalArgumentException{
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
@@ -52,8 +52,8 @@ public void setDefaultRolesForShift(List<String> roles){
         if (shift.getFirst().isAfter(LocalDate.now()))
             throw new IllegalArgumentException("Main.Shift is in the past");
 
-
-        Shift newshift = new Shift(shift, rolesneeded,manager);
+        List<Role> roles = rolesneeded.stream().map((r)->convertRole(r)).collect(Collectors.toList());
+        Shift newshift = new Shift(shift,roles,manager);
         shifts.put(shift, newshift);
     }
 

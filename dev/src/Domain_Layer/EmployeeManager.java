@@ -20,7 +20,7 @@ public class EmployeeManager {
         next_employee_id = Collections.max(emplo.keySet()) + 1;
     }
 
-    public void addEmployee(int id,String name, String bankAcc, Terms terms){
+    public void addEmployee(String name, String bankAcc, Terms terms){
         currentEmployees.put(next_employee_id,new Employee(next_employee_id,name,bankAcc,null,terms));
         next_employee_id++;
     }
