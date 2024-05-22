@@ -23,8 +23,8 @@ public class Employee {
 
     }
 
-    public void addRole(Role role) {
-        roles.add(role);
+    public void addRole(String role) {
+        roles.add(convertRole(role));
     }
 
     public void removeRole(Role role) {
@@ -113,6 +113,19 @@ public class Employee {
             throw new IllegalArgumentException("no such employment type. the options are full or partial");
     }
 
+    private Role convertRole(String role){
+        if(role.toLowerCase().compareTo("manager") != 0)
+            return Role.MANAGER;
+        else if(role.toLowerCase().compareTo("storekeeper") != 0)
+            return Role.STOREKEEPER;
+        else if((role.toLowerCase().compareTo("cashier") != 0))
+            return Role.CASHIER;
+        else if ((role.toLowerCase().compareTo("driver") != 0))
+            return Role.DRIVER;
+        else
+            throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
+
+    }
 
     @Override
     public String toString() {

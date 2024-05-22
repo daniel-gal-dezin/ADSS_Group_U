@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShiftManager {
     private HashMap<Pair<LocalDate, ShiftType>, Shift> shifts;
@@ -26,10 +27,11 @@ public class ShiftManager {
         return rolesneeded1;
     }
 
-    public void setDefaultRolesForShift(List<Role> roles){
-        if (!roles.contains(Role.MANAGER))
+public void setDefaultRolesForShift(List<String> roles){
+        List<Role> rolesR = roles.stream().map((role) -> convertRole(role)).collect(Collectors.toList());
+        if (!rolesR.contains(Role.MANAGER))
             throw new IllegalArgumentException("can't set default roles! there is no manager");
-        this.defaultRolesNeeded = new ArrayList<>(roles);
+        this.defaultRolesNeeded = rolesR;
     }
 
     //to upload the data from the database
@@ -39,8 +41,8 @@ public class ShiftManager {
         this.defaultRolesNeeded = rolesneeded;
     }
 
-    public void createShift(Pair<LocalDate, ShiftType> shift, List<Role> rolesneeded, Employee manager) throws IllegalArgumentException{
-
+    public void createShift(LocalDate date, String sType, List<Role> rolesneeded, Employee manager) throws IllegalArgumentException{
+        Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
 
@@ -57,8 +59,8 @@ public class ShiftManager {
 
     //NOTE(dayan): does the low function needed? can send to the func above with roles = null
 
-    public void createShift(Pair<LocalDate, ShiftType> shift, Employee manager) throws IllegalArgumentException {//create shift without knowing which roles needed
-
+    public void createShift(LocalDate date, String sType, Employee manager) throws IllegalArgumentException {//create shift without knowing which roles needed
+        Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
 
@@ -74,45 +76,48 @@ public class ShiftManager {
     }
 
 
-    public void deleteShift(Pair<LocalDate, ShiftType> shift) throws IllegalArgumentException {
-        if (!shifts.containsKey(shift))
-            throw new IllegalArgumentException("Main.Shift does not exist");
-        shifts.get(shift).removeEmployees();
+    public void deleteShift(LocalDate date, String sType) throws IllegalArgumentException {
+        Shift shift = getShift(date,sType);
+//        shifts.get(shift).removeEmployees();
         shifts.remove(shift);
     }
 
 
-    public void blockShift(Pair<LocalDate, ShiftType> shift) throws IllegalArgumentException {
+    public void blockShift(LocalDate date, String sType) throws IllegalArgumentException {
+        Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shift.getFirst().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Main.Shift is in the past");
         }
         if (shifts.containsKey(shift)) {
-            deleteShift(shift);
+            deleteShift(date, sType);
         }
         blockedShift.add(shift);
     }
 
 
-    public void unblockShift(Pair<LocalDate, ShiftType> shift) throws IllegalArgumentException {
+    public void unblockShift(LocalDate date, String sType) throws IllegalArgumentException {
+        Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (!blockedShift.contains(shift)) {
             throw new IllegalArgumentException("Main.Shift is not blocked");
         }
         blockedShift.remove(shift);
     }
 
-    public void addEmployeeToShift(Pair<LocalDate,ShiftType> shift, Employee employee){
-        Shift s = getShift(shift);
-        if(blockedShift.contains(shift)){
+    public void addEmployeeToShift(LocalDate date, String sType, Employee employee){
+        Shift shift = getShift(date,sType);
+        if(blockedShift.contains(shift.getShiftID())){
             throw new IllegalArgumentException("this shift is blocked!");
         }
-        s.addEmployee(employee);
+        shift.addEmployee(employee);
     }
 
-    public void changeManager(Pair<LocalDate,ShiftType> shift, Employee employee){
-        getShift(shift).setShiftmanager(employee);
+    public void changeManager(LocalDate date, String sType, Employee employee){
+        Shift shift = getShift(date,sType);
+        shift.setShiftmanager(employee);
     }
 
-    private Shift getShift(Pair<LocalDate,ShiftType> s){
+    private Shift getShift(LocalDate date, String sType){
+        Pair<LocalDate,ShiftType> s = new Pair<>(date,convertShiftType(sType));
         if(shifts.containsKey(s)) return shifts.get(s);
         throw new IllegalArgumentException("no such shift!");
     }
@@ -121,58 +126,88 @@ public class ShiftManager {
         return shifts.values().stream().toList();
     }
 
-    public void changeShift(Employee e1, Employee e2, Pair<LocalDate,ShiftType> s1,Pair<LocalDate,ShiftType> s2){
-        Shift shift1 = getShift(s1), shift2 = getShift(s2);
+    public void changeShift(Employee e1, Employee e2, LocalDate date1, String sType1,LocalDate date2, String sType2){
+        Shift s1 = getShift(date1,sType1);
+        Shift s2 = getShift(date2,sType2);
+        //Shift shift1 = getShift(s1), shift2 = getShift(s2);
         try{
-            shift1.addEmployee(e2); //if throws, no actions done
+            s1.addEmployee(e2); //if throws, no actions done
         }
         catch (Exception e){
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         try{
-            shift1.removeEmployee(e1);
+            s2.addEmployee(e1);
         }
         catch (Exception e){
-            shift1.addEmployee(e2);
+            s1.removeEmployee(e2);
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         try{
-            shift2.removeEmployee(e2);
+            s1.removeEmployee(e2);
         }
         catch (Exception e){
-            shift1.removeEmployee(e2);
-            shift1.addEmployee(e1);
+            s1.removeEmployee(e2);
+            s2.removeEmployee(e1);
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         try{
-            shift2.removeEmployee(e2);
+            s2.removeEmployee(e1);
         }
         catch (Exception e){
-            shift1.removeEmployee(e2);
-            shift1.addEmployee(e1);
-            shift2.addEmployee(e2);
+            s1.removeEmployee(e2);
+            s2.removeEmployee(e1);
+            s1.addEmployee(e2);
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
     }
 
-    public void removeEmployeeFromShift(Pair<LocalDate,ShiftType> shift, Employee employee){
-        getShift(shift).removeEmployee(employee);
+    public void removeEmployeeFromShift(LocalDate date, String sType, Employee employee){
+        Shift shift = getShift(date,sType);
+        shift.removeEmployee(employee);
     }
 
-    public void changeDeadLine(Pair<LocalDate,ShiftType> shift,LocalDate date){
-        getShift(shift).setDeadLine(date);
+    public void changeDeadLine(LocalDate date, String sType,LocalDate newDte){
+        Shift shift = getShift(date,sType);
+        shift.setDeadLine(date);
     }
 
-    public void addConstraint(Pair<LocalDate,ShiftType> shift, Employee em){
-        getShift(shift).addConstraint(em);
+    public void addConstraint(LocalDate date, String sType, Employee em){
+        Shift shift = getShift(date,sType);
+        shift.addConstraint(em);
     }
 
-    public void removeConstraint(Pair<LocalDate,ShiftType> shift, Employee em){
-        getShift(shift).removeConstraint(em);
+    public void removeConstraint(LocalDate date, String sType, Employee em){
+        Shift shift = getShift(date,sType);
+        shift.removeConstraint(em);
     }
 
-    public List<Employee> getConstraints(Pair<LocalDate,ShiftType> shift){
-        return getShift(shift).getConstraints();
+    public List<Employee> getConstraints(LocalDate date, String sType){
+        Shift shift = getShift(date,sType);
+        return shift.getConstraints();
     }
 
+
+    private ShiftType convertShiftType(String s){
+        if(s.toLowerCase().compareTo("morning") != 0)
+            return ShiftType.MORNING;
+        else if(s.toLowerCase().compareTo("evening") != 0)
+            return ShiftType.EVENING;
+        else
+            throw new IllegalArgumentException("no such shift type '" + s +"'. only have morning or evening");
+    }
+
+    private Role convertRole(String role){
+        if(role.toLowerCase().compareTo("manager") != 0)
+            return Role.MANAGER;
+        else if(role.toLowerCase().compareTo("storekeeper") != 0)
+            return Role.STOREKEEPER;
+        else if((role.toLowerCase().compareTo("cashier") != 0))
+            return Role.CASHIER;
+        else if ((role.toLowerCase().compareTo("driver") != 0))
+            return Role.DRIVER;
+        else
+            throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
+
+    }
 }

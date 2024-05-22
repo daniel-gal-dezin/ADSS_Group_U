@@ -32,7 +32,7 @@ public class EmployeeManager {
         currentEmployees.remove(id);
     }
 
-    public void addRole(int id, Role role) throws IllegalArgumentException{
+    public void addRole(int id, String role) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.addRole(role);
     }
@@ -43,9 +43,9 @@ public class EmployeeManager {
     }
 
     public Employee getEmployee(int id) throws IllegalArgumentException{
+        if(!currentEmployees.containsKey(id))
+         throw new IllegalArgumentException("Could't get employee #" + id + ". id not found!");
         Employee em = currentEmployees.get(id);
-        if(em == null)
-            throw new IllegalArgumentException("Could't add role to employee #" + id + ". id not found!");
         return em;
     }
 

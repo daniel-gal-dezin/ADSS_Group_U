@@ -8,7 +8,7 @@ public class EmployeeTest {
     @Test
     public void testAddRole() {
         Employee employee = new Employee(1, "John", "123456", Arrays.asList(Role.CASHIER), null);
-        employee.addRole(Role.DRIVER);
+        employee.addRole("DRIVER");
         assertTrue(employee.getRoles().contains(Role.DRIVER));
     }
     @Test
