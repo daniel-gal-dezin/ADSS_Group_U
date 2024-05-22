@@ -16,10 +16,10 @@ public class EmployeeService {
     public String addRole(int id, String role){
         try {
             em.addRole(id, role);
+            return new Response().toJson();
         }catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
-        return new Response().toJson();
     }
 
     public String removeRole(int id, String name, String bankAcc, Terms terms){
@@ -33,11 +33,11 @@ public class EmployeeService {
         List<Role> roles;
         try{
             roles = em.getEmployeeRoles(id);
+            return new Response("",listToString(roles)).toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
 
-        return new Response("",listToString(roles)).toJson();
     }
 
     //String
@@ -45,80 +45,77 @@ public class EmployeeService {
         List<Employee> emps;
         try{
             emps = em.getEmployees();
+            return new Response("",listToString(emps)).toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
 
-        return new Response("",listToString(emps)).toJson();
     }
 
     public String setSalary(int id, int salary){
         try {
             em.setSalary(id, salary);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
 
-        return new Response().toJson();
     }
 
     public String setEmplymentType(int id, String emT){
         try {
             em.setEmplymentType(id,emT);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
-        return new Response().toJson();
     }
 
     public String setVacationDays(int id, int vd){
         try {
             em.setVacationDays(id,vd);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
-
-        return new Response().toJson();
     }
 
     public String setSalaryType(int id, String st){
         try {
             em.setSalaryType(id,st);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
-
-        return new Response().toJson();
     }
 
     public String setIsManager(int id, boolean m){
         try {
             em.setIsManager(id,m);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
-
-        return new Response().toJson();
     }
 
     public String setBankAccount(int id, String ba){
         try {
             em.setBankAccount(id,ba);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
 
-        return new Response().toJson();
     }
 
     public String setName(int id, String n){
         try {
             em.setName(id,n);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
 
-        return new Response().toJson();
     }
 
     public String getEployee(int id){
@@ -130,24 +127,16 @@ public class EmployeeService {
     }
 
     public String getHistoryEmployees(){
-        return listToString(employeesToString(em.getHistoryEmployees()));
+        return listToString(em.getHistoryEmployees());
     }
 
     public String deleteEmployee(int id){
         try{
             em.deleteEmployee(id);
+            return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
-        return new Response().toJson();
-    }
-
-    private List<String> employeesToString(List<Employee> emps){
-        List<String> empStr = new ArrayList<>();
-        for(Employee e: emps){
-            empStr.add(e.toString());
-        }
-        return empStr;
     }
 
     private <T> String listToString(List<T> lst){
