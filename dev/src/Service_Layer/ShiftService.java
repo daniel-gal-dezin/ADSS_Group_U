@@ -37,6 +37,18 @@ public class ShiftService {
         return new Response().toJson();
     }
 
+
+    public String createShift(int year, int month, int day, String sType, int managerId){//with difault roles
+        LocalDate date = LocalDate.of(year,month,day);
+        try {
+            sm.createShift(date, sType,getEmployee(managerId));
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
     public String blockShift(int year, int month, int day, String sType){
         LocalDate date = LocalDate.of(year,month,day);
         try {
