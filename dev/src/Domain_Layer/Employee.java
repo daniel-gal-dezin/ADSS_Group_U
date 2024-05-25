@@ -27,8 +27,8 @@ public class Employee {
         roles.add(convertRole(role));
     }
 
-    public void removeRole(Role role) {
-        roles.remove(role);
+    public void removeRole(String role) {
+        roles.remove(convertRole(role));
     }
 
 
@@ -82,6 +82,12 @@ public class Employee {
         return termsofem;
     }
 
+    public int getSalary() {
+        return termsofem.Salary;
+    }
+
+
+
     public void setTermsofem(Terms termsofem) {
         //Note(Dayan) should it include start working date?
         this.termsofem = termsofem;
@@ -113,14 +119,14 @@ public class Employee {
             throw new IllegalArgumentException("no such employment type. the options are full or partial");
     }
 
-    private Role convertRole(String role){
-        if(role.toLowerCase().compareTo("manager") != 0)
+    public static Role convertRole(String role){
+        if(role.toLowerCase() == "manager")
             return Role.MANAGER;
-        else if(role.toLowerCase().compareTo("storekeeper") != 0)
+        else if(role.toLowerCase() == "storekeeper")
             return Role.STOREKEEPER;
-        else if((role.toLowerCase().compareTo("cashier") != 0))
+        else if((role.toLowerCase() == "cashier"))
             return Role.CASHIER;
-        else if ((role.toLowerCase().compareTo("driver") != 0))
+        else if ((role.toLowerCase() == "driver"))
             return Role.DRIVER;
         else
             throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
@@ -129,7 +135,14 @@ public class Employee {
 
     @Override
     public String toString() {
-        //TODO: implement
-        return "";
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", BankAccount='" + BankAccount + '\'' +
+                ", roles=" + roles +
+                ", termsofem=" + termsofem +
+                ", ismanagar=" + ismanagar +
+                '}';
+
     }
 }

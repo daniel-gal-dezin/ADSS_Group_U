@@ -33,8 +33,16 @@ public class EmployeeManager {
     }
 
     public void addRole(int id, String role) throws IllegalArgumentException{
+        if(!currentEmployees.containsKey(id))
+            throw new IllegalArgumentException("Could't add role to employee #" + id + ". id not found!");
         Employee em = getEmployee(id);
         em.addRole(role);
+        if(role.toLowerCase() == "manager" && !em.isIsmanagar())
+            em.setIsmanagar(true);
+    }
+    public void removeRole(int id, String role) throws IllegalArgumentException{
+        Employee em = getEmployee(id);
+        em.removeRole(role);
     }
 
     public List<Role> getEmployeeRoles(int id) throws IllegalArgumentException{
@@ -83,6 +91,10 @@ public class EmployeeManager {
         em.setBankAccount(ba);
     }
 
+    public void getSalary(int id) throws IllegalArgumentException{
+        Employee em = getEmployee(id);
+        em.getSalary();
+    }
     public void setName(int id, String n) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setName(n);

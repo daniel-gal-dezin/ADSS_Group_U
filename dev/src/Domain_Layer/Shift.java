@@ -16,8 +16,6 @@ public class Shift {
     private LocalDate deadLine;//until when worker can put constraints on this shift
     private LocalTime start;
     private LocalTime end;
-
-
     private int deadlinedfault = 1;// 1 week
     private LocalTime startmorning = LocalTime.of(6, 0);
     private LocalTime startevening = LocalTime.of(14, 0);
@@ -33,7 +31,7 @@ public class Shift {
             throw new IllegalArgumentException("can't create a shift, need a manager! the employee inserted isn't one.");
         this.shiftID = shiftID;
         this.rolesneeded = rolesneeded;
-        this.shiftmanager = null;
+        this.shiftmanager = manager;
         this.employees = new ArrayList<>();
         this.constraints = new ArrayList<>();
         this.deadLine = shiftID.getFirst().minusWeeks(deadlinedfault);//default value

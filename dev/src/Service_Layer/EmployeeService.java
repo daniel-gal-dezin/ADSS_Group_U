@@ -117,7 +117,7 @@ public class EmployeeService {
 
     }
 
-    public String getEployee(int id){
+    public String getEmployee(int id){
         try {
             return em.getEmployee(id).toString();
         } catch (Exception e){
