@@ -18,6 +18,7 @@ public class ShiftManager {
         this.defaultRolesNeeded = createDefaultRolesNeeded();
     }
 
+
     private List<Role> createDefaultRolesNeeded() {
         List<Role> rolesneeded1 = new ArrayList<>();
         rolesneeded1.add(Role.CASHIER);// defualt role needed
@@ -116,7 +117,7 @@ public void setDefaultRolesForShift(List<String> roles){
         shift.setShiftmanager(employee);
     }
 
-    private Shift getShift(LocalDate date, String sType){
+    public Shift getShift(LocalDate date, String sType){
         Pair<LocalDate,ShiftType> s = new Pair<>(date,convertShiftType(sType));
         if(shifts.containsKey(s)) return shifts.get(s);
         throw new IllegalArgumentException("no such shift!");
@@ -208,6 +209,5 @@ public void setDefaultRolesForShift(List<String> roles){
             return Role.DRIVER;
         else
             throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
-
     }
 }

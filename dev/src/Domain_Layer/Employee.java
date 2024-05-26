@@ -1,5 +1,8 @@
 package Domain_Layer;
 
+import Service_Layer.EmployeeService;
+
+import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +15,7 @@ public class Employee {
     private Terms termsofem;
     private boolean ismanagar;
 
-    public Employee(int id, String name, String bankAccount, List<Role> roles, Terms termsofem) {
+    private void set_props(int id, String name, String bankAccount, List<Role> roles, Terms termsofem){
         this.id = id;
         this.name = name;
         BankAccount = bankAccount;
@@ -20,7 +23,15 @@ public class Employee {
             this.roles.addAll(roles);
         }
         this.termsofem = termsofem;
+    }
 
+//    public Employee(int id, String name, String bankAccount, List<Role> roles, Terms termsofem) {
+//        set_props(id, name, bankAccount, roles, termsofem);
+//    }
+
+    public Employee(int id, String name, String bankAccount, List<Role> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
+        Terms t = new Terms(startWork, employmentType, salaryType, salary, vacationDays);
+        set_props(id, name, bankAccount, roles, t);
     }
 
     public void addRole(String role) {

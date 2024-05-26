@@ -2,6 +2,7 @@ package Service_Layer;
 
 import Domain_Layer.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,17 @@ public class EmployeeService {
     }
 
     public String addEmployee(String name, String bankAcc, Terms terms){
-        em.addEmployee(name,bankAcc,terms);
+        //em.addEmployee(name,bankAcc,terms);
         return new Response().toJson();
+    }
+
+    public String addEmployee(String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
+        try{
+            em.addEmployee(name,bankAcc,roles,startWork,employmentType,salaryType,salary,vacationDays);
+            return new Response().toJson();
+        } catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
     }
 
     //String

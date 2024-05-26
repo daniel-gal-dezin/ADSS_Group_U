@@ -1,6 +1,8 @@
 package Domain_Layer;
 
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmployeeManager {
 
@@ -20,8 +22,11 @@ public class EmployeeManager {
         next_employee_id = Collections.max(emplo.keySet()) + 1;
     }
 
-    public void addEmployee(String name, String bankAcc, Terms terms){
-        currentEmployees.put(next_employee_id,new Employee(next_employee_id,name,bankAcc,null,terms));
+
+
+    public void addEmployee(String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
+        List<Role> r = roles.stream().map((role) -> convertRole(role)).collect(Collectors.toList());
+        currentEmployees.put(next_employee_id,new Employee(next_employee_id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays));
         next_employee_id++;
     }
 
@@ -111,4 +116,17 @@ public class EmployeeManager {
         return ans;
     }
 
+    private Role convertRole(String role){
+        if(role.toLowerCase().compareTo("manager") != 0)
+            return Role.MANAGER;
+        else if(role.toLowerCase().compareTo("storekeeper") != 0)
+            return Role.STOREKEEPER;
+        else if((role.toLowerCase().compareTo("cashier") != 0))
+            return Role.CASHIER;
+        else if ((role.toLowerCase().compareTo("driver") != 0))
+            return Role.DRIVER;
+        else
+            throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
+
+    }
 }

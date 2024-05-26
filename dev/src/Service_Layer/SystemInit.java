@@ -20,13 +20,7 @@ public class SystemInit {
     }
 
 
-    public EmployeeManager getEm() {
-        return em;
-    }
 
-    public ShiftManager getSh() {
-        return sh;
-    }
 
     public ShiftService getSs() {
         return ss;
