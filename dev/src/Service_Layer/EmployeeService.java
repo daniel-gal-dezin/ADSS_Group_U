@@ -23,14 +23,14 @@ public class EmployeeService {
         }
     }
 
-    public String addEmployee(String name, String bankAcc, Terms terms){
-        //em.addEmployee(name,bankAcc,terms);
-        return new Response().toJson();
-    }
+//    public String addEmployee(int emplId, String name, String bankAcc, Terms terms){
+//        em.addEmployee(emplId, name,bankAcc,terms); //no such method
+//        return new Response().toJson();
+//    }
 
-    public String addEmployee(String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
+    public String addEmployee(int emplId, String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
         try{
-            em.addEmployee(name,bankAcc,roles,startWork,employmentType,salaryType,salary,vacationDays);
+            em.addEmployee(emplId,name,bankAcc,roles,startWork,employmentType,salaryType,salary,vacationDays);
             return new Response().toJson();
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -50,7 +50,7 @@ public class EmployeeService {
     }
 
     //String
-    public String getEmployees(){
+    public String getAllEmployees(){
         List<Employee> emps;
         try{
             emps = em.getEmployees();
@@ -58,7 +58,16 @@ public class EmployeeService {
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
+    }
 
+    public String getBranchEmployees(int enplId){
+        List<Employee> emps;
+        try{
+            emps = em.getEmployees(enplId);
+            return new Response("",listToString(emps)).toJson();
+        } catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
     }
 
     public String setSalary(int id, int salary){
@@ -135,13 +144,21 @@ public class EmployeeService {
         }
     }
 
-    public String getHistoryEmployees(){
-        return listToString(em.getHistoryEmployees());
+    public String getEmployee(int empId, int id){
+        try {
+            return em.getEmployee(empId, id).toString();
+        } catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
     }
 
-    public String deleteEmployee(int id){
+    public String getHistoryEmployees(int empId){
+        return listToString(em.getHistoryEmployees(empId));
+    }
+
+    public String deleteEmployee(int empId, int id){
         try{
-            em.deleteEmployee(id);
+            em.deleteEmployee(empId, id);
             return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();

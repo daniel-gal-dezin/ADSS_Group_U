@@ -7,17 +7,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShiftService {
-    EmployeeManager em;
-    ShiftManager sm;
+    BusinessManager bm;
 
-    public ShiftService(EmployeeManager em, ShiftManager sm){
-        this.em = em; this.sm = sm;
+    public ShiftService(BusinessManager bm){
+        this.bm = bm;
     }
 
+
+    public String setDefaultRoles(int brId, List<String> roles){
+        try{
+            bm.setDefaultRolesShift(brId, roles);
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
 
     public String setDefaultRoles(List<String> roles){
         try{
-            sm.setDefaultRolesForShift(roles);
+            bm.setDefaultRolesShift(roles);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -25,11 +34,10 @@ public class ShiftService {
         return new Response().toJson();
     }
 
-
-    public String createShift(int year, int month, int day, String sType, List<String> roles, int managerId){
+    public String createShift(int brId, int year, int month, int day, String sType, List<String> roles, int managerId){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.createShift(date, sType, roles, getEmployee(managerId));
+            bm.createShift(brId, date, sType, roles, managerId);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -38,10 +46,10 @@ public class ShiftService {
     }
 
 
-    public String createShift(int year, int month, int day, String sType, int managerId){//with difault roles
+    public String createShift(int brId, int year, int month, int day, String sType, int managerId){//with difault roles
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.createShift(date, sType,getEmployee(managerId));
+            bm.createShift(brId, date, sType,managerId);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -49,10 +57,10 @@ public class ShiftService {
         return new Response().toJson();
     }
 
-    public String blockShift(int year, int month, int day, String sType){
+    public String blockShift(int brId, int year, int month, int day, String sType){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.blockShift(date, sType);
+            bm.blockShift(brId, date, sType);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -61,10 +69,10 @@ public class ShiftService {
         return new Response().toJson();
     }
 
-    public String unblockShift(int year, int month, int day , String sType) throws IllegalArgumentException {
+    public String unblockShift(int brId, int year, int month, int day , String sType) throws IllegalArgumentException {
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.unblockShift(date, sType);
+            bm.unblockShift(brId, date, sType);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -72,10 +80,10 @@ public class ShiftService {
         return new Response().toJson();
     }
 
-    public String changeManager(int year, int month, int day, String sType, int id){
+    public String changeManager(int brId, int year, int month, int day, String sType, int id){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.changeManager(date, sType,getEmployee(id));
+            bm.changeManager(brId, date, sType, id);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -83,97 +91,101 @@ public class ShiftService {
         return new Response().toJson();
     }
 
-    public String getShiftHistory(){ //can't throw
+    public String getShiftHistory(int brId){ //can't throw
         Response r = new Response();
-        for(Shift s: sm.getShiftHistory())
-            r.ReturnValue += s.toString() +',';
+        r.ReturnValue = listToString(bm.getShiftHistory(brId));
         return r.toJson();
     }
 
-    public String changeShift(int id1, int id2,int year1, int month1, int day1, String sType1,int year2, int month2, int day2, String sType2){
+    public String changeShift(int brId, int id1, int id2,int year1, int month1, int day1, String sType1,int year2, int month2, int day2, String sType2){
         LocalDate date1 = LocalDate.of(year2,month2,day2);
         LocalDate date2 = LocalDate.of(year2,month2,day2);
         try {
-            sm.changeShift(getEmployee(id1), getEmployee(id2), date1, sType1, date2, sType2);
+            bm.changeShift(brId, id1, id2, date1, sType1, date2, sType2);
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
     }
 
-    public String changeDeadLine(int year, int month, int day, String sType,LocalDate newDate){
+    public String changeDeadLine(int brId, int year, int month, int day, String sType,LocalDate newDate){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.changeDeadLine(date, sType, newDate);
+            bm.changeDeadline(brId, date, sType, newDate);
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
     }
 
-    public String addConstraint(int year, int month, int day, String sType, int id){
+    public String addConstraint(int brId, int year, int month, int day, String sType, int id){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.addConstraint(date, sType, getEmployee(id));
+            bm.addConstraint(brId, date, sType, id);
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
     }
 
-    public String removeConstraint(int year, int month, int day, String sType, int id){
+    public String removeConstraint(int brId, int year, int month, int day, String sType, int id){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.removeConstraint(date, sType, getEmployee(id));
+            bm.removeConstraint(brId, date, sType, id);
         }catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
     }
 
-    public String getConstraints(int year, int month, int day, String sType){
+    public String getConstraints(int brId, int year, int month, int day, String sType){
         LocalDate date = LocalDate.of(year,month,day);
         Response r = new Response();
-        List<String> ans = new ArrayList<>();
-        for(Employee e: sm.getConstraints(date, sType))
-            r.ReturnValue += e.toString() +',';
+        try {
+            r.ReturnValue = listToString(bm.getConstraints(brId, date, sType));
+        } catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
         return r.toJson();
     }
 
-    public String getAvailableEmployees(int year, int month, int day, String sType){
+    public String getAvailableEmployees(int brId, int year, int month, int day, String sType){
         LocalDate date = LocalDate.of(year,month,day);
         Response r = new Response();
-        List<Employee> unAvailableEmployees = sm.getConstraints(date, sType);
-        List<Employee> availableEmployees = em.getComplement(unAvailableEmployees);
-        List<String> ans = new ArrayList<>();
-        for(Employee e : availableEmployees)
-            r.ReturnValue += e.toString() +',';
+        try{
+            r.ReturnValue = listToString(bm.getConstraints(brId, date, sType));
+        }catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
         return r.toJson();
     }
 
-    public String removeEmployeeFromShift(int year, int month, int day, String sType, int id){
+    public String removeEmployeeFromShift(int brId, int year, int month, int day, String sType, int id){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.removeEmployeeFromShift(date, sType, getEmployee(id));
+            bm.removeEmployeeFromShift(brId, date, sType, id);
         }catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
     }
 
-    public String addEmployeeToShift(int year, int month, int day, String sType, int id){
+    public String addEmployeeToShift(int brId, int year, int month, int day, String sType, int id){
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            sm.addEmployeeToShift(date,sType, getEmployee(id));
+            bm.addEmployeetoshift(brId, date,sType, id);
         }catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
     }
 
-
-    private Employee getEmployee(int id){
-        return em.getEmployee(id);
+    private <T> String listToString(List<T> list){
+        String s = "";
+        for(T element:list){
+            s += element + ",";
+        }
+        return s.substring(0,s.length() - 1);
     }
 
 }

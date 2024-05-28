@@ -1,6 +1,7 @@
 package Domain_Layer;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,16 +30,19 @@ public class BusinessManager {
     }
 
 
-    public void createShift(int branchId, LocalDate date, String sType, List<String> rolesneeded, Employee manager )throws IllegalArgumentException{
-        branches.get(branchId).getSm().createShift(date,sType,rolesneeded,manager);
+    public void createShift(int branchId, LocalDate date, String sType, List<String> rolesneeded, int manager )throws IllegalArgumentException{
+        branches.get(branchId).getSm().createShift(date,sType,rolesneeded,em.getEmployee(manager));
     }
-    public void createShift(int branchId,LocalDate date, String sType, Employee manage) throws IllegalArgumentException{
-        branches.get(branchId).getSm().createShift(date,sType,manage);
+    public void createShift(int branchId,LocalDate date, String sType, int managerId) throws IllegalArgumentException{
+        branches.get(branchId).getSm().createShift(date,sType,em.getEmployee(branchId,managerId));
     }
     public void setDefaultRolesShift(int branchId,List<String> roles){
         branches.get(branchId).getSm().setDefaultRolesForShift(roles);
     }
 
+    public void setDefaultRolesShift(List<String> roles){
+        branches.values().stream().forEach((br) -> br.getSm().setDefaultRolesForShift(roles));
+    }
 
     public void deleteShift(int branchId,LocalDate date, String sType ){
         branches.get(branchId).getSm().deleteShift(date,sType);
@@ -57,21 +61,22 @@ public class BusinessManager {
 
     }
 
-    public void changeManager(int branchId,LocalDate date, String sType, Employee employee){
-        branches.get(branchId).getSm().changeManager(date,sType,employee);
+    public void changeManager(int branchId,LocalDate date, String sType, int employeeId){
+        branches.get(branchId).getSm().changeManager(date,sType,em.getEmployee(employeeId));
     }
 
-    public void getShift(int branchId,LocalDate date, String sType){
-        branches.get(branchId).getSm().getShift(date,sType);
+    public String getShift(int branchId,LocalDate date, String sType){
+        return branches.get(branchId).getSm().getShift(date,sType).toString();
     }
 
 
-    public void getShiftHistory(int branchId){
-        branches.get(branchId).getSm().getShiftHistory();
+    public List<String> getShiftHistory(int branchId){
+        return branches.get(branchId).getSm().getShiftHistory().stream().map((shift)->shift.toString()).toList();
+
     }
 
-    public void changeShift(int branchId,Employee e1, Employee e2, LocalDate date1, String sType1,LocalDate date2, String sType2 ){
-        branches.get(branchId).getSm().changeShift(e1,e2,date1,sType1,date2,sType2);
+    public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1,LocalDate date2, String sType2 ){
+        branches.get(branchId).getSm().changeShift(em.getEmployee(e1),em.getEmployee(e2),date1,sType1,date2,sType2);
     }
 
     public void removeEmployeeFromShift(int branchId,LocalDate date, String sType, int idofemployee) {
@@ -89,8 +94,16 @@ public class BusinessManager {
      }
 
      public List<String> getConstraints(int branchid,LocalDate date, String sType){
-        return branches.get(branchid).getSm().getConstraints(date,sType).stream().map((c) -> c.toString()).toList();
-     }
+         List<Employee> ans;
+         try {
+             ans = new ArrayList<>(em.getEmployees(branchid));
+         }catch (Exception e){
+             throw new IllegalArgumentException("branch ID doesn't exist");
+         }
+
+         return em.getComplement(branchid, ans).stream().map((c) -> c.toString()).toList();
+
+    }
 
 
 
