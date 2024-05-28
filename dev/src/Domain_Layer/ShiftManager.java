@@ -42,7 +42,7 @@ public void setDefaultRolesForShift(List<String> roles){
         this.defaultRolesNeeded = rolesneeded;
     }
 
-    public void createShift(LocalDate date, String sType, List<String> rolesneeded, Employee manager) throws IllegalArgumentException{
+    public void createShift(LocalDate date, String sType, List<String> rolesneeded, Employee manager) throws IllegalArgumentException{//
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
@@ -77,14 +77,14 @@ public void setDefaultRolesForShift(List<String> roles){
     }
 
 
-    public void deleteShift(LocalDate date, String sType) throws IllegalArgumentException {
+    public void deleteShift(LocalDate date, String sType) throws IllegalArgumentException {//
         Shift shift = getShift(date,sType);
 //        shifts.get(shift).removeEmployees();
         shifts.remove(shift);
     }
 
 
-    public void blockShift(LocalDate date, String sType) throws IllegalArgumentException {
+    public void blockShift(LocalDate date, String sType) throws IllegalArgumentException {//
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shift.getFirst().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Main.Shift is in the past");
@@ -96,7 +96,7 @@ public void setDefaultRolesForShift(List<String> roles){
     }
 
 
-    public void unblockShift(LocalDate date, String sType) throws IllegalArgumentException {
+    public void unblockShift(LocalDate date, String sType) throws IllegalArgumentException {//
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (!blockedShift.contains(shift)) {
             throw new IllegalArgumentException("Main.Shift is not blocked");
@@ -104,7 +104,7 @@ public void setDefaultRolesForShift(List<String> roles){
         blockedShift.remove(shift);
     }
 
-    public void addEmployeeToShift(LocalDate date, String sType, Employee employee){
+    public void addEmployeeToShift(LocalDate date, String sType, Employee employee){//
         Shift shift = getShift(date,sType);
         if(blockedShift.contains(shift.getShiftID())){
             throw new IllegalArgumentException("this shift is blocked!");
@@ -112,12 +112,12 @@ public void setDefaultRolesForShift(List<String> roles){
         shift.addEmployee(employee);
     }
 
-    public void changeManager(LocalDate date, String sType, Employee employee){
+    public void changeManager(LocalDate date, String sType, Employee employee){//
         Shift shift = getShift(date,sType);
         shift.setShiftmanager(employee);
     }
 
-    public Shift getShift(LocalDate date, String sType){
+    public Shift getShift(LocalDate date, String sType){//
         Pair<LocalDate,ShiftType> s = new Pair<>(date,convertShiftType(sType));
         if(shifts.containsKey(s)) return shifts.get(s);
         throw new IllegalArgumentException("no such shift!");
@@ -125,9 +125,9 @@ public void setDefaultRolesForShift(List<String> roles){
 
     public List<Shift> getShiftHistory(){
         return shifts.values().stream().toList();
-    }
+    }//
 
-    public void changeShift(Employee e1, Employee e2, LocalDate date1, String sType1,LocalDate date2, String sType2){
+    public void changeShift(Employee e1, Employee e2, LocalDate date1, String sType1,LocalDate date2, String sType2){//
         Shift s1 = getShift(date1,sType1);
         Shift s2 = getShift(date2,sType2);
         //Shift shift1 = getShift(s1), shift2 = getShift(s2);
@@ -166,12 +166,12 @@ public void setDefaultRolesForShift(List<String> roles){
     public void removeEmployeeFromShift(LocalDate date, String sType, Employee employee){
         Shift shift = getShift(date,sType);
         shift.removeEmployee(employee);
-    }
+    }//
 
     public void changeDeadLine(LocalDate date, String sType,LocalDate newDte){
         Shift shift = getShift(date,sType);
         shift.setDeadLine(date);
-    }
+    }//
 
     public void addConstraint(LocalDate date, String sType, Employee em){
         Shift shift = getShift(date,sType);

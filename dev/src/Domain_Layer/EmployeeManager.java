@@ -6,35 +6,59 @@ import java.util.stream.Collectors;
 
 public class EmployeeManager {
 
+    private Map<Integer, List<Employee>> branchEmployees;
     private Map<Integer,Employee> currentEmployees;
-    private Map<Integer,Employee> historyEmployees;
-    private int next_employee_id;
+    private Map<Integer,List<Employee>> branchHistoryEmployees;
+    private Map<Integer, Integer> next_employee_id;
 
     public EmployeeManager(){
         currentEmployees = new HashMap<>();
-        historyEmployees = new HashMap<>();
-        next_employee_id = 1;
+        branchHistoryEmployees = new HashMap<>();
+        branchEmployees = new HashMap<>();
+        next_employee_id = new HashMap<>();
     }
 
-    public EmployeeManager(Map<Integer,Employee> emplo){
-        this.currentEmployees = emplo;
-        historyEmployees = new HashMap<>();
-        next_employee_id = Collections.max(emplo.keySet()) + 1;
+//    public EmployeeManager(Map<Integer,Map<Integer,Employee>> emplo){
+//        branchHistoryEmployees = new HashMap<>();
+//
+//        for(Map.Entry<Integer,Map<Integer,Employee>> branch : emplo){
+//            for()
+//        }
+//        //emplo.values()
+//    }
+
+    public void createBranch(int id){
+        next_employee_id.put(id,1);
+        branchHistoryEmployees.put(id,new ArrayList<>());
+        branchEmployees.put(id,new ArrayList<>());
     }
 
 
-
-    public void addEmployee(String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
+    public void addEmployee(int branchId, String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
         List<Role> r = roles.stream().map((role) -> convertRole(role)).collect(Collectors.toList());
-        currentEmployees.put(next_employee_id,new Employee(next_employee_id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays));
-        next_employee_id++;
+        int id;
+        try {
+            id = next_employee_id.get(branchId);
+        } catch (Exception e){
+            throw new IllegalArgumentException("branch ID doesn't exist");
+        }
+        Employee newEmp = new Employee(id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays);
+        currentEmployees.put(branchId,newEmp);
+        branchEmployees.get(branchId).add(newEmp);
+        next_employee_id.put(branchId,id+1);
     }
 
-    public void deleteEmployee(int id) throws IllegalArgumentException{
+    public void deleteEmployee(int branchId, int id) throws IllegalArgumentException{
         if(currentEmployees.get(id) == null)
             throw new IllegalArgumentException("Could't delete employee #" + id + ". id not found!");
-        historyEmployees.put(id,currentEmployees.get(id));
+
+        try{
+            branchHistoryEmployees.get(branchId).add(currentEmployees.get(id));
+        } catch (Exception e){
+            throw new IllegalArgumentException("branch ID doesn't exist");
+        }
         currentEmployees.remove(id);
+        branchEmployees.get(branchId).remove(id);
     }
 
     public void addRole(int id, String role) throws IllegalArgumentException{
@@ -62,8 +86,27 @@ public class EmployeeManager {
         return em;
     }
 
+    public Employee getEmployee(int branchId, int id){
+        if(!currentEmployees.containsKey(id))
+            throw new IllegalArgumentException("Could't get employee #" + id + ". id not found!");
+        List<Employee> bEmpls = branchEmployees.get(branchId);
+        for(Employee e : bEmpls){
+            if(e.getId() == id)
+                return e;
+        }
+        throw new IllegalArgumentException("Couln't find Employee " + id + ".\nfount it in currentEmployes, but not in branchEmployee");
+    }
+
     public List<Employee> getEmployees(){
         return this.currentEmployees.values().stream().toList();
+    }
+
+    public List<Employee> getEmployees(int branchId){
+        try{
+            return this.branchEmployees.get(branchId).stream().toList();
+        } catch (Exception e){
+            throw new IllegalArgumentException("branch ID doesn't exist");
+        }
     }
 
     public void setSalary(int id, int salary) throws IllegalArgumentException{
@@ -105,13 +148,18 @@ public class EmployeeManager {
         em.setName(n);
     }
 
-    public List<Employee> getHistoryEmployees(){
-        return historyEmployees.values().stream().toList();
+    public List<Employee> getHistoryEmployees(int branchId){
+        return branchHistoryEmployees.get(branchId).stream().toList();
     }
 
     //peulat hamashlim
-    public List<Employee> getComplement(List<Employee> empl){
-        List<Employee> ans = new ArrayList<>(this.currentEmployees.values());
+    public List<Employee> getComplement(int branchId, List<Employee> empl){
+        List<Employee> ans;
+        try {
+            ans = new ArrayList<>(this.branchEmployees.get(branchId));
+        }catch (Exception e){
+            throw new IllegalArgumentException("branch ID doesn't exist");
+        }
         ans.removeAll(empl);
         return ans;
     }
