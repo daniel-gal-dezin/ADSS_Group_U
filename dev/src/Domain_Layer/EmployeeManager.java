@@ -34,15 +34,20 @@ public class EmployeeManager {
     }
 
 
-    public void addEmployee(int branchId, String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
-        List<Role> r = roles.stream().map((role) -> convertRole(role)).collect(Collectors.toList());
+
+    public void addEmployee(int branchId, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays,boolean isManager){
+        List<Role> r = new ArrayList<>();
+        r.add(Role.CASHIER);
+        r.add(Role.STOREKEEPER);
+        r.add(Role.DRIVER);
+        if(isManager) r.add(Role.MANAGER);
         int id;
         try {
             id = next_employee_id.get(branchId);
         } catch (Exception e){
             throw new IllegalArgumentException("branch ID doesn't exist");
         }
-        Employee newEmp = new Employee(id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays);
+        Employee newEmp = new Employee(id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays,isManager);
         currentEmployees.put(branchId,newEmp);
         branchEmployees.get(branchId).add(newEmp);
         next_employee_id.put(branchId,id+1);
@@ -164,14 +169,14 @@ public class EmployeeManager {
         return ans;
     }
 
-    private Role convertRole(String role){
-        if(role.toLowerCase().compareTo("manager") != 0)
+    public Role convertRole(String role){
+        if(role.toLowerCase().compareTo("manager") == 0)
             return Role.MANAGER;
-        else if(role.toLowerCase().compareTo("storekeeper") != 0)
+        else if(role.toLowerCase().compareTo("storekeeper") == 0)
             return Role.STOREKEEPER;
-        else if((role.toLowerCase().compareTo("cashier") != 0))
+        else if((role.toLowerCase().compareTo("cashier") == 0))
             return Role.CASHIER;
-        else if ((role.toLowerCase().compareTo("driver") != 0))
+        else if ((role.toLowerCase().compareTo("driver") == 0))
             return Role.DRIVER;
         else
             throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");

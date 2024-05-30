@@ -19,12 +19,16 @@ public class BusinessManager {
         em = em1;
         branch_idcounter = 1;
         shiftmanagerFactory =  () -> new ShiftManager();
+        this.createBranch("First Branch");
     }
 
 
+    public String checkBranch(int id){
+        return branches.containsKey(id) ? "":"Branch not exist";
+    }
 
-    public void createBranch(){
-        branches.put(branch_idcounter,new Branch(branch_idcounter,shiftmanagerFactory.createShiftManager()));
+    public void createBranch(String name){
+        branches.put(branch_idcounter,new Branch(branch_idcounter, name,shiftmanagerFactory.createShiftManager()));
         em.createBranch(branch_idcounter);
         branch_idcounter++;
     }
@@ -108,8 +112,8 @@ public class BusinessManager {
 
 
 
-    public void addEmployeeToBranch(int branchId, String name, String bankAcc, List<String> roles, String employmentType, String salaryType, int salary, int vacationDays){
-        em.addEmployee(branchId,name,bankAcc,roles,LocalDate.now(),employmentType,salaryType,salary,vacationDays);
+    public void addEmployeeToBranch(int branchId, String name, String bankAcc, List<String> roles, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
+        em.addEmployee(branchId,name,bankAcc,LocalDate.now(),employmentType,salaryType,salary,vacationDays,isManager);
     }
 
     public void deleteEmployeeFromBranch(int branchId, int id){
@@ -140,12 +144,6 @@ public class BusinessManager {
     public List<String> getEmployees(int branchId){
         return em.getEmployees(branchId).stream().map((em) -> em.toString()).toList();
     }
-
-
-
-
-
-
 
 
 }

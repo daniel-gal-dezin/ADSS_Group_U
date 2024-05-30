@@ -1,4 +1,4 @@
-package Tests;
-
-public class MainTest {
-}
+//package Tests;
+//
+//public class MainTest {
+//}

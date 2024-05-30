@@ -28,9 +28,9 @@ public class EmployeeService {
 //        return new Response().toJson();
 //    }
 
-    public String addEmployee(int emplId, String name, String bankAcc, List<String> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
+    public String addEmployee(int emplId, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
         try{
-            em.addEmployee(emplId,name,bankAcc,roles,startWork,employmentType,salaryType,salary,vacationDays);
+            em.addEmployee(emplId,name,bankAcc,startWork,employmentType,salaryType,salary,vacationDays,isManager);
             return new Response().toJson();
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -138,7 +138,7 @@ public class EmployeeService {
 
     public String getEmployee(int id){
         try {
-            return em.getEmployee(id).toString();
+            return new Response("", em.getEmployee(id).toString()).toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
@@ -146,14 +146,14 @@ public class EmployeeService {
 
     public String getEmployee(int empId, int id){
         try {
-            return em.getEmployee(empId, id).toString();
+            return new Response("",em.getEmployee(empId, id).toString()).toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
     }
 
     public String getHistoryEmployees(int empId){
-        return listToString(em.getHistoryEmployees(empId));
+        return new Response(listToString(em.getHistoryEmployees(empId))).toJson();
     }
 
     public String deleteEmployee(int empId, int id){

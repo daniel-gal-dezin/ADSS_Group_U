@@ -3,6 +3,7 @@ package Domain_Layer;
 public class Branch {
     private int id;
     private final ShiftManager sm;
+    private String name;
 
     public ShiftManager getSm() {
         return sm;
@@ -16,7 +17,7 @@ public class Branch {
         this.id = id;
     }
 
-    public Branch(int id, ShiftManager sm){
+    public Branch(int id,String name, ShiftManager sm){
         this.id = id;
         this.sm = sm;
     }

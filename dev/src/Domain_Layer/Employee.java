@@ -15,13 +15,14 @@ public class Employee {
     private Terms termsofem;
     private boolean ismanagar;
 
-    private void set_props(int id, String name, String bankAccount, List<Role> roles, Terms termsofem){
+    private void set_props(int id, String name, String bankAccount, List<Role> roles, Terms termsofem,boolean managar){
         this.id = id;
         this.name = name;
         BankAccount = bankAccount;
         if(roles != null && !roles.isEmpty()){
             this.roles.addAll(roles);
         }
+        if(managar)this.ismanagar = true;
         this.termsofem = termsofem;
     }
 
@@ -29,9 +30,9 @@ public class Employee {
 //        set_props(id, name, bankAccount, roles, termsofem);
 //    }
 
-    public Employee(int id, String name, String bankAccount, List<Role> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays){
+    public Employee(int id, String name, String bankAccount, List<Role> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays,boolean managar){
         Terms t = new Terms(startWork, employmentType, salaryType, salary, vacationDays);
-        set_props(id, name, bankAccount, roles, t);
+        set_props(id, name, bankAccount, roles, t,managar);
     }
 
     public void addRole(String role) {
@@ -151,7 +152,7 @@ public class Employee {
                 ", name='" + name + '\'' +
                 ", BankAccount='" + BankAccount + '\'' +
                 ", roles=" + roles +
-                ", termsofem=" + termsofem +
+                ", termsofem=" + termsofem.toString() +
                 ", ismanagar=" + ismanagar +
                 '}';
 

@@ -3,7 +3,7 @@ import Domain_Layer.*;
 
 public class SystemInit {
     private EmployeeManager em;
-    private ShiftService ss;
+    private BusinessService ss;
     private EmployeeService es;
     private BusinessManager bm;
 
@@ -14,13 +14,13 @@ public class SystemInit {
         em = new EmployeeManager();
         es = new EmployeeService(em);
         bm = new BusinessManager(em);
-        ss = new ShiftService(bm);
+        ss = new BusinessService(bm);
     }
 
 
 
 
-    public ShiftService getSs() {
+    public BusinessService getSs() {
         return ss;
     }
 
@@ -33,24 +33,7 @@ public class SystemInit {
 
     public void adddefualtinit() {
         //TODO: edit this to work
-//        Terms t = new Terms();
-//        t.employmentType = "full time";
-//        t.Salary = 10000;
-//        t.salaryType = "monthly";
-//        t.vacationDays = 21;
-//        es.addEmployee("dani", "123", t);
-//        es.addEmployee("dani2", "123", t);
-//
-//        es.addRole(1, "manager");
-//        es.addRole(2, "worker");
-//
-//        ss.createShift(2024, 5, 5, "morning", 1);//with difault roles
-//
-//        ss.addEmployeeToShift(2024, 5, 5, "morning", 1);
-//        ss.addEmployeeToShift(2024, 5, 5, "evening", 2);
-//
-//        ss.createShift(2024, 5, 6, "morning",1) ;
-//        ss.addConstraint(2024,5,6,"morning",2);
+
 
 
     }

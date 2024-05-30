@@ -23,6 +23,6 @@ public class Response {
     }
 
     public String toJson(){
-        return ErrorMessage + ":" + ReturnValue;
+        return ErrorMessage + "~~" + ReturnValue;
     }
 }

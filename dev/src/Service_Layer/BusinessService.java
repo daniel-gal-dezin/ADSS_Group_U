@@ -3,13 +3,12 @@ package Service_Layer;
 import Domain_Layer.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
-public class ShiftService {
+public class BusinessService {
     BusinessManager bm;
 
-    public ShiftService(BusinessManager bm){
+    public BusinessService(BusinessManager bm){
         this.bm = bm;
     }
 
@@ -17,8 +16,16 @@ public class ShiftService {
     public String setDefaultRoles(int brId, List<String> roles){
         try{
             bm.setDefaultRolesShift(brId, roles);
+        } catch(Exception e){
+            return new Response(e.getMessage()).toJson();
         }
-        catch(Exception e){
+        return new Response().toJson();
+    }
+
+    public String createBranch(String name){
+        try{
+            bm.createBranch(name);
+        } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
@@ -186,6 +193,10 @@ public class ShiftService {
             s += element + ",";
         }
         return s.substring(0,s.length() - 1);
+    }
+
+    public String checkBranch(int id){
+        return bm.checkBranch(id);
     }
 
 }

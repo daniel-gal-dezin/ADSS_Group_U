@@ -1,7 +1,5 @@
 package Presentation_Layer;
 
-import Service_Layer.EmployeeService;
-import Service_Layer.ShiftService;
 import Service_Layer.SystemInit;
 
 public class main {
