@@ -156,6 +156,16 @@ public class BusinessService {
         return r.toJson();
     }
 
+    public String getShift(int brId, int year, int month, int day, String sType){
+        LocalDate date = LocalDate.of(year,month,day);
+        Response r = new Response();
+        try {
+            r.ReturnValue = bm.getShift(brId, date, sType).toString();
+        } catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return r.toJson();
+    }
     public String getAvailableEmployees(int brId, int year, int month, int day, String sType){
         LocalDate date = LocalDate.of(year,month,day);
         Response r = new Response();

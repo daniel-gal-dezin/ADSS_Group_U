@@ -6,7 +6,7 @@ public class Response {
     public String ReturnValue;
 
     public Response(String str){
-        System.out.println(str);
+
         if(str.equals("~~")){
             ErrorMessage = "";
             ReturnValue = "";
@@ -52,6 +52,7 @@ public class Response {
     public void print(){
         if(isError()){
             System.out.println("Error: " + ErrorMessage);
+
         }
         else if(ReturnValue == ""){
             System.out.println("Successful action!");

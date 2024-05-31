@@ -28,9 +28,9 @@ public class EmployeeService {
 //        return new Response().toJson();
 //    }
 
-    public String addEmployee(int emplId, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
+    public String addEmployee(int Bid, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
         try{
-            em.addEmployee(emplId,name,bankAcc,startWork,employmentType,salaryType,salary,vacationDays,isManager);
+            em.addEmployee(Bid,name,bankAcc,startWork,employmentType,salaryType,salary,vacationDays,isManager);
             return new Response().toJson();
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();

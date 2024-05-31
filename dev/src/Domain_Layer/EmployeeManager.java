@@ -9,13 +9,13 @@ public class EmployeeManager {
     private Map<Integer, List<Employee>> branchEmployees;
     private Map<Integer,Employee> currentEmployees;
     private Map<Integer,List<Employee>> branchHistoryEmployees;
-    private Map<Integer, Integer> next_employee_id;
+    private  Integer next_employee_id;
 
     public EmployeeManager(){
         currentEmployees = new HashMap<>();
         branchHistoryEmployees = new HashMap<>();
         branchEmployees = new HashMap<>();
-        next_employee_id = new HashMap<>();
+        next_employee_id = 1;
     }
 
 //    public EmployeeManager(Map<Integer,Map<Integer,Employee>> emplo){
@@ -28,7 +28,6 @@ public class EmployeeManager {
 //    }
 
     public void createBranch(int id){
-        next_employee_id.put(id,1);
         branchHistoryEmployees.put(id,new ArrayList<>());
         branchEmployees.put(id,new ArrayList<>());
     }
@@ -43,14 +42,15 @@ public class EmployeeManager {
         if(isManager) r.add(Role.MANAGER);
         int id;
         try {
-            id = next_employee_id.get(branchId);
+            id = next_employee_id;
+            next_employee_id++;
         } catch (Exception e){
             throw new IllegalArgumentException("branch ID doesn't exist");
         }
         Employee newEmp = new Employee(id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays,isManager);
-        currentEmployees.put(branchId,newEmp);
+        currentEmployees.put(id,newEmp);
         branchEmployees.get(branchId).add(newEmp);
-        next_employee_id.put(branchId,id+1);
+
     }
 
     public void deleteEmployee(int branchId, int id) throws IllegalArgumentException{
@@ -102,10 +102,19 @@ public class EmployeeManager {
         throw new IllegalArgumentException("Couln't find Employee " + id + ".\nfount it in currentEmployes, but not in branchEmployee");
     }
 
+    /**
+     *  this function return list of all employees.
+     * @return A list of all current employees
+     */
     public List<Employee> getEmployees(){
         return this.currentEmployees.values().stream().toList();
     }
 
+    /**
+     *
+     * @param branchId
+     * @return A list of all employees by branch
+     */
     public List<Employee> getEmployees(int branchId){
         try{
             return this.branchEmployees.get(branchId).stream().toList();

@@ -213,7 +213,20 @@ public class Shift {
 
     @Override
     public String toString() {
-        //TODO: implement
-        return "";
+        return "Shift{" +
+                "shiftID=" + shiftID +
+                ", rolesneeded=" + rolesneeded +
+                ", shiftmanager=" + shiftmanager +
+                ", employees=" + employees +
+                ", constraints=" + constraints +
+                ", deadLine=" + deadLine +
+                ", start=" + start +
+                ", end=" + end +
+                ", deadlinedfault=" + deadlinedfault +
+                ", startmorning=" + startmorning +
+                ", startevening=" + startevening +
+                ", endmorning=" + endmorning +
+                ", endevening=" + endevening +
+                '}';
     }
 }

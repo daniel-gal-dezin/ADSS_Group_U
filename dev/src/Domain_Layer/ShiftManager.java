@@ -52,6 +52,8 @@ public void setDefaultRolesForShift(List<String> roles){
 
         if (shift.getFirst().isAfter(LocalDate.now()))
             throw new IllegalArgumentException("Main.Shift is in the past");
+        if(manager == null)
+            throw new IllegalArgumentException("can't create a shift, need a manager! the employee inserted isn't one.");
 
         List<Role> roles = rolesneeded.stream().map((r)->convertRole(r)).collect(Collectors.toList());
         Shift newshift = new Shift(shift,roles,manager);
@@ -70,6 +72,9 @@ public void setDefaultRolesForShift(List<String> roles){
 
         if (shift.getFirst().isAfter(LocalDate.now()))
             throw new IllegalArgumentException("Main.Shift is in the past");
+        if(manager == null){
+            throw new IllegalArgumentException("can't create a shift, need a manager! the employee inserted isn't one.");
+        }
 
 
         Shift newshift = new Shift(shift, this.defaultRolesNeeded, manager);
@@ -85,6 +90,7 @@ public void setDefaultRolesForShift(List<String> roles){
 
 
     public void blockShift(LocalDate date, String sType) throws IllegalArgumentException {//
+
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shift.getFirst().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Main.Shift is in the past");
@@ -119,8 +125,14 @@ public void setDefaultRolesForShift(List<String> roles){
 
     public Shift getShift(LocalDate date, String sType){//
         Pair<LocalDate,ShiftType> s = new Pair<>(date,convertShiftType(sType));
-        if(shifts.containsKey(s)) return shifts.get(s);
+
+        for (Pair<LocalDate,ShiftType> shift : shifts.keySet()) {
+            if (shift.equals(s)) {
+                return shifts.get(shift);
+            }
+        }
         throw new IllegalArgumentException("no such shift!");
+
     }
 
     public List<Shift> getShiftHistory(){
@@ -190,9 +202,9 @@ public void setDefaultRolesForShift(List<String> roles){
 
 
     private ShiftType convertShiftType(String s){
-        if(s.toLowerCase().compareTo("morning") != 0)
+        if(s.toLowerCase().compareTo("morning") == 0)
             return ShiftType.MORNING;
-        else if(s.toLowerCase().compareTo("evening") != 0)
+        else if(s.toLowerCase().compareTo("evening") == 0)
             return ShiftType.EVENING;
         else
             throw new IllegalArgumentException("no such shift type '" + s +"'. only have morning or evening");

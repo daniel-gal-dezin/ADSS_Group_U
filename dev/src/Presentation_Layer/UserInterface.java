@@ -25,6 +25,7 @@ public class UserInterface {
     public void main_loop(){
 
         System.out.println("welcome to the system\n");
+        while(true) {
         System.out.println("would you like to recover default data? y/n");
         String input = System.console().readLine();
         if(input.equals("y")){
@@ -32,15 +33,23 @@ public class UserInterface {
         }
 
         System.out.println("Who is using the system? \n1.hr\n2.worker");
+        //create employees for the tests
+        es.addEmployee(1, "a", "12", LocalDate.now(), "full",  "global", 12, 12, true);
+        es.addEmployee(1, "b", "12", LocalDate.now(), "full",  "global", 12, 12, false);
+        bs.createShift(1,2020,10,10,"morning", 1);
+
+
+
         String input1 = System.console().readLine();
+
         int bId;
-        while(true) {
+
             System.out.println("on which branch are you working?");
             bId = numberChecker();
             String bExsist = bs.checkBranch(bId);
-            if(bExsist == "") break;
+            if(bExsist != "") break;
             System.out.println(bExsist);
-        }
+
 
         if(input1.equals("1")){
             hr_loop(bId);
@@ -48,8 +57,9 @@ public class UserInterface {
         else if(input1.equals("2")){
             worker_loop(bId);
         }
-        else{
+        else {
             System.out.println("invalid input");
+        }
         }
     }
 
@@ -84,7 +94,7 @@ public class UserInterface {
 
     public void hr_loop(int bId) {
         while (true) {
-            System.out.println("what would you like to do? \n1.add employee\n2.add role\n3.set employee\n4.get employee\n5.set default roles\n6.create shift\n7.block shift\n8.unblock shift\n9.get available employees for shift\n10. change shift\n11. create new branch\n12 exit");
+            System.out.println("what would you like to do? \n1.add employee\n2.add role\n3.set employee\n4.get employee\n5.set default roles\n6.create shift\n7.block shift\n8.unblock shift\n9.get available employees for shift\n10. change shift\n11. create new branch\n12. exit\n13. add employee to shift\n14. delete employee from shift\n15. get shift");
             String input = System.console().readLine();
             String output = "";
             if (input.equals("1")) {
@@ -193,12 +203,38 @@ public class UserInterface {
                 output = bs.changeManager(bId, year, month, day, sType==1?"morning":"evening", managerId);
 
             } else if (input.equals("11")) {
+                System.out.println("insert branch name");
                 String name = System.console().readLine();
                 output = bs.createBranch(name);
             } else if (input.equals("12")) {
                 break;
-            }
-            else {
+            } else if (input.equals("13")) {
+                int[] date = inputShiftDetails();
+                int year = date[0];
+                int month = date[1];
+                int day = date[2];
+                int sType = date[3];
+                System.out.print("this the available employee " + bs.getAvailableEmployees(bId, year, month, day, sType==1?"morning":"evening"));
+                System.out.print("employee id: ");
+                int employeeId = numberChecker();
+                output = bs.addEmployeeToShift(bId, year, month, day, sType==1?"morning":"evening", employeeId);
+            } else if (input.equals("14")) {
+                int[] date = inputShiftDetails();
+                int year = date[0];
+                int month = date[1];
+                int day = date[2];
+                int sType = date[3];
+                System.out.print("employee id: ");
+                int employeeId = numberChecker();
+                output = bs.removeEmployeeFromShift(bId, year, month, day, sType==1?"morning":"evening", employeeId);
+            } else if (input.equals("15")) {
+                int[] date = inputShiftDetails();
+                int year = date[0];
+                int month = date[1];
+                int day = date[2];
+                int sType = date[3];
+                output = bs.getShift(bId, year, month, day, sType==1?"morning":"evening");
+            }else {
                 output = "invalid input";
             }
 

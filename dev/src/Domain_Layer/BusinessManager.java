@@ -100,12 +100,16 @@ public class BusinessManager {
      public List<String> getConstraints(int branchid,LocalDate date, String sType){
          List<Employee> ans;
          try {
-             ans = new ArrayList<>(em.getEmployees(branchid));
+
+             List<Employee> employeewithconstraint = branches.get(branchid).getSm().getConstraints(date,sType);
+             return em.getComplement(1,employeewithconstraint).stream().map((em) -> em.toString()).toList();
+
+
          }catch (Exception e){
-             throw new IllegalArgumentException("branch ID doesn't exist");
+             throw new IllegalArgumentException(e);
          }
 
-         return em.getComplement(branchid, ans).stream().map((c) -> c.toString()).toList();
+
 
     }
 
