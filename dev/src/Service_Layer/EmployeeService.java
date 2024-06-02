@@ -30,8 +30,8 @@ public class EmployeeService {
 
     public String addEmployee(int Bid, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
         try{
-            em.addEmployee(Bid,name,bankAcc,startWork,employmentType,salaryType,salary,vacationDays,isManager);
-            return new Response().toJson();
+            int id = em.addEmployee(Bid,name,bankAcc,startWork,employmentType,salaryType,salary,vacationDays,isManager);
+            return new Response("",String.valueOf(id)).toJson();
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }

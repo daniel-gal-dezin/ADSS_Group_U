@@ -34,7 +34,7 @@ public class EmployeeManager {
 
 
 
-    public void addEmployee(int branchId, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays,boolean isManager){
+    public int addEmployee(int branchId, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays,boolean isManager){
         List<Role> r = new ArrayList<>();
         r.add(Role.CASHIER);
         r.add(Role.STOREKEEPER);
@@ -50,7 +50,7 @@ public class EmployeeManager {
         Employee newEmp = new Employee(id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays,isManager);
         currentEmployees.put(id,newEmp);
         branchEmployees.get(branchId).add(newEmp);
-
+        return id;
     }
 
     public void deleteEmployee(int branchId, int id) throws IllegalArgumentException{

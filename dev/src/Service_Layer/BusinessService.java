@@ -22,7 +22,7 @@ public class BusinessService {
         return new Response().toJson();
     }
 
-    public String createBranch(String name){
+        public String createBranch(String name){
         try{
             bm.createBranch(name);
         } catch(Exception e){
