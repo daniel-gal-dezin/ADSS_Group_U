@@ -80,6 +80,12 @@ public class BusinessManager {
     }
 
     public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1,LocalDate date2, String sType2 ){
+        if(em.getEmployee(e1).isIsmanagar() == true){
+            throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
+        }
+        if(em.getEmployee(e2).isIsmanagar() == true){
+            throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
+        }
         branches.get(branchId).getSm().changeShift(em.getEmployee(e1),em.getEmployee(e2),date1,sType1,date2,sType2);
     }
 

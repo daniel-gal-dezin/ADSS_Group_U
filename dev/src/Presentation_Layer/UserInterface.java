@@ -36,8 +36,9 @@ public class UserInterface {
         //create employees for the tests
         es.addEmployee(1, "a", "12", LocalDate.now(), "full",  "global", 12, 12, true);
         es.addEmployee(1, "b", "12", LocalDate.now(), "full",  "global", 12, 12, false);
+        es.addEmployee(1, "c", "12", LocalDate.now(), "full",  "global", 12, 12, false);
         bs.createShift(1,2020,10,10,"morning", 1);
-
+        bs.createShift(1,2020,10,10,"evening", 1);
 
 
         String input1 = System.console().readLine();
@@ -94,7 +95,7 @@ public class UserInterface {
 
     public void hr_loop(int bId) {
         while (true) {
-            System.out.println("what would you like to do? \n1.add employee\n2.add role\n3.set employee\n4.get employee\n5.set default roles\n6.create shift\n7.block shift\n8.unblock shift\n9.get available employees for shift\n10. change shift\n11. create new branch\n12. exit\n13. add employee to shift\n14. delete employee from shift\n15. get shift");
+            System.out.println("what would you like to do? \n1.add employee\n2.set employee\n3.get employee\n4.set default roles\n5.create shift\n6.block shift\n7.unblock shift\n8.get available employees for shift\n9. change shift manager\n10. create new branch\n11. exit\n12. add employee to shift\n13. delete employee from shift\n14. get shift\n15. change shifts");
             String input = System.console().readLine();
             String output = "";
             if (input.equals("1")) {
@@ -137,28 +138,22 @@ public class UserInterface {
                 }
 
                 output = es.addEmployee(bId, name, bankAcc, LocalDate.now(), employmentType == 1? "full":"partial", salaryType==1? "global":"hourly", salary, vacationDays, isManager == 1);
-            } else if (input.equals("2")) {
-                System.out.println("enter id");
-                int id = numberChecker();
-                System.out.println("enter role");
-                String role = System.console().readLine();
-                output = es.addRole(id, role);
-            } else if (input.equals("3")) {
+           } else if (input.equals("2")) {
                 System.out.println("enter id");
                 int id = numberChecker();
                 System.out.println("what property tou want to set? \n1.salary\n2.vacation days\n3.employment type\n4.salary type\n5.bank account\n6.name\n7.is manager");
                 String prop = System.console().readLine();
                 output = setEmployee(id, prop);
-            } else if (input.equals("4")) {
+            } else if (input.equals("3")) {
                 System.out.println("enter id");
                 int id = numberChecker();
                 output = es.getEmployee(id);
-            } else if (input.equals("5")) {
+            } else if (input.equals("4")) {
                 System.out.println("enter roles with spaces between them");
                 String roles = System.console().readLine();
                 List<String> rolesList = Arrays.asList(roles.split(" ")).stream().toList();
                 output = bs.setDefaultRoles(rolesList);
-            } else if (input.equals("6")) {
+            } else if (input.equals("5")) {
                 int[] date = inputShiftDetails();
                 int year = date[0];
                 int month = date[1];
@@ -169,7 +164,7 @@ public class UserInterface {
                 System.out.print("manager id: ");
                 int managerId = numberChecker();
                 output = bs.createShift(bId, year, month, day, sType == 1? "morning":"evening", Arrays.stream(roles.split(" ")).toList(), managerId);
-            } else if (input.equals("7")) {
+            } else if (input.equals("6")) {
                 int[] date = inputShiftDetails();
                 if (date == null) output =  "invalid date inserted!:";
                 int year = date[0];
@@ -177,7 +172,7 @@ public class UserInterface {
                 int day = date[2];
                 int sType = date[3];
                 output = bs.blockShift(bId, year, month, day, sType==1?"morning":"evening");
-            } else if (input.equals("8")) {
+            } else if (input.equals("7")) {
                 int[] date = inputShiftDetails();
                 if (date == null) output =  "invalid date inserted!:";
                 int year = date[0];
@@ -185,14 +180,14 @@ public class UserInterface {
                 int day = date[2];
                 int sType = date[3];
                 output = bs.unblockShift(bId, year, month, day, sType == 1? "morning":"evening");
-            } else if (input.equals("9")) {
+            } else if (input.equals("8")) {
                 int[] date = inputShiftDetails();
                 int year = date[0];
                 int month = date[1];
                 int day = date[2];
                 int sType = date[3];
                 output = bs.getAvailableEmployees(bId, year, month, day, sType==1?"morning":"evening");
-            } else if (input.equals("10")) {
+            } else if (input.equals("9")) {
                 int[] date = inputShiftDetails();
                 int year = date[0];
                 int month = date[1];
@@ -202,13 +197,13 @@ public class UserInterface {
                 int managerId = numberChecker();
                 output = bs.changeManager(bId, year, month, day, sType==1?"morning":"evening", managerId);
 
-            } else if (input.equals("11")) {
+            } else if (input.equals("10")) {
                 System.out.println("insert branch name");
                 String name = System.console().readLine();
                 output = bs.createBranch(name);
-            } else if (input.equals("12")) {
+            } else if (input.equals("11")) {
                 break;
-            } else if (input.equals("13")) {
+            } else if (input.equals("12")) {
                 int[] date = inputShiftDetails();
                 int year = date[0];
                 int month = date[1];
@@ -218,7 +213,7 @@ public class UserInterface {
                 System.out.print("employee id: ");
                 int employeeId = numberChecker();
                 output = bs.addEmployeeToShift(bId, year, month, day, sType==1?"morning":"evening", employeeId);
-            } else if (input.equals("14")) {
+            } else if (input.equals("13")) {
                 int[] date = inputShiftDetails();
                 int year = date[0];
                 int month = date[1];
@@ -227,14 +222,33 @@ public class UserInterface {
                 System.out.print("employee id: ");
                 int employeeId = numberChecker();
                 output = bs.removeEmployeeFromShift(bId, year, month, day, sType==1?"morning":"evening", employeeId);
-            } else if (input.equals("15")) {
+            } else if (input.equals("14")) {
                 int[] date = inputShiftDetails();
                 int year = date[0];
                 int month = date[1];
                 int day = date[2];
                 int sType = date[3];
                 output = bs.getShift(bId, year, month, day, sType==1?"morning":"evening");
-            }else {
+            } else if (input.equals("15")){
+                System.out.println("enter first id");
+                int id1 = numberChecker();
+                System.out.println("enter second id");
+                int id2 = numberChecker();
+                System.out.println("you will be ask next to enter first employee shift date");
+                int[] date1 = inputShiftDetails();
+                int year1 = date1[0];
+                int month1 = date1[1];
+                int day1 = date1[2];
+                int sType1 = date1[3];
+                System.out.println("you will be ask next to enter second employee shift date");
+                int[] date2 = inputShiftDetails();
+                int year2 = date2[0];
+                int month2 = date2[1];
+                int day2 = date2[2];
+                int sType2 = date2[3];
+                output = bs.changeShift(bId, id1, id2, year1, month1, day1, sType1==1?"morning":"evening", year2, month2, day2, sType2==1?"morning":"evening");
+
+            } else {
                 output = "invalid input";
             }
 

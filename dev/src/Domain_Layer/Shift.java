@@ -33,6 +33,7 @@ public class Shift {
         this.rolesneeded = rolesneeded;
         this.shiftmanager = manager;
         this.employees = new ArrayList<>();
+        this.employees.add(manager);
         this.constraints = new ArrayList<>();
         this.deadLine = shiftID.getFirst().minusWeeks(deadlinedfault);//default value
         if (this.shiftID.getSecond() == ShiftType.MORNING) {// defualt value
@@ -48,7 +49,7 @@ public class Shift {
 
     public void addEmployee(Employee employee) {
         if(employees.contains(employee))
-            throw new IllegalArgumentException("can't add employee to shift! He is already in it");
+            throw new IllegalArgumentException("can't add employee to shift! He is already in it  ");
         if(this.shiftmanager == null){
             throw new IllegalArgumentException("can't add employee to shift! there is no manager yet!");
         }

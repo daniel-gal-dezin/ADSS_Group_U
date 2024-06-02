@@ -88,6 +88,8 @@ public class Employee {
 
     public void setIsmanagar(boolean ismanagar) {
         this.ismanagar = ismanagar;
+        if(ismanagar) this.roles.add(Role.MANAGER);
+        else this.roles.remove(Role.MANAGER);
     }
 
     public Terms getTermsofem() {
