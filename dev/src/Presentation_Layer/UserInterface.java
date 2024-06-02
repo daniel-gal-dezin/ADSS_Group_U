@@ -26,41 +26,41 @@ public class UserInterface {
 
         System.out.println("welcome to the system\n");
         while(true) {
-        System.out.println("would you like to recover default data? y/n");
-        String input = System.console().readLine();
-        if(input.equals("y")){
-            si.adddefualtinit();
-        }
+            System.out.println("would you like to recover default data? y/n");
+            String input = System.console().readLine();
+            if(input.equals("y")){
+                si.adddefualtinit();
+            }
 
-        System.out.println("Who is using the system? \n1.hr\n2.worker");
-        //create employees for the tests
-        es.addEmployee(1, "a", "12", LocalDate.now(), "full",  "global", 12, 12, true);
-        es.addEmployee(1, "b", "12", LocalDate.now(), "full",  "global", 12, 12, false);
-        es.addEmployee(1, "c", "12", LocalDate.now(), "full",  "global", 12, 12, false);
-        bs.createShift(1,2020,10,10,"morning", 1);
-        bs.createShift(1,2020,10,10,"evening", 1);
-
-
-        String input1 = System.console().readLine();
-
-        int bId;
-
-            System.out.println("on which branch are you working?");
-            bId = numberChecker();
-            String bExsist = bs.checkBranch(bId);
-            if(bExsist != "") break;
-            System.out.println(bExsist);
+            System.out.println("Who is using the system? \n1.hr\n2.worker");
+            //create employees for the tests
+            es.addEmployee(1, "a", "12", LocalDate.now(), "full",  "global", 12, 12, true);
+            es.addEmployee(1, "b", "12", LocalDate.now(), "full",  "global", 12, 12, false);
+            es.addEmployee(1, "c", "12", LocalDate.now(), "full",  "global", 12, 12, false);
+            bs.createShift(1,2020,10,10,"morning", 1);
+            bs.createShift(1,2020,10,10,"evening", 1);
 
 
-        if(input1.equals("1")){
-            hr_loop(bId);
-        }
-        else if(input1.equals("2")){
-            worker_loop(bId);
-        }
-        else {
-            System.out.println("invalid input");
-        }
+            String input1 = System.console().readLine();
+
+            int bId;
+
+                System.out.println("on which branch are you working?");
+                bId = numberChecker();
+                String bExsist = bs.checkBranch(bId);
+                if(bExsist != "") break;
+                System.out.println(bExsist);
+
+
+            if(input1.equals("1")){
+                hr_loop(bId);
+            }
+            else if(input1.equals("2")){
+                worker_loop(bId);
+            }
+            else {
+                System.out.println("invalid input");
+            }
         }
     }
 
