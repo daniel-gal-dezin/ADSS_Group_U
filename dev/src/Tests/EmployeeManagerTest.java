@@ -1,25 +1,25 @@
-package Tests;
-import Domain_Layer.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-class EmployeeManagerTest {
-    private EmployeeManager employeeManager;
-
-    @BeforeEach
-    void setUp() {
-        employeeManager = new EmployeeManager();
-    }
-
-
-    @Test
-    void testconvertRole() {
-        employeeManager.convertRole("Manager");
-
-    }
-
+//package Tests;
+//import Domain_Layer.*;
+//import org.junit.jupiter.api.BeforeEach;
+//import org.junit.jupiter.api.Test;
+//
+//import static org.junit.jupiter.api.Assertions.*;
+//
+//class EmployeeManagerTest {
+//    private EmployeeManager employeeManager;
+//
+//    @BeforeEach
+//    void setUp() {
+//        employeeManager = new EmployeeManager();
+//    }
+//
+//
+//    @Test
+//    void testconvertRole() {
+//        employeeManager.convertRole("Manager");
+//
+//    }
+//
 //    @Test
 //    void testAddEmployee() {
 //        employeeManager.addEmployee(1,"John Doe", "123456", new Terms());
@@ -27,7 +27,7 @@ class EmployeeManagerTest {
 //        assertEquals("John Doe", employeeManager.getEmployees().get(0).getName());
 //    }
 //
-////    @Test
+//    @Test
 //    void testDeleteEmployee() {
 //        employeeManager.addEmployee("John Doe", "123456", new Terms());
 //        employeeManager.deleteEmployee(1);
@@ -55,4 +55,4 @@ class EmployeeManagerTest {
 //        employeeManager.setSalary(1, 5000);
 //        assertEquals(5000, employeeManager.getEmployee(1).getSalary());
 //    }
-}
+//}

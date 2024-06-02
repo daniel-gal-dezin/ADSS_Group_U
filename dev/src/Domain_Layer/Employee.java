@@ -26,9 +26,9 @@ public class Employee {
         this.termsofem = termsofem;
     }
 
-//    public Employee(int id, String name, String bankAccount, List<Role> roles, Terms termsofem) {
-//        set_props(id, name, bankAccount, roles, termsofem);
-//    }
+    public Employee(int id, String name, String bankAccount, List<Role> roles, Terms termsofem, boolean manager) {
+        set_props(id, name, bankAccount, roles, termsofem, manager);
+    }
 
     public Employee(int id, String name, String bankAccount, List<Role> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays,boolean managar){
         Terms t = new Terms(startWork, employmentType, salaryType, salary, vacationDays);
@@ -134,13 +134,13 @@ public class Employee {
     }
 
     public static Role convertRole(String role){
-        if(role.toLowerCase() == "manager")
+        if(role.toLowerCase().equals("manager"))
             return Role.MANAGER;
-        else if(role.toLowerCase() == "storekeeper")
+        else if(role.toLowerCase().equals("storekeeper"))
             return Role.STOREKEEPER;
-        else if((role.toLowerCase() == "cashier"))
+        else if((role.toLowerCase() .equals("cashier")))
             return Role.CASHIER;
-        else if ((role.toLowerCase() == "driver"))
+        else if ((role.toLowerCase().equals("driver")))
             return Role.DRIVER;
         else
             throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");

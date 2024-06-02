@@ -50,7 +50,7 @@ public void setDefaultRolesForShift(List<String> roles){
         if (blockedShift.contains(shift))
             throw new IllegalArgumentException("Main.Shift is blocked");
 
-        if (shift.getFirst().isAfter(LocalDate.now()))
+        if (!shift.getFirst().isAfter(LocalDate.now()))
             throw new IllegalArgumentException("Main.Shift is in the past");
         if(manager == null)
             throw new IllegalArgumentException("can't create a shift, need a manager! the employee inserted isn't one.");
@@ -70,7 +70,7 @@ public void setDefaultRolesForShift(List<String> roles){
         if (blockedShift.contains(shift))
             throw new IllegalArgumentException("Main.Shift is blocked");
 
-        if (shift.getFirst().isAfter(LocalDate.now()))
+        if (!shift.getFirst().isAfter(LocalDate.now()))
             throw new IllegalArgumentException("Main.Shift is in the past");
         if(manager == null){
             throw new IllegalArgumentException("can't create a shift, need a manager! the employee inserted isn't one.");
@@ -92,7 +92,7 @@ public void setDefaultRolesForShift(List<String> roles){
     public void blockShift(LocalDate date, String sType) throws IllegalArgumentException {//
 
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
-        if (shift.getFirst().isAfter(LocalDate.now())) {
+        if (!shift.getFirst().isAfter(LocalDate.now())) {
             throw new IllegalArgumentException("Main.Shift is in the past");
         }
         if (shifts.containsKey(shift)) {
@@ -221,5 +221,9 @@ public void setDefaultRolesForShift(List<String> roles){
             return Role.DRIVER;
         else
             throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
+    }
+
+    public List<Pair<LocalDate,ShiftType>> getBlockedShifts() {
+        return this.blockedShift;
     }
 }
