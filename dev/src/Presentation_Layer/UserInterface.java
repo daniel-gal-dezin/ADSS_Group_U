@@ -17,7 +17,7 @@ public class UserInterface {
     public UserInterface(SystemInit in){
         si = in;
         es = si.getEs();
-        bs = si.getSs();
+        bs = si.getBs();
     }
 
 

@@ -122,8 +122,8 @@ public class BusinessManager {
 
 
 
-    public void addEmployeeToBranch(int branchId, String name, String bankAcc, List<String> roles, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
-        em.addEmployee(branchId,name,bankAcc,LocalDate.now(),employmentType,salaryType,salary,vacationDays,isManager);
+    public int addEmployeeToBranch(int branchId, String name, String bankAcc, List<String> roles, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
+        return em.addEmployee(branchId,name,bankAcc,LocalDate.now(),employmentType,salaryType,salary,vacationDays,isManager);
     }
 
     public void deleteEmployeeFromBranch(int branchId, int id){
