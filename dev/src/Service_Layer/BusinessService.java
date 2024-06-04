@@ -3,6 +3,7 @@ package Service_Layer;
 import Domain_Layer.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public class BusinessService {
@@ -97,6 +98,29 @@ public class BusinessService {
         }
         return new Response().toJson();
     }
+    public String changeshiftDeadLine(int brId, int year, int month, int day, String sType,int year1, int month1, int day1){
+        LocalDate shiftdate = LocalDate.of(year,month,day);
+        LocalDate constraintdate = LocalDate.of(year1,month1,day1);
+        try{
+            bm.changeshiftDeadline(brId,shiftdate,sType,constraintdate);
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String changeendofmornig(int brId, int year, int month, int day, String sType, int hour,int minute){
+        LocalDate shiftdate = LocalDate.of(year,month,day);
+        LocalTime hour1 = LocalTime.of(hour, minute);
+        try{
+            bm.changeendofmorning(brId,shiftdate,sType,hour1);
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
 
     public String getShiftHistory(int brId){ //can't throw
         Response r = new Response();
@@ -105,6 +129,7 @@ public class BusinessService {
     }
 
     public String changeShift(int brId, int id1, int id2,int year1, int month1, int day1, String sType1,int year2, int month2, int day2, String sType2){
+
         LocalDate date1 = LocalDate.of(year2,month2,day2);
         LocalDate date2 = LocalDate.of(year2,month2,day2);
         try {
@@ -116,6 +141,8 @@ public class BusinessService {
     }
 
     public String changeDeadLine(int brId, int year, int month, int day, String sType,LocalDate newDate){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
             bm.changeDeadline(brId, date, sType, newDate);
@@ -126,6 +153,8 @@ public class BusinessService {
     }
 
     public String addConstraint(int brId, int year, int month, int day, String sType, int id){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
             bm.addConstraint(brId, date, sType, id);
@@ -136,6 +165,8 @@ public class BusinessService {
     }
 
     public String removeConstraint(int brId, int year, int month, int day, String sType, int id){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
             bm.removeConstraint(brId, date, sType, id);
@@ -146,6 +177,8 @@ public class BusinessService {
     }
 
     public String getConstraints(int brId, int year, int month, int day, String sType){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         Response r = new Response();
         try {
@@ -157,6 +190,8 @@ public class BusinessService {
     }
 
     public String getShift(int brId, int year, int month, int day, String sType){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         Response r = new Response();
         try {
@@ -167,10 +202,14 @@ public class BusinessService {
         return r.toJson();
     }
     public String getAvailableEmployees(int brId, int year, int month, int day, String sType){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         Response r = new Response();
         try{
-            r.ReturnValue = listToString(bm.getConstraints(brId, date, sType));
+            r.ReturnValue = listToString(bm.getAvailbleEmployeesForShift(brId, date, sType));
         }catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
@@ -178,6 +217,8 @@ public class BusinessService {
     }
 
     public String removeEmployeeFromShift(int brId, int year, int month, int day, String sType, int id){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
             bm.removeEmployeeFromShift(brId, date, sType, id);
@@ -188,6 +229,8 @@ public class BusinessService {
     }
 
     public String addEmployeeToShift(int brId, int year, int month, int day, String sType, int id){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
             bm.addEmployeetoshift(brId, date,sType, id);

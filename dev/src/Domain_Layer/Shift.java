@@ -44,6 +44,12 @@ public class Shift {
             this.end = LocalTime.of(endevening.getHour(), endevening.getMinute());
         }
     }
+    public void setEndMorning(LocalTime time){
+        if(time.isAfter(LocalTime.of(23,59))){
+            throw new IllegalArgumentException("to late hour");
+        }
+     this.endmorning = time;
+    }
 
 
 
@@ -189,7 +195,7 @@ public class Shift {
     }
 
     public void setDeadLine(LocalDate deadLine) {
-        if(deadLine.isAfter(ChronoLocalDate.from(this.start))){
+        if(deadLine.isAfter(this.shiftID.getFirst())){
             throw new IllegalArgumentException("can't asign dead line for shift after it's date");
         }
         this.deadLine = deadLine;

@@ -1,6 +1,7 @@
 package Domain_Layer;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,10 +111,27 @@ public void setDefaultRolesForShift(List<String> roles){
         blockedShift.remove(shift);
     }
 
+    public void setEndOfMorning(LocalDate date, String sType, LocalTime time){
+        Shift shift1 = this.getShift(date,sType);
+        shift1.setEndMorning(time);
+    }
+
     public void addEmployeeToShift(LocalDate date, String sType, Employee employee){//
         Shift shift = getShift(date,sType);
         if(blockedShift.contains(shift.getShiftID())){
             throw new IllegalArgumentException("this shift is blocked!");
+        }
+        if(date.isAfter(shift.getDeadLine())){
+            throw new IllegalArgumentException("the chance to submit constraint has pass");
+        }
+        if(!shift.getRolesneeded().containsAll(employee.getRoles())){
+            throw new IllegalArgumentException("can't add employee to shift! he doesn't have the needed roles");
+        }
+        if(shift.getEmployees().contains(employee)){
+            throw new IllegalArgumentException("can't add employee to shift! He is already in it");
+        }
+        if(shift.getConstraints().contains(employee)){
+            throw new IllegalArgumentException("can't add employee to shift! He is in the constraints");
         }
         shift.addEmployee(employee);
     }
@@ -157,7 +175,7 @@ public void setDefaultRolesForShift(List<String> roles){
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         try{
-            s1.removeEmployee(e2);
+            s1.removeEmployee(e1);
         }
         catch (Exception e){
             s1.removeEmployee(e2);
@@ -165,12 +183,12 @@ public void setDefaultRolesForShift(List<String> roles){
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         try{
-            s2.removeEmployee(e1);
+            s2.removeEmployee(e2);
         }
         catch (Exception e){
             s1.removeEmployee(e2);
             s2.removeEmployee(e1);
-            s1.addEmployee(e2);
+            s1.addEmployee(e1);
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
     }
@@ -182,7 +200,7 @@ public void setDefaultRolesForShift(List<String> roles){
 
     public void changeDeadLine(LocalDate date, String sType,LocalDate newDte){
         Shift shift = getShift(date,sType);
-        shift.setDeadLine(date);
+        shift.setDeadLine(newDte);
     }//
 
     public void addConstraint(LocalDate date, String sType, Employee em){

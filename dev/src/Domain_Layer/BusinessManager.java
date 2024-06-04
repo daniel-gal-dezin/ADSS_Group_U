@@ -1,6 +1,7 @@
 package Domain_Layer;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -64,6 +65,12 @@ public class BusinessManager {
         branches.get(branchId).getSm().addEmployeeToShift(date,sType,em.getEmployee(branchId,idofemployee));
 
     }
+    public void changeshiftDeadline(int branchId,LocalDate date, String sType,LocalDate newdeadline){
+        branches.get(branchId).getSm().changeDeadLine(date,sType,newdeadline);
+    }
+    public void changeendofmorning(int branchId, LocalDate date, String sType, LocalTime time){
+        branches.get(branchId).getSm().setEndOfMorning(date,sType,time);
+    }
 
     public void changeManager(int branchId,LocalDate date, String sType, int employeeId){
         branches.get(branchId).getSm().changeManager(date,sType,em.getEmployee(employeeId));
@@ -83,9 +90,7 @@ public class BusinessManager {
         if(em.getEmployee(e1).isIsmanagar() == true){
             throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
         }
-        if(em.getEmployee(e2).isIsmanagar() == true){
-            throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
-        }
+
         branches.get(branchId).getSm().changeShift(em.getEmployee(e1),em.getEmployee(e2),date1,sType1,date2,sType2);
     }
 
@@ -103,17 +108,36 @@ public class BusinessManager {
          branches.get(branchId).getSm().removeConstraint(date, sType, em.getEmployee(branchId, idofemployee));
      }
 
-     public List<String> getConstraints(int branchid,LocalDate date, String sType){
+     public List<String> getAvailbleEmployeesForShift(int branchid,LocalDate date, String sType){
          List<Employee> ans;
+         Shift s =  branches.get(branchid).getSm().getShift(date,sType);
          try {
 
              List<Employee> employeewithconstraint = branches.get(branchid).getSm().getConstraints(date,sType);
-             return em.getComplement(1,employeewithconstraint).stream().map((em) -> em.toString()).toList();
+             List<Employee> temp = em.getComplement(1,employeewithconstraint);
+             temp.remove(s.getShiftmanager());
+             temp.removeAll(s.getEmployees());
+             return temp.stream().map((em) -> em.toString()).toList();
 
 
          }catch (Exception e){
              throw new IllegalArgumentException(e);
          }
+
+
+
+    }
+    public List<String> getConstraints(int branchid,LocalDate date, String sType){
+        List<Employee> ans;
+        try {
+
+            List<Employee> employeewithconstraint = branches.get(branchid).getSm().getConstraints(date,sType);
+           return employeewithconstraint.stream().map((em) -> em.toString()).toList();
+
+
+        }catch (Exception e){
+            throw new IllegalArgumentException(e);
+        }
 
 
 

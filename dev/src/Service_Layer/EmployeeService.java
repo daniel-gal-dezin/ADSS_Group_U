@@ -60,10 +60,10 @@ public class EmployeeService {
         }
     }
 
-    public String getBranchEmployees(int enplId){
+    public String getBranchEmployees(int bId){
         List<Employee> emps;
         try{
-            emps = em.getEmployees(enplId);
+            emps = em.getEmployees(bId);
             return new Response("",listToString(emps)).toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();
@@ -152,8 +152,8 @@ public class EmployeeService {
         }
     }
 
-    public String getHistoryEmployees(int empId){
-        return new Response(listToString(em.getHistoryEmployees(empId))).toJson();
+    public String getHistoryEmployees(int bId){
+        return new Response(listToString(em.getHistoryEmployees(bId))).toJson();
     }
 
     public String deleteEmployee(int empId, int id){
