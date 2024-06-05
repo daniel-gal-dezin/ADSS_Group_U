@@ -1,4 +1,5 @@
 package DomainLayer;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.LinkedHashMap;
@@ -17,6 +18,7 @@ public class Product {
     private int discount;
     private Map<Integer, Item> itemListInStorage;
     private Map<Integer, Item> itemListInStore;
+    private int minimumAmount;
 
     public Product(String name, int serialNum, int aigleNum, int shelfNum, String producer, int cost, int soldPrice, int size){ //implement places
         this.name=name;
@@ -30,7 +32,28 @@ public class Product {
         this.discount=0; //precentage
         itemListInStorage=new LinkedHashMap<Integer, Item>();
         itemListInStore=new LinkedHashMap<Integer, Item>();
+        this.minimumAmount=-1;
     }
+
+    public Product removeExpItems(){
+        boolean removed=false;
+        for (Item it: itemListInStorage.values()){
+            if (it.getExpDate().isBefore(LocalDate.now())){
+                removeItem(it.getId());
+                removed=true;
+            }
+        }
+        for (Item it: itemListInStore.values()){
+            if (it.getExpDate().isBefore(LocalDate.now())){
+                removeItem(it.getId());
+                removed=true;
+            }
+        }
+        if(removed)
+            return this;
+        return null;
+     }
+
 
     public String getName(){
         return this.name;
@@ -80,6 +103,15 @@ public class Product {
             return itemListInStore.remove(id);
         }
         return it1;
+    }
+
+    public boolean stockWarning(){
+        return stock<=minimumAmount;
+    }
+
+    public boolean updateMinimumAmount(int amount){
+        this.minimumAmount=amount;
+        return true;
     }
 
     public boolean setDiscount(int discount){

@@ -18,12 +18,69 @@ public class Category {
         damagedList=new LinkedHashMap<Product, Integer>();
     }
 
+    public boolean removeExpItems(){
+        for (Subcategory sub: subcatList.values()){
+            for(Product p: sub.getProductList().values()){
+                Product pro=p.removeExpItems();
+                if(pro!=null){
+                    if(pro.getStock()==0){
+                        sub.getProductList().remove(pro.getSerialNum());
+                    }
+                    if(expList.containsKey(pro)){
+                        expList.put(pro, expList.get(pro)+1);
+                    }
+                    else{
+                        expList.put(pro, 1);
+                    }
+                }
+            }
+            if(sub.getProductList().size()==0){
+                subcatList.remove(sub.getName());
+            }
+        }
+        return true;
+     }
+
+     public String getName(){
+        return this.name;
+     }
+
     public boolean addItem(String subcategory, String name, int serialNum, int id, int aigleNum, String producer, int cost, int soldPrice, int size, String expDate){
         if(!subcatList.containsKey(subcategory)){
             subcatList.put(subcategory, new Subcategory(subcategory));
         }
         Subcategory subcat=subcatList.get(subcategory);
         return subcat.addItem(name, serialNum, id, aigleNum, subcatList.size()+1, producer, cost, soldPrice, size, expDate);
+    }
+
+    public boolean sellItem(String subcategory, int serialNum, int id){
+        Subcategory sub=subcatList.get(subcategory);
+        if(sub==null){
+            return false;
+        }
+        boolean b=sub.sellItem(serialNum, id);
+        if(b){
+            if(sub.getProductList().size()==0){
+                subcatList.remove(subcategory);
+            }
+        }
+        return b;
+    }
+
+    public boolean stockWarning(String subcategory, int serialNum){
+        return subcatList.get(subcategory).stockWarning(serialNum);
+    }
+
+    public boolean productExists(String subcategory, int serialNum){
+        Subcategory sub=subcatList.get(subcategory);
+        if (sub==null){
+            return false;
+        }
+        return sub.productExists(serialNum);
+    }
+
+    public boolean updateMinimumAmount(String subcategory, int serialNum, int amount){
+        return subcatList.get(subcategory).updateMinimumAmount(serialNum, amount);
     }
 
     public boolean updateDamagedItem(String subcategory, int serialNum, int id){
@@ -75,7 +132,7 @@ public class Category {
     }
 
     public String getStockReport(){
-        String report="Stock Report for Category " + name;
+        String report="Stock Report for Category " + name + ":";
         for (Subcategory sub: subcatList.values()){
             report=report + "\n" + sub.getName() + ": \n";
             for (Product p: sub.getProductList().values()){
@@ -91,5 +148,9 @@ public class Category {
             return false;
         }
         return sub.moveToStore(serialNum, id);
+    }
+
+    public Map<String, Subcategory> getSubcatList(){
+        return subcatList;
     }
 }

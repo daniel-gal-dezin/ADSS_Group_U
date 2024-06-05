@@ -1,12 +1,10 @@
 package DomainLayer;
 
-import java.util.Dictionary;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Date;
 
 public class Store {
     private Map<String, Category> categoryList;
@@ -24,6 +22,16 @@ public class Store {
         this.stockReportList=new LinkedList<>();
         this.lastStockReport=LocalDate.now();
     }
+
+     public boolean removeExpItems(){
+        for (Category c: categoryList.values()){
+            c.removeExpItems();
+            if(c.getSubcatList().size()==0){
+                categoryList.remove(c.getName());
+            }
+        }
+        return true;
+     }
 
     public boolean addItem(String category, String subcategory, String name, int serialNum, int id, String producer, int cost, int soldPrice, int size, String expDate) throws Exception{
         if(!categoryList.containsKey(category)){
@@ -50,6 +58,39 @@ public class Store {
         else{
             return true;
         }
+    }
+
+    public boolean sellItem(String category, String subcategory, int serialNum, int id) throws Exception{
+        Category c=categoryList.get(category);
+        if (c==null){
+            throw new Exception("Category does not exist.");
+        }
+        boolean success=c.sellItem(subcategory, serialNum, id);
+        if (!success){
+            throw new Exception("Item does not exist.");
+        }
+        if(success){
+            if(c.getSubcatList().size()==0){
+                categoryList.remove(category);
+            }
+        }
+        return true;
+    }
+
+    public boolean stockWarning(String category, String subcategory, int serialNum){
+        return categoryList.get(category).stockWarning(subcategory, serialNum);
+    }
+
+    public boolean productExists(String category, String subcategory, int serialNum){
+        Category c=categoryList.get(category);
+        if (c==null){
+            return false;
+        }
+        return c.productExists(subcategory, serialNum);
+    }
+
+    public boolean updateMinimumAmount(String category, String subcategory, int serialNum, int amount){
+        return categoryList.get(category).updateMinimumAmount(subcategory, serialNum, amount);
     }
 
     public boolean updateDamagedItem(String category, String subcategory, int serialNum, int id) throws Exception{ //The check needs to be conducted once a week. We need to determine the way to implement this process
@@ -125,6 +166,17 @@ public class Store {
     
     public Category getCategory(String category){
         return categoryList.get(category);
+    }
+
+    public String printAllReports(){
+        String output="All Reports: \n";
+        for(String s: periodicalReportList){
+            output=output+s+"\n";
+        }
+        for(String s: stockReportList){
+            output=output+s+"\n";
+        }
+        return output;
     }
 
     public String openStore(){

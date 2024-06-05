@@ -7,9 +7,47 @@ public class StoreService {
         this.store=store;
     }
 
+    public String removeExpItems(){
+        try{
+            store.removeExpItems();
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+    
     public String addItem(String category, String subcategory, String name, int serialNum, int id, String producer, int cost, int soldPrice, int size, String expDate){
         try{
             store.addItem(category, subcategory, name, serialNum, id, producer, cost, soldPrice, size, expDate);
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String sellItem(String category, String subcategory, int serialNum, int id){
+        try{
+            store.sellItem(category, subcategory, serialNum, id);
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public boolean stockWarning(String category, String subcategory, int serialNum){
+        return store.productExists(category, subcategory, serialNum);
+    }
+
+    public boolean productExists(String category, String subcategory, int serialNum){
+        return store.productExists(category, subcategory, serialNum);
+    }
+
+    public String updateMinimumAmount(String category, String subcategory, int serialNum, int amount){
+        try{
+            store.updateMinimumAmount(category, subcategory, serialNum, amount);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -78,6 +116,17 @@ public class StoreService {
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
+    }
+
+    public String printAllReports(){
+        Response r = new Response();
+        try{
+            r.ReturnValue = store.printAllReports();
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return r.toJson();
     }
 
     public String openStore(){

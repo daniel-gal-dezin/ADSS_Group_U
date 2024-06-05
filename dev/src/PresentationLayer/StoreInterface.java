@@ -18,6 +18,7 @@ public class StoreInterface {
             System.out.println("Would you like to open the store? yes/no");
             String input = System.console().readLine();
             if(input.equals("yes")){
+                sr.removeExpItems();
                 if(open==-1)
                     open=1;
                 else
@@ -29,16 +30,21 @@ public class StoreInterface {
                 if(in.equals("yes")){
                     sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 1, "Tnuva", 5, 8, 1000, "01-07-2024");
                     sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 2, "Tnuva", 5, 8, 1000, "10-07-2024");
+                    sr.updateMinimumAmount("Dairy", "Milk", 1, 2);
                     sr.addItem("Dairy", "Yogurt", "Go Yogurt 1%", 2, 1, "Tnuva", 7, 10, 50, "05-07-2024");
+                    sr.updateMinimumAmount("Dairy", "Yogurt", 2, 6);
                     sr.addItem("Hygiene", "Shampoo", "Herbel Essense Shampoo", 3, 1, "Yossi", 20, 30, 500, "04-07-2026");
+                    sr.updateMinimumAmount("Hygiene", "Shampoo", 3, 4);
                     sr.addItem("Hygiene", "Tooth Paste", "Colgate Tooth Paste", 4, 1, "Shai", 20, 25, 50, "04-11-2024");
+                    sr.updateMinimumAmount("Hygiene", "Tooth Paste", 4, 10);
                     sr.addItem("Drinks", "Juice", "Coke", 5, 1, "Coca Cola", 6, 12, 1500, "01-10-2024");
+                    sr.updateMinimumAmount("Drinks", "Juice", 5, 20);
                 }
                 open=2;
             }
             while(open==1 || open ==2){
                 System.out.println(sr.openStore());
-                System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Update damaged item. \n 3- Set discount. \n 4- Get product price. \n 5- Get periodical report. \n 6- Get stock report. \n 7- Move to store. \n 8- Close store. \n");
+                System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Close store. \n");
                 String option = System.console().readLine();
                 if(option.equals("1")){
                     System.out.println("What is the category of the product?");
@@ -61,7 +67,16 @@ public class StoreInterface {
                     String size=System.console().readLine();
                     System.out.println("What is the expiration date of the product (dd-mm-yyyy)?");
                     String expDate=System.console().readLine();
-                    System.out.println(sr.addItem(cat, sub, name, Integer.parseInt(serialNum), Integer.parseInt(id), producer, Integer.parseInt(cost), Integer.parseInt(price), Integer.parseInt(size), expDate));
+                    boolean productExists=sr.productExists(cat, sub, Integer.parseInt(serialNum));
+                    String output=sr.addItem(cat, sub, name, Integer.parseInt(serialNum), Integer.parseInt(id), producer, Integer.parseInt(cost), Integer.parseInt(price), Integer.parseInt(size), expDate);
+                    if(output.length()==0 && !productExists){
+                        System.out.println("What will be the minimum amount of the product before sending a warning?");
+                        String amount=System.console().readLine();
+                        sr.updateMinimumAmount(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(amount));
+                    }
+                    else{
+                        System.out.println(output);
+                    }
                 }
                 if(option.equals("2")){
                     System.out.println("What is the category of the item?");
@@ -72,9 +87,36 @@ public class StoreInterface {
                     String serialNum=System.console().readLine();
                     System.out.println("What is the id of the item?");
                     String id=System.console().readLine();
-                    System.out.println(sr.updateDamagedItem(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id)));
+                    String output=sr.sellItem(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id));
+                    if(output.length()==0){
+                        if(sr.stockWarning(cat, sub, Integer.parseInt(serialNum))){
+                            System.out.println("Stock Warning! you need to order more items from this product");
+                        }
+                    }
+                    else{
+                        System.out.println(output);
+                    }
                 }
                 if(option.equals("3")){
+                    System.out.println("What is the category of the item?");
+                    String cat=System.console().readLine();
+                    System.out.println("What is the sub-category of the item?");
+                    String sub=System.console().readLine();
+                    System.out.println("What is the serial number of the item?");
+                    String serialNum=System.console().readLine();
+                    System.out.println("What is the id of the item?");
+                    String id=System.console().readLine();
+                    String output=sr.updateDamagedItem(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id));
+                    if(output.length()==0){
+                        if(sr.stockWarning(cat, sub, Integer.parseInt(serialNum))){
+                            System.out.println("Stock Warning! you need to order more items from this product");
+                        }
+                    }
+                    else{
+                        System.out.println(output);
+                    }
+                }
+                if(option.equals("4")){
                     System.out.println("What is the category of the product?");
                     String cat=System.console().readLine();
                     System.out.println("What is the sub-category of the product?");
@@ -85,7 +127,7 @@ public class StoreInterface {
                     String discount=System.console().readLine();
                     System.out.println(sr.setDiscount(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(discount)));
                 }
-                if(option.equals("4")){
+                if(option.equals("5")){
                     System.out.println("What is the category of the product?");
                     String cat=System.console().readLine();
                     System.out.println("What is the sub-category of the product?");
@@ -94,17 +136,17 @@ public class StoreInterface {
                     String serialNum=System.console().readLine();
                     System.out.println(sr.getProductPrice(cat, sub, Integer.parseInt(serialNum)));
                 }
-                if(option.equals("5")){
+                if(option.equals("6")){
                     System.out.println("Which category?");
                     String cat=System.console().readLine();
                     System.out.println(sr.getPeriodicalReport(cat));
                 }
-                if(option.equals("6")){
+                if(option.equals("7")){
                     System.out.println("Which category?");
                     String cat=System.console().readLine();
                     System.out.println(sr.getStockReport(cat));
                 }
-                if(option.equals("7")){
+                if(option.equals("8")){
                     System.out.println("What is the category of the item?");
                     String cat=System.console().readLine();
                     System.out.println("What is the sub-category of the item?");
@@ -115,7 +157,10 @@ public class StoreInterface {
                     String id=System.console().readLine();
                     System.out.println(sr.moveToStore(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id)));
                 }
-                if(option.equals("8")){
+                if(option.equals("9")){
+                    System.out.println(sr.printAllReports());
+                }
+                if(option.equals("10")){
                     open=0;
                 }
             }
