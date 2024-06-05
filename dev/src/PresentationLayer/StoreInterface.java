@@ -2,6 +2,7 @@ package PresentationLayer;
 
 import DomainLayer.Store;
 import ServiceLayer.StoreService;
+import java.util.Scanner;
 
 public class StoreInterface {
     private StoreService sr;
@@ -13,10 +14,11 @@ public class StoreInterface {
     }
 
     public void mainLoop(){
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome To Our Store! \n");
         while(open==0 || open==-1){
             System.out.println("Would you like to open the store? yes/no");
-            String input = System.console().readLine();
+            String input = scanner.nextLine();
             if(input.equals("yes")){
                 sr.removeExpItems();
                 if(open==-1)
@@ -26,7 +28,7 @@ public class StoreInterface {
             }
             if(open==1){
                 System.out.println("Would you like to recover default data? yes/no");
-                String in = System.console().readLine();
+                String in = scanner.nextLine();
                 if(in.equals("yes")){
                     sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 1, "Tnuva", 5, 8, 1000, "01-07-2024");
                     sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 2, "Tnuva", 5, 8, 1000, "10-07-2024");
@@ -45,28 +47,28 @@ public class StoreInterface {
             while(open==1 || open ==2){
                 System.out.println(sr.openStore());
                 System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Close store. \n");
-                String option = System.console().readLine();
+                String option = scanner.nextLine();
                 if(option.equals("1")){
                     System.out.println("What is the category of the product?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println("What is the sub-category of the product?");
-                    String sub=System.console().readLine();
+                    String sub=scanner.nextLine();
                     System.out.println("What is the name of the product?");
-                    String name=System.console().readLine();
+                    String name=scanner.nextLine();
                     System.out.println("What is the serial number of the product?");
-                    String serialNum=System.console().readLine();
+                    String serialNum=scanner.nextLine();
                     System.out.println("What is the id of the item?");
-                    String id=System.console().readLine();
+                    String id=scanner.nextLine();
                     System.out.println("Who is the producer of the product?");
-                    String producer=System.console().readLine();
+                    String producer=scanner.nextLine();
                     System.out.println("What is the cost of the product?");
-                    String cost=System.console().readLine();
+                    String cost=scanner.nextLine();
                     System.out.println("What will be the price of the product in the store?");
-                    String price=System.console().readLine();
+                    String price=scanner.nextLine();
                     System.out.println("What is the size of the product?");
-                    String size=System.console().readLine();
+                    String size=scanner.nextLine();
                     System.out.println("What is the expiration date of the product (dd-mm-yyyy)?");
-                    String expDate=System.console().readLine();
+                    String expDate=scanner.nextLine();
                     boolean productExists=sr.productExists(cat, sub, Integer.parseInt(serialNum));
                     String output=sr.addItem(cat, sub, name, Integer.parseInt(serialNum), Integer.parseInt(id), producer, Integer.parseInt(cost), Integer.parseInt(price), Integer.parseInt(size), expDate);
                     if(output.length()==0 && !productExists){
@@ -80,13 +82,13 @@ public class StoreInterface {
                 }
                 if(option.equals("2")){
                     System.out.println("What is the category of the item?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println("What is the sub-category of the item?");
-                    String sub=System.console().readLine();
+                    String sub=scanner.nextLine();
                     System.out.println("What is the serial number of the item?");
-                    String serialNum=System.console().readLine();
+                    String serialNum=scanner.nextLine();
                     System.out.println("What is the id of the item?");
-                    String id=System.console().readLine();
+                    String id=scanner.nextLine();
                     String output=sr.sellItem(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id));
                     if(output.length()==0){
                         if(sr.stockWarning(cat, sub, Integer.parseInt(serialNum))){
@@ -99,13 +101,13 @@ public class StoreInterface {
                 }
                 if(option.equals("3")){
                     System.out.println("What is the category of the item?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println("What is the sub-category of the item?");
-                    String sub=System.console().readLine();
+                    String sub=scanner.nextLine();
                     System.out.println("What is the serial number of the item?");
-                    String serialNum=System.console().readLine();
+                    String serialNum=scanner.nextLine();
                     System.out.println("What is the id of the item?");
-                    String id=System.console().readLine();
+                    String id=scanner.nextLine();
                     String output=sr.updateDamagedItem(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id));
                     if(output.length()==0){
                         if(sr.stockWarning(cat, sub, Integer.parseInt(serialNum))){
@@ -118,43 +120,43 @@ public class StoreInterface {
                 }
                 if(option.equals("4")){
                     System.out.println("What is the category of the product?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println("What is the sub-category of the product?");
-                    String sub=System.console().readLine();
+                    String sub=scanner.nextLine();
                     System.out.println("What is the serial number of the product?");
-                    String serialNum=System.console().readLine();
+                    String serialNum=scanner.nextLine();
                     System.out.println("What is the discount precentage?");
-                    String discount=System.console().readLine();
+                    String discount=scanner.nextLine();
                     System.out.println(sr.setDiscount(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(discount)));
                 }
                 if(option.equals("5")){
                     System.out.println("What is the category of the product?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println("What is the sub-category of the product?");
-                    String sub=System.console().readLine();
+                    String sub=scanner.nextLine();
                     System.out.println("What is the serial number of the product?");
-                    String serialNum=System.console().readLine();
+                    String serialNum=scanner.nextLine();
                     System.out.println(sr.getProductPrice(cat, sub, Integer.parseInt(serialNum)));
                 }
                 if(option.equals("6")){
                     System.out.println("Which category?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println(sr.getPeriodicalReport(cat));
                 }
                 if(option.equals("7")){
                     System.out.println("Which category?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println(sr.getStockReport(cat));
                 }
                 if(option.equals("8")){
                     System.out.println("What is the category of the item?");
-                    String cat=System.console().readLine();
+                    String cat=scanner.nextLine();
                     System.out.println("What is the sub-category of the item?");
-                    String sub=System.console().readLine();
+                    String sub=scanner.nextLine();
                     System.out.println("What is the serial number of the item?");
-                    String serialNum=System.console().readLine();
+                    String serialNum=scanner.nextLine();
                     System.out.println("What is the id of the item?");
-                    String id=System.console().readLine();
+                    String id=scanner.nextLine();
                     System.out.println(sr.moveToStore(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id)));
                 }
                 if(option.equals("9")){

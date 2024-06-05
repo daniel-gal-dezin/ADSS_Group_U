@@ -89,7 +89,7 @@ public class Category {
             return false;
         }
         Product pro=sub.getProductList().get(serialNum);
-        if (pro==null || pro.removeItem(id)==null){
+        if (pro==null){
             return false;
         }
         if (!damagedList.containsKey(pro)){
@@ -97,6 +97,12 @@ public class Category {
         }
         else{
             damagedList.put(pro, damagedList.get(pro)+1);
+        }
+        boolean b=sub.updateDamagedItem(serialNum, id);
+        if(b){
+            if(sub.getProductList().size()==0){
+                subcatList.remove(subcategory);
+            }
         }
         return true;
     }

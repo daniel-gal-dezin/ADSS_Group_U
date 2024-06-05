@@ -102,6 +102,11 @@ public class Store {
         if (!success){
             throw new Exception("Item does not exist.");
         }
+        if(success){
+            if(c.getSubcatList().size()==0){
+                categoryList.remove(category);
+            }
+        }
         return true;
     }
 

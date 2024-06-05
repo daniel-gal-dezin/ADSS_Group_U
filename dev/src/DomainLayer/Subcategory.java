@@ -13,16 +13,6 @@ public class Subcategory {
         productList=new LinkedHashMap<Integer, Product>();
     }
 
-    // public Product removeExpItems(){
-    //     for (Product pro: productList.values()){
-    //         pro.removeExpItems();
-    //         if(pro.getStock()==0){
-    //             productList.remove(pro.getSerialNum());
-    //         }
-    //     }
-    //     return true;
-    //  }
-
     public String getName(){
         return this.name;
     }
@@ -67,6 +57,20 @@ public class Subcategory {
 
     public boolean updateMinimumAmount(int serialNum, int amount){
         return productList.get(serialNum).updateMinimumAmount(amount);
+    }
+
+    public boolean updateDamagedItem(int serialNum, int id){
+        Product pro=productList.get(serialNum);
+        if (pro==null){
+            return false;
+        }
+        Item item=pro.removeItem(id);
+        if(pro.getStock()==0){
+            productList.remove(serialNum);
+        }
+        if(item==null)
+            return false;
+        return true;
     }
 
     public boolean setDiscount(int serialNum, int discount){
