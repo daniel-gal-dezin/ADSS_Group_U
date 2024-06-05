@@ -21,23 +21,35 @@ public class Subcategory {
         return this.productList;
     }
 
-    public boolean addItem(String name, int serialNum, int aigleNum, int shelfNum, String producer, int cost, int soldPrice, int size, String expDate){
+    public boolean addItem(String name, int serialNum, int id, int aigleNum, int shelfNum, String producer, int cost, int soldPrice, int size, String expDate){
         if(!productList.containsKey(serialNum)){
             productList.put(serialNum, new Product(name, serialNum, aigleNum, shelfNum, producer, cost, soldPrice, size));
         }
         Product pro=productList.get(serialNum);
-        return pro.addItem(expDate);
+        return pro.addItem(id, expDate);
     }
 
     public boolean setDiscount(int serialNum, int discount){
-        return productList.get(serialNum).setDiscount(discount);
+        Product pro=productList.get(serialNum);
+        if (pro==null){
+            return false;
+        }
+        return pro.setDiscount(discount);
     }
 
     public double getProductPrice(int serialNum){
-        return productList.get(serialNum).getProductPrice();
+        Product pro=productList.get(serialNum);
+        if (pro==null){
+            return -1;
+        }
+        return pro.getProductPrice();
     }
 
     public boolean moveToStore(int serialNum, int id){
-        return productList.get(serialNum).moveToStore(id);
+        Product pro=productList.get(serialNum);
+        if (pro==null){
+            return false;
+        }
+        return pro.moveToStore(id);
     }
 }

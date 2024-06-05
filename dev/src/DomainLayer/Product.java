@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class Product {
     private String name;
-    private int idCount;
     private int serialNum;
     private int stock;
     private Place inStoreAndInStorage;
@@ -21,7 +20,6 @@ public class Product {
 
     public Product(String name, int serialNum, int aigleNum, int shelfNum, String producer, int cost, int soldPrice, int size){ //implement places
         this.name=name;
-        this.idCount=0;
         this.serialNum=serialNum;
         this.stock=0;
         this.inStoreAndInStorage=new Place(aigleNum, shelfNum);
@@ -66,10 +64,11 @@ public class Product {
         return this.itemListInStore;
     }
 
-    public boolean addItem(String expDate){ 
-        this.idCount=idCount+1;
-        Item newItem=new Item(idCount, expDate);
-        itemListInStorage.put(idCount, newItem);
+    public boolean addItem(int id, String expDate){
+        if(itemListInStorage.get(id)!=null || itemListInStore.get(id)!=null)
+            return false;
+        Item newItem=new Item(id, expDate);
+        itemListInStorage.put(id, newItem);
         this.stock=this.stock+1;
         return true;
     }
@@ -89,7 +88,7 @@ public class Product {
     }
 
     public double getProductPrice(){
-        return ((100-discount)/100)*soldPrice;
+        return ((double)(100-discount)/100)*soldPrice;
     }
 
     public boolean moveToStore(int id){

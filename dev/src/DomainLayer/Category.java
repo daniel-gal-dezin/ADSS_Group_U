@@ -18,17 +18,23 @@ public class Category {
         damagedList=new LinkedHashMap<Product, Integer>();
     }
 
-    public boolean addItem(String subcategory, String name, int serialNum, int aigleNum, String producer, int cost, int soldPrice, int size, String expDate){
+    public boolean addItem(String subcategory, String name, int serialNum, int id, int aigleNum, String producer, int cost, int soldPrice, int size, String expDate){
         if(!subcatList.containsKey(subcategory)){
             subcatList.put(subcategory, new Subcategory(subcategory));
         }
         Subcategory subcat=subcatList.get(subcategory);
-        return subcat.addItem(name, serialNum, aigleNum, subcatList.size()+1, producer, cost, soldPrice, size, expDate);
+        return subcat.addItem(name, serialNum, id, aigleNum, subcatList.size()+1, producer, cost, soldPrice, size, expDate);
     }
 
     public boolean updateDamagedItem(String subcategory, int serialNum, int id){
-        Product pro=subcatList.get(subcategory).getProductList().get(serialNum);
-        pro.removeItem(id);
+        Subcategory sub=subcatList.get(subcategory);
+        if(sub==null){
+            return false;
+        }
+        Product pro=sub.getProductList().get(serialNum);
+        if (pro==null || pro.removeItem(id)==null){
+            return false;
+        }
         if (!damagedList.containsKey(pro)){
             damagedList.put(pro, 1);
         }
@@ -39,19 +45,27 @@ public class Category {
     }
 
     public boolean setDiscount(String subcategory, int serialNum, int discount){
-        return subcatList.get(subcategory).setDiscount(serialNum, discount);
+        Subcategory sub=subcatList.get(subcategory);
+        if(sub==null){
+            return false;
+        }
+        return sub.setDiscount(serialNum, discount); 
     }
 
     public double getProductPrice(String subcategory, int serialNum){
-        return subcatList.get(subcategory).getProductPrice(serialNum);
+        Subcategory sub=subcatList.get(subcategory);
+        if(sub==null){
+            return -1;
+        }
+        return sub.getProductPrice(serialNum);
     }
 
     public String getPeriodicalReport(){
-        String report="Periodical Report for Category " + name + " : \n Expired Items:";
+        String report="Periodical Report for Category " + name + " : \nExpired Items: \n";
         for (Product p: expList.keySet()){
             report=report + p.getName() + ", serial number: " + p.getSerialNum() + ", amount: " + expList.get(p) + " \n";
         } 
-        report=report+ "Damaged Items:";
+        report=report+ "Damaged Items: \n";
         for (Product p: damagedList.keySet()){
             report=report + p.getName() + ", serial number: " + p.getSerialNum() + ", amount: " + damagedList.get(p) + " \n";
         } 
@@ -61,17 +75,21 @@ public class Category {
     }
 
     public String getStockReport(){
-        String report="Stock Report for Category " + name + ": \n";
+        String report="Stock Report for Category " + name;
         for (Subcategory sub: subcatList.values()){
-            report=report + sub.getName() + " \n";
+            report=report + "\n" + sub.getName() + ": \n";
             for (Product p: sub.getProductList().values()){
-                report=report + p.getName() + ", serial number: " + p.getSerialNum() + ", size: " + p.getSize() + ", stock: " + p.getStock() + ", place: " + p.getPlace();
+                report=report + p.getName() + ", serial number: " + p.getSerialNum() + ", size: " + p.getSize() + ", stock: " + p.getStock() + ", place: " + p.getPlace() + " \n";
             }
         } 
         return report;
     }
 
     public boolean moveToStore(String subcategory, int serialNum, int id){
-        return subcatList.get(subcategory).moveToStore(serialNum, id);
+        Subcategory sub=subcatList.get(subcategory);
+        if(sub==null){
+            return false;
+        }
+        return sub.moveToStore(serialNum, id);
     }
 }
