@@ -30,10 +30,10 @@ public class StoreInterface {
                 System.out.println("Would you like to recover default data? yes/no");
                 String in = scanner.nextLine();
                 if(in.equals("yes")){
-                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 1, "Tnuva", 5, 8, 1000, "01-07-2024");
-                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 2, "Tnuva", 5, 8, 1000, "10-07-2024");
+                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 1, "Tnuva", 5, 8, 1000, "01-09-2024");
+                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 2, "Tnuva", 5, 8, 1000, "10-08-2024");
                     sr.updateMinimumAmount("Dairy", "Milk", 1, 2);
-                    sr.addItem("Dairy", "Yogurt", "Go Yogurt 1%", 2, 1, "Tnuva", 7, 10, 50, "05-07-2024");
+                    sr.addItem("Dairy", "Yogurt", "Go Yogurt 1%", 2, 1, "Tnuva", 7, 10, 50, "05-09-2024");
                     sr.updateMinimumAmount("Dairy", "Yogurt", 2, 6);
                     sr.addItem("Hygiene", "Shampoo", "Herbel Essense Shampoo", 3, 1, "Yossi", 20, 30, 500, "04-07-2026");
                     sr.updateMinimumAmount("Hygiene", "Shampoo", 3, 4);
