@@ -73,7 +73,7 @@ public class StoreInterface {
                     String output=sr.addItem(cat, sub, name, Integer.parseInt(serialNum), Integer.parseInt(id), producer, Integer.parseInt(cost), Integer.parseInt(price), Integer.parseInt(size), expDate);
                     if(output.length()==0 && !productExists){
                         System.out.println("What will be the minimum amount of the product before sending a warning?");
-                        String amount=System.console().readLine();
+                        String amount=scanner.nextLine();
                         sr.updateMinimumAmount(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(amount));
                     }
                     else{
