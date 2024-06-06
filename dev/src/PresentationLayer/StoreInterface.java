@@ -6,47 +6,32 @@ import java.util.Scanner;
 
 public class StoreInterface {
     private StoreService sr;
-    private int open;
+    private boolean open;
+    private boolean recoverData;
 
     public StoreInterface(StoreService store){
         this.sr=store;
-        this.open=-1; //-1: never opened, 0: closed, 1: opened first time, 2:open
+        this.open=false;
+        this.recoverData=false;
     }
 
     public void mainLoop(){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome To Our Store! \n");
-        while(open==0 || open==-1){
+        while(!open){
             System.out.println("Would you like to open the store? yes/no");
             String input = scanner.nextLine();
             if(input.equals("yes")){
+                open=true;
                 sr.removeExpItems();
-                if(open==-1)
-                    open=1;
-                else
-                    open=2;
             }
-            if(open==1){
-                System.out.println("Would you like to recover default data? yes/no");
-                String in = scanner.nextLine();
-                if(in.equals("yes")){
-                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 1, "Tnuva", 5, 8, 1000, "01-09-2024");
-                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 2, "Tnuva", 5, 8, 1000, "10-08-2024");
-                    sr.updateMinimumAmount("Dairy", "Milk", 1, 2);
-                    sr.addItem("Dairy", "Yogurt", "Go Yogurt 1%", 2, 1, "Tnuva", 7, 10, 50, "05-09-2024");
-                    sr.updateMinimumAmount("Dairy", "Yogurt", 2, 6);
-                    sr.addItem("Hygiene", "Shampoo", "Herbel Essense Shampoo", 3, 1, "Yossi", 20, 30, 500, "04-07-2026");
-                    sr.updateMinimumAmount("Hygiene", "Shampoo", 3, 4);
-                    sr.addItem("Hygiene", "Tooth Paste", "Colgate Tooth Paste", 4, 1, "Shai", 20, 25, 50, "04-11-2024");
-                    sr.updateMinimumAmount("Hygiene", "Tooth Paste", 4, 10);
-                    sr.addItem("Drinks", "Juice", "Coke", 5, 1, "Coca Cola", 6, 12, 1500, "01-10-2024");
-                    sr.updateMinimumAmount("Drinks", "Juice", 5, 20);
-                }
-                open=2;
-            }
-            while(open==1 || open ==2){
+            while(open){
                 System.out.println(sr.openStore());
-                System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Close store. \n");
+                if(!recoverData){
+                    System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Close store. \n 11- Recover initial data.");
+                }
+                else
+                    System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Close store. \n");
                 String option = scanner.nextLine();
                 if(option.equals("1")){
                     System.out.println("What is the category of the product?");
@@ -163,7 +148,21 @@ public class StoreInterface {
                     System.out.println(sr.printAllReports());
                 }
                 if(option.equals("10")){
-                    open=0;
+                    open=false;
+                }
+                if(option.equals("11")){
+                    recoverData=true;
+                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 1, "Tnuva", 5, 8, 1000, "01-09-2024");
+                    sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 2, "Tnuva", 5, 8, 1000, "10-08-2024");
+                    sr.updateMinimumAmount("Dairy", "Milk", 1, 2);
+                    sr.addItem("Dairy", "Yogurt", "Go Yogurt 1%", 2, 1, "Tnuva", 7, 10, 50, "05-09-2024");
+                    sr.updateMinimumAmount("Dairy", "Yogurt", 2, 6);
+                    sr.addItem("Hygiene", "Shampoo", "Herbel Essense Shampoo", 3, 1, "Yossi", 20, 30, 500, "04-07-2026");
+                    sr.updateMinimumAmount("Hygiene", "Shampoo", 3, 4);
+                    sr.addItem("Hygiene", "Tooth Paste", "Colgate Tooth Paste", 4, 1, "Shai", 20, 25, 50, "04-11-2024");
+                    sr.updateMinimumAmount("Hygiene", "Tooth Paste", 4, 10);
+                    sr.addItem("Drinks", "Juice", "Coke", 5, 1, "Coca Cola", 6, 12, 1500, "01-10-2024");
+                    sr.updateMinimumAmount("Drinks", "Juice", 5, 20);
                 }
             }
         }
