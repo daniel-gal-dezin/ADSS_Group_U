@@ -88,7 +88,6 @@ public class SystemInit {
     private static void createBranch(String line, BusinessService businessService) {
         try {
             String response = businessService.createBranch(line);
-            System.out.println("Branch created: " + response);
         } catch (Exception e) {
             System.err.println("Failed to create branch: " + line + " - " + e.getMessage());
         }
@@ -108,7 +107,6 @@ public class SystemInit {
             boolean isManager = Boolean.parseBoolean(empData[8]);
 
             String response = employeeService.addEmployee(branchId, name, bankAcc, startWork, employmentType, salaryType, salary, vacationDays, isManager);
-            System.out.println("Employee added: " + response);
         } catch (Exception e) {
             System.err.println("Failed to add employee: " + line + " - " + e.getMessage());
         }
@@ -125,7 +123,6 @@ public class SystemInit {
             int managerId = Integer.parseInt(shiftData[5]);
 
             String response = businessService.createShift(brId, year, month, day, sType, managerId);
-            System.out.println("Shift created: " + response);
         } catch (Exception e) {
             System.err.println("Failed to create shift: " + line + " - " + e.getMessage());
         }
@@ -142,7 +139,6 @@ public class SystemInit {
             int empId = Integer.parseInt(empShiftData[5]);
 
             String response = businessService.addEmployeeToShift(brId, year, month, day, sType, empId);
-            System.out.println("Employee added to shift: " + response);
         } catch (Exception e) {
             System.err.println("Failed to add employee to shift: " + line + " - " + e.getMessage());
         }

@@ -12,9 +12,7 @@ public class ShiftManagerTest {
     private Employee manager;
     private Employee employee;
     private LocalDate futureDate;
-    private LocalDate pastDate;
     private String morningShift;
-    private String eveningShift;
     private List<String> rolesNeeded;
 
     @BeforeEach
@@ -27,10 +25,8 @@ public class ShiftManagerTest {
         Terms t = new Terms(LocalDate.now(), "full", "global", 1, 1);
         manager = new Employee(1, "John Doe", "123456",roles1, t, true);
         employee = new Employee(2, "Jane", "654321",roles2, t, false);
-        futureDate = LocalDate.now().plusDays(1);
-        pastDate = LocalDate.now().minusDays(1);
+        futureDate = LocalDate.now().plusDays(10);
         morningShift = "morning";
-        eveningShift = "evening";
         rolesNeeded = Arrays.asList("cashier", "driver", "manager", "storekeeper");
     }
 

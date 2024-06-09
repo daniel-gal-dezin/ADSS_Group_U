@@ -25,19 +25,13 @@ public class UserInterface {
     public void main_loop(){
 
         System.out.println("welcome to the system\n");
-//        //create employees for the tests
-//        es.addEmployee(1, "a", "12", LocalDate.now(), "full",  "global", 12, 12, true);
-//        es.addEmployee(1, "b", "12", LocalDate.now(), "full",  "global", 12, 12, false);
-//        es.addEmployee(1, "c", "12", LocalDate.now(), "full",  "global", 12, 12, false);
-//        bs.createShift(1,2025,10,10,"morning", 1);
-//        bs.createShift(1,2025,10,10,"evening", 1);
 
+        System.out.println("would you like to recover default data? y/n");
+        String input = System.console().readLine();
+        if(input.equals("y")){
+            si.adddefualtinit();
+        }
         while(true) {
-            System.out.println("would you like to recover default data? y/n");
-            String input = System.console().readLine();
-            if(input.equals("y")){
-                si.adddefualtinit();
-            }
 
             System.out.println("Who is using the system? \n1.hr\n2.worker");
 
@@ -215,7 +209,7 @@ public class UserInterface {
                 int month = date[1];
                 int day = date[2];
                 int sType = date[3];
-                System.out.print("this the available employee\n " + bs.getAvailableEmployees(bId, year, month, day, sType==1?"morning":"evening"));
+                System.out.println("this the available employee\n " + bs.getAvailableEmployees(bId, year, month, day, sType==1?"morning":"evening"));
                 System.out.print("employee id: ");
                 int employeeId = numberChecker();
                 output = bs.addEmployeeToShift(bId, year, month, day, sType==1?"morning":"evening", employeeId);
@@ -260,7 +254,7 @@ public class UserInterface {
                 output = bs.getShiftHistory(bId);
             } else if(input.equals("18")) { // get employee history
                 output = es.getHistoryEmployees(bId);
-            } else if(input.equals("19")) {//19. change dead line
+            } else if(input.equals("19")) {//19. change deadline
                 int[] date1 = inputShiftDetails();
                 int year1 = date1[0];
                 int month1 = date1[1];

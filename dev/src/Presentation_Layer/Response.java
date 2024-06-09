@@ -14,7 +14,7 @@ public class Response {
         }
         if(str.charAt(0) == '~'){
             ErrorMessage = "";
-            ReturnValue = str.substring(2,str.length() - 1);
+            ReturnValue = str.substring(2,str.length());
             return;
         }
         else if(str.charAt(str.length()-1) == '~' ){

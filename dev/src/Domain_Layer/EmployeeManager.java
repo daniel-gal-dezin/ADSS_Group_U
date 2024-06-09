@@ -40,13 +40,8 @@ public class EmployeeManager {
         r.add(Role.STOREKEEPER);
         r.add(Role.DRIVER);
         if(isManager) r.add(Role.MANAGER);
-        int id;
-        try {
-            id = next_employee_id;
-            next_employee_id++;
-        } catch (Exception e){
-            throw new IllegalArgumentException("branch ID doesn't exist");
-        }
+        int id = next_employee_id;
+        next_employee_id++;
         Employee newEmp = new Employee(id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays,isManager);
         currentEmployees.put(id,newEmp);
         branchEmployees.get(branchId).add(newEmp);

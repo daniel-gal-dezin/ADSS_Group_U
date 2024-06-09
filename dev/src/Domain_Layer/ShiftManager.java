@@ -121,7 +121,7 @@ public void setDefaultRolesForShift(List<String> roles){
         if(blockedShift.contains(shift.getShiftID())){
             throw new IllegalArgumentException("this shift is blocked!");
         }
-        if(date.isAfter(shift.getDeadLine())){
+        if(LocalDate.now().isAfter(shift.getDeadLine())){
             throw new IllegalArgumentException("the chance to submit constraint has pass");
         }
         if(!shift.getRolesneeded().containsAll(employee.getRoles())){
