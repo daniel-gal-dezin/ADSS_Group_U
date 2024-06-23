@@ -9,29 +9,53 @@ public class StoreInterface {
     private boolean open;
     private boolean recoverData;
 
-    public StoreInterface(StoreService store){
-        this.sr=store;
+    public StoreInterface(StoreService stores){
+        this.sr=stores;
         this.open=false;
         this.recoverData=false;
     }
 
     public void mainLoop(){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome To Our Store! \n");
+        System.out.println("Welcome To Our System! \n");
         while(!open){
-            System.out.println("Would you like to open the store? yes/no");
+            System.out.println("Would you like to open a new store? yes/no");
             String input = scanner.nextLine();
-            if(input.equals("yes")){
-                open=true;
-                sr.removeExpItems();
+            if(input.equals("no")){
+                System.out.println("What is the name of your store?");
+                String name = scanner.nextLine();
+                String output=sr.setStore(name);
+                if(output.length()==0){
+                    open=true;
+                    sr.removeExpItems();
+                }
+                else{
+                    System.out.println(output);
+                }
             }
+            else if(input.equals("yes")){
+                System.out.println("What is the name of the new store?");
+                String name = scanner.nextLine();
+                String output=sr.createStore(name);
+                if(output.length()==0) {
+                    sr.setStore(name);
+                    open = true;
+                    sr.removeExpItems();
+                    recoverData=false;
+                }
+                else{
+                    System.out.println(output);
+                }
+            }
+
+
             while(open){
                 System.out.println(sr.openStore());
                 if(!recoverData){
-                    System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Close store. \n 11- Recover initial data.");
+                    System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Print Low Stock Products. \n 11- Close store. \n 12- Recover initial data.");
                 }
                 else
-                    System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Close store. \n");
+                    System.out.println("Select a number of one of the following options: \n 1- Add item. \n 2- Sell item. \n 3- Update damaged item. \n 4- Set discount. \n 5- Get product price. \n 6- Get periodical report. \n 7- Get stock report. \n 8- Move to store. \n 9- Get all previous reports. \n 10- Print Low Stock Products. \n 11- Close store. \n");
                 String option = scanner.nextLine();
                 if(option.equals("1")){
                     System.out.println("What is the category of the product?");
@@ -148,9 +172,13 @@ public class StoreInterface {
                     System.out.println(sr.printAllReports());
                 }
                 if(option.equals("10")){
-                    open=false;
+                    System.out.println(sr.printLowStock());
                 }
                 if(option.equals("11")){
+                    open=false;
+                    sr.closeStore();
+                }
+                if(option.equals("12")){
                     recoverData=true;
                     sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 1, "Tnuva", 5, 8, 1000, "01-09-2024");
                     sr.addItem("Dairy", "Milk", "Tnuva Milk 3%", 1, 2, "Tnuva", 5, 8, 1000, "10-08-2024");

@@ -1,5 +1,6 @@
 package DomainLayer;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -13,6 +14,9 @@ public class Store {
     private LocalDate lastPeriodicalReport;
     private LinkedList<String> stockReportList;
     private LocalDate lastStockReport;
+    private Map<Product, ProductForLists> lowStock;
+
+    public boolean open;
 
     public Store(){
         this.categoryList=new LinkedHashMap<String, Category>();
@@ -21,7 +25,9 @@ public class Store {
         this.lastPeriodicalReport=LocalDate.now();
         this.stockReportList=new LinkedList<>();
         this.lastStockReport=LocalDate.now();
+        this.lowStock=new LinkedHashMap<>();
     }
+
 
      public boolean removeExpItems(){
         for (Category c: categoryList.values()){
@@ -38,30 +44,35 @@ public class Store {
             categoryList.put(category, new Category(category));
         }
         Category cat=categoryList.get(category);
-        String categoryAndSub=category+"-"+subcategory;
+        String check=category+"-"+subcategory+"-"+name;
         String[] date=expDate.split("-");
         if (date.length!=3 || date[0].length()!=2 || date[1].length()!=2 || date[2].length()!=4){
             throw new Exception("Expired date invalid. should be dd-mm-yyyy.");
         }
         if (serialNumCheck.containsKey(serialNum)){
-            if (!serialNumCheck.get(serialNum).equals(categoryAndSub)){
+            if (!serialNumCheck.get(serialNum).equals(check)){
                 throw new Exception("Serial number invalid.");
             }
         }
         else{ 
-            serialNumCheck.put(serialNum, categoryAndSub);
+            serialNumCheck.put(serialNum, check);
         }
         boolean b=cat.addItem(subcategory, name, serialNum, id, categoryList.size()+1, producer, cost, soldPrice, size, expDate);
         if(!b){
             throw new Exception("Id already exists.");
         }
         else{
+            Product p=cat.getSubcatList().get(subcategory).getProductList().get(serialNum);
+            if(stockWarning(category, subcategory, serialNum)==-1){
+                lowStock.remove(p);
+            }
             return true;
         }
     }
 
     public boolean sellItem(String category, String subcategory, int serialNum, int id) throws Exception{
         Category c=categoryList.get(category);
+        Product p=c.getSubcatList().get(subcategory).getProductList().get(serialNum);
         if (c==null){
             throw new Exception("Category does not exist.");
         }
@@ -70,6 +81,13 @@ public class Store {
             throw new Exception("Item does not exist.");
         }
         if(success){
+            int ans=stockWarning(category, subcategory, serialNum);
+            if(ans!=-1){
+                if(lowStock.containsKey(p)) {
+                    lowStock.remove(p);
+                }
+                lowStock.put(p, new ProductForLists(category, subcategory, p));
+            }
             if(c.getSubcatList().size()==0){
                 categoryList.remove(category);
             }
@@ -77,7 +95,7 @@ public class Store {
         return true;
     }
 
-    public boolean stockWarning(String category, String subcategory, int serialNum){
+    public int stockWarning(String category, String subcategory, int serialNum){
         return categoryList.get(category).stockWarning(subcategory, serialNum);
     }
 
@@ -185,6 +203,7 @@ public class Store {
     }
 
     public String openStore(){
+        open = true;
         long daysBetweenPeriodicalReport=ChronoUnit.DAYS.between(lastPeriodicalReport,LocalDate.now());
         long daysBetweenStockReport=ChronoUnit.DAYS.between(lastStockReport,LocalDate.now());
         if (daysBetweenPeriodicalReport>=7){
@@ -194,5 +213,17 @@ public class Store {
             return "You need to produce a stock report.";
         }
         return "";
+    }
+
+    public String getLowStock(){
+        String output="";
+        for (ProductForLists p : lowStock.values()) {
+            output = output + "\n" + p.getOutput();
+        }
+        return output;
+    }
+
+    public void closeStore(){
+        open = false;
     }
 }

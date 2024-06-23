@@ -67,7 +67,7 @@ public class Category {
         return b;
     }
 
-    public boolean stockWarning(String subcategory, int serialNum){
+    public int stockWarning(String subcategory, int serialNum){
         return subcatList.get(subcategory).stockWarning(serialNum);
     }
 

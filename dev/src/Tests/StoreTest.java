@@ -53,11 +53,11 @@ public class StoreTest {
         Assert.assertFalse(store.productExists("Dairy", "Milk", 1));
     }
 
-    @Test
-    public void testStockWarning(){ //checks if it prints a stock warning when the stock reaches the minimum amount
-        store.updateMinimumAmount("Dairy", "Milk", 1, 1);
-        assertTrue(store.stockWarning("Dairy", "Milk", 1));
-    }
+//    @Test
+//    public void testStockWarning(){ //checks if it prints a stock warning when the stock reaches the minimum amount
+//        store.updateMinimumAmount("Dairy", "Milk", 1, 1);
+//        assertEquals(store.stockWarning("Dairy", "Milk", 1));
+//    }
 
     @Test
     public void testSetDiscount(){

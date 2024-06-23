@@ -43,7 +43,7 @@ public class Subcategory {
         return true;
     }
 
-    public boolean stockWarning(int serialNum){
+    public int stockWarning(int serialNum){
         return productList.get(serialNum).stockWarning();
     }
 

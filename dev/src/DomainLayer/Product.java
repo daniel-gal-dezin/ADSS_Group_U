@@ -105,8 +105,11 @@ public class Product {
         return it1;
     }
 
-    public boolean stockWarning(){
-        return stock<=minimumAmount;
+    public int stockWarning(){
+        if(stock<minimumAmount){
+            return minimumAmount-stock;
+        }
+        return -1;
     }
 
     public boolean updateMinimumAmount(int amount){

@@ -1,15 +1,37 @@
 package ServiceLayer;
 import DomainLayer.Store;
+import DomainLayer.StoreManager;
+
 public class StoreService {
-    Store store;
-    
-    public StoreService(Store store){
-        this.store=store;
+    StoreManager stores;
+
+    public StoreService(StoreManager stores){
+        this.stores=stores;
+    }
+
+    public String setStore(String name){
+        try{
+            stores.setStore(name);
+        }
+        catch (Exception e) {
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String createStore(String name){
+        try{
+            stores.newStore(name);
+        }
+        catch (Exception e) {
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
     }
 
     public String removeExpItems(){
         try{
-            store.removeExpItems();
+            stores.removeExpItems();
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -19,7 +41,7 @@ public class StoreService {
     
     public String addItem(String category, String subcategory, String name, int serialNum, int id, String producer, int cost, int soldPrice, int size, String expDate){
         try{
-            store.addItem(category, subcategory, name, serialNum, id, producer, cost, soldPrice, size, expDate);
+            stores.addItem(category, subcategory, name, serialNum, id, producer, cost, soldPrice, size, expDate);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -29,7 +51,7 @@ public class StoreService {
 
     public String sellItem(String category, String subcategory, int serialNum, int id){
         try{
-            store.sellItem(category, subcategory, serialNum, id);
+            stores.sellItem(category, subcategory, serialNum, id);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -38,16 +60,16 @@ public class StoreService {
     }
 
     public boolean stockWarning(String category, String subcategory, int serialNum){
-        return store.productExists(category, subcategory, serialNum);
+        return stores.productExists(category, subcategory, serialNum);
     }
 
     public boolean productExists(String category, String subcategory, int serialNum){
-        return store.productExists(category, subcategory, serialNum);
+        return stores.productExists(category, subcategory, serialNum);
     }
 
     public String updateMinimumAmount(String category, String subcategory, int serialNum, int amount){
         try{
-            store.updateMinimumAmount(category, subcategory, serialNum, amount);
+            stores.updateMinimumAmount(category, subcategory, serialNum, amount);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -57,7 +79,7 @@ public class StoreService {
 
     public String updateDamagedItem(String category, String subcategory, int serialNum, int id){ 
         try{
-            store.updateDamagedItem(category, subcategory, serialNum, id);
+            stores.updateDamagedItem(category, subcategory, serialNum, id);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -67,7 +89,7 @@ public class StoreService {
 
     public String setDiscount(String category, String subcategory, int serialNum, int discount){
         try{
-            store.setDiscount(category, subcategory, serialNum, discount);
+            stores.setDiscount(category, subcategory, serialNum, discount);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -78,7 +100,7 @@ public class StoreService {
     public String getProductPrice(String category, String subcategory, int serialNum){
         Response r = new Response();
         try{
-            r.ReturnValue = Double.toString(store.getProductPrice(category, subcategory, serialNum));
+            r.ReturnValue = Double.toString(stores.getProductPrice(category, subcategory, serialNum));
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -89,7 +111,7 @@ public class StoreService {
     public String getPeriodicalReport(String category){
         Response r = new Response();
         try{
-            r.ReturnValue = store.getPeriodicalReport(category);
+            r.ReturnValue = stores.getPeriodicalReport(category);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -100,7 +122,7 @@ public class StoreService {
     public String getStockReport(String category){
         Response r = new Response();
         try{
-            r.ReturnValue = store.getStockReport(category);
+            r.ReturnValue = stores.getStockReport(category);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -110,7 +132,7 @@ public class StoreService {
 
     public String moveToStore(String category, String subcategory, int serialNum, int id){
         try{
-            store.moveToStore(category, subcategory, serialNum, id);
+            stores.moveToStore(category, subcategory, serialNum, id);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -121,7 +143,18 @@ public class StoreService {
     public String printAllReports(){
         Response r = new Response();
         try{
-            r.ReturnValue = store.printAllReports();
+            r.ReturnValue = stores.printAllReports();
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return r.toJson();
+    }
+
+    public String printLowStock(){
+        Response r = new Response();
+        try{
+            r.ReturnValue = stores.printLowStock();
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
@@ -131,7 +164,17 @@ public class StoreService {
 
     public String openStore(){
         try{
-            store.openStore();
+            stores.openStore();
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String closeStore(){
+        try{
+            stores.closeStore();
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
