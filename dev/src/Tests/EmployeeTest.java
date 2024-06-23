@@ -36,5 +36,5 @@ public class EmployeeTest {
     @Test
     public void convertRole() {
         Employee.convertRole("manager");}
-    //the test not work with upeer letters dont understand why. check later
+    
 }

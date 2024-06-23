@@ -122,7 +122,7 @@ public class SystemInit {
             String sType = shiftData[4];
             int managerId = Integer.parseInt(shiftData[5]);
 
-            String response = businessService.createShift(brId, year, month, day, sType, managerId);
+            String response = businessService.createShiftwithdefroles(brId, year, month, day, sType, managerId);
         } catch (Exception e) {
             System.err.println("Failed to create shift: " + line + " - " + e.getMessage());
         }

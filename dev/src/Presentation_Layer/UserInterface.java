@@ -163,7 +163,12 @@ public class UserInterface {
                 String roles = System.console().readLine();
                 System.out.print("manager id: ");
                 int managerId = numberChecker();
-                output = bs.createShift(bId, year, month, day, sType == 1? "morning":"evening", Arrays.stream(roles.split(" ")).toList(), managerId);
+                if(roles.isEmpty()){
+                    output=bs.createShiftwithdefroles(bId, year, month, day, sType == 1 ? "morning" : "evening", managerId);
+                }
+                else {
+                    output = bs.createShiftwithroles(bId, year, month, day, sType == 1 ? "morning" : "evening", Arrays.stream(roles.split(" ")).toList(), managerId);
+                }
             } else if (input.equals("6")) { // block shift
                 int[] date = inputShiftDetails();
                 if (date == null) output =  "invalid date inserted!:";
@@ -340,9 +345,7 @@ public class UserInterface {
             return false;
         if(year<1990)
             return false;
-        if(sType!=1 && sType != 2)
-            return false;
-        return true;
+        return sType == 1 || sType == 2;
     }
 
     private int[] inputShiftDetails(){

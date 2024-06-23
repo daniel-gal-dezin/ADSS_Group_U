@@ -12,7 +12,8 @@ public class BusinessManager {
     private EmployeeManager em;
     private int branch_idcounter;
     public ShiftManagerFactory shiftmanagerFactory;
-
+    public DeliveryManagerFactory deliverymanagerfactory;
+    private Pair<LocalDate, ShiftType> ;
 
 
     public BusinessManager(EmployeeManager em1){
@@ -20,6 +21,7 @@ public class BusinessManager {
         em = em1;
         branch_idcounter = 1;
         shiftmanagerFactory =  () -> new ShiftManager();
+        deliverymanagerfactory = () -> new DeliveryManager();
         this.createBranch("First Branch");
     }
 
@@ -29,7 +31,7 @@ public class BusinessManager {
     }
 
     public void createBranch(String name){
-        branches.put(branch_idcounter,new Branch(branch_idcounter, name,shiftmanagerFactory.createShiftManager()));
+        branches.put(branch_idcounter,new Branch(branch_idcounter, name,shiftmanagerFactory.createShiftManager(), deliverymanagerfactory.createDeliveryManager()));
         em.createBranch(branch_idcounter);
         branch_idcounter++;
     }
@@ -38,7 +40,7 @@ public class BusinessManager {
     public void createShift(int branchId, LocalDate date, String sType, List<String> rolesneeded, int manager )throws IllegalArgumentException{
         branches.get(branchId).getSm().createShift(date,sType,rolesneeded,em.getEmployee(manager));
     }
-    public void createShift(int branchId,LocalDate date, String sType, int managerId) throws IllegalArgumentException{
+    public void createShiftwithdefroles(int branchId,LocalDate date, String sType, int managerId) throws IllegalArgumentException{
         branches.get(branchId).getSm().createShift(date,sType,em.getEmployee(branchId,managerId));
     }
     public void setDefaultRolesShift(int branchId,List<String> roles){
@@ -90,10 +92,20 @@ public class BusinessManager {
         if(em.getEmployee(e1).isIsmanagar() == true){
             throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
         }
-
+        Branch b = branches.get(branchId);
+        Employee em1 = em.getEmployee(e1);
+        Employee em2 = em.getEmployee(e2);
+        Shift s1 = b.getSm().getShift(date1,sType1);
+        Shift s2 = b.getSm().getShift(date2, sType2);
+        int e1type = branches.get(branchId).getDm().isDriverOrStorekeeper(em1,s1.getShiftID().getFirst(), s1.getShiftID().getSecond());
+        int e2type = branches.get(branchId).getDm().isDriverOrStorekeeper(em2,s2.getShiftID().getFirst(), s2.getShiftID().getSecond());
+        //if((e1type == e2type && e1type == 0)|| )
         branches.get(branchId).getSm().changeShift(em.getEmployee(e1),em.getEmployee(e2),date1,sType1,date2,sType2);
     }
 
+
+
+    //
     public void removeEmployeeFromShift(int branchId,LocalDate date, String sType, int idofemployee) {
         branches.get(branchId).getSm().removeEmployeeFromShift(date, sType, em.getEmployee(branchId, idofemployee));
     }
@@ -117,7 +129,11 @@ public class BusinessManager {
              List<Employee> temp = em.getComplement(1,employeewithconstraint);
              temp.remove(s.getShiftmanager());
              temp.removeAll(s.getEmployees());
-             return temp.stream().map((em) -> em.toString()).toList();
+             if(!temp.isEmpty())
+             {return temp.stream().map((em) -> em.toString()).toList();}
+             else{
+                 throw new IllegalArgumentException("there not availble employee");
+             }
 
 
          }catch (Exception e){

@@ -91,6 +91,7 @@ public class Shift {
     public void addConstraint(Employee employee) {
         if(constraints.contains(employee))
             throw new IllegalArgumentException("can't add employee's constraint! he is already written");
+        if(this.shiftmanager.equals(employee)) throw new IllegalArgumentException("employee already assign as managaer please chnage shift");
         constraints.add(employee);
     }
 

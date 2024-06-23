@@ -36,13 +36,14 @@ public class BusinessService {
         try{
             bm.setDefaultRolesShift(roles);
         }
+
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
         return new Response().toJson();
     }
 
-    public String createShift(int brId, int year, int month, int day, String sType, List<String> roles, int managerId){
+    public String createShiftwithroles(int brId, int year, int month, int day, String sType, List<String> roles, int managerId){
         LocalDate date = LocalDate.of(year,month,day);
         try {
             bm.createShift(brId, date, sType, roles, managerId);
@@ -54,10 +55,11 @@ public class BusinessService {
     }
 
 
-    public String createShift(int brId, int year, int month, int day, String sType, int managerId){//with difault roles
+
+    public String createShiftwithdefroles(int brId, int year, int month, int day, String sType, int managerId){//with difault roles
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            bm.createShift(brId, date, sType,managerId);
+            bm.createShiftwithdefroles(brId, date, sType,managerId);
         }
         catch(Exception e){
             return new Response(e.getMessage()).toJson();
