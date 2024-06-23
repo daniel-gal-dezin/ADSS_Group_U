@@ -152,7 +152,7 @@ public class UserInterface {
                 System.out.println("enter roles with spaces between them");
                 String roles = System.console().readLine();
                 List<String> rolesList = Arrays.asList(roles.split(" ")).stream().toList();
-                output = bs.setDefaultRoles(rolesList);
+                output = bs.setDefaultRoles(bId, rolesList);
             } else if (input.equals("5")) { //create shift
                 int[] date = inputShiftDetails();
                 int year = date[0];

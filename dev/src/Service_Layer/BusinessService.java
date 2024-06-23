@@ -32,16 +32,7 @@ public class BusinessService {
         return new Response().toJson();
     }
 
-    public String setDefaultRoles(List<String> roles){
-        try{
-            bm.setDefaultRolesShift(roles);
-        }
 
-        catch(Exception e){
-            return new Response(e.getMessage()).toJson();
-        }
-        return new Response().toJson();
-    }
 
     public String createShiftwithroles(int brId, int year, int month, int day, String sType, List<String> roles, int managerId){
         LocalDate date = LocalDate.of(year,month,day);
@@ -147,7 +138,7 @@ public class BusinessService {
             return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            bm.changeDeadline(brId, date, sType, newDate);
+            bm.changeshiftDeadline(brId, date, sType, newDate);
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
