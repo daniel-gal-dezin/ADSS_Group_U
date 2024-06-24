@@ -38,69 +38,99 @@ public class BusinessManager {
 
 
     public void createShift(int branchId, LocalDate date, String sType, List<String> rolesneeded, int manager )throws IllegalArgumentException{
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).createShift(date,sType,rolesneeded,em.getEmployee(manager));
     }
 
     public void createShiftwithdefroles(int branchId,LocalDate date, String sType, int managerId) throws IllegalArgumentException{
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).createShiftwithdefroles(date,sType,em.getEmployee(branchId,managerId));
     }
 
 
     public void setDefaultRolesShift(int branchId,List<String> roles){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).setDefaultRolesShift(roles);
     }
 
   //comment -  // function not used added to to user intrface or not needed?
     public void deleteShift(int branchId,LocalDate date, String sType ){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).getSm().deleteShift(date,sType);
     }
 
 
     public void blockShift(int branchId,LocalDate date, String sType){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).blockShift(date,sType);
     }
 
     public void unblockShift(int branchId,LocalDate date, String sType){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).unblockshift(date,sType);
     }
 
     public void addEmployeetoshift(int branchId,LocalDate date, String sType, int idofemployee ){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).addEmployeeToShift(date,sType,em.getEmployee(branchId,idofemployee));
 
     }
 
     public void changeshiftDeadline(int branchId,LocalDate date, String sType,LocalDate newdeadline){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).changeDeadLine(date,sType,newdeadline);
     }
 
     public void changeendofmorning(int branchId, LocalDate date, String sType, LocalTime time){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).changeendofmorning(date,sType,time);
     }
 
     public void changeManager(int branchId,LocalDate date, String sType, int employeeId){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).changeManager(date,sType,em.getEmployee(employeeId));
     }
 
     public String getShift(int branchId,LocalDate date, String sType){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         return branches.get(branchId).getShift(date,sType);
     }
 
     public List<String> getShiftHistory(int branchId){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         return branches.get(branchId).getShiftHistory();
 
     }
 
     public void addConstraint(int branchId,LocalDate date, String sType, int idofemployee) {
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).addConstraint(date, sType, em.getEmployee(branchId, idofemployee));
     }
 
 
     public void removeConstraint(int branchId,LocalDate date, String sType, int idofemployee){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         branches.get(branchId).removeConstraint(date, sType, em.getEmployee(branchId, idofemployee));
     }
 
     public List<String> getConstraints(int branchid,LocalDate date, String sType){
-       return branches.get(branchid).getConstraints(date, sType);
+        if(!branches.containsKey(branchid))
+            throw new IllegalArgumentException("no such branch");
+        return branches.get(branchid).getConstraints(date, sType);
     }
 
 
@@ -113,6 +143,8 @@ public class BusinessManager {
 
 
     public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         Branch b = branches.get(branchId);
         Employee em1 = em.getEmployee(e1);
         Employee em2 = em.getEmployee(e2);
@@ -128,6 +160,8 @@ public class BusinessManager {
 
 
     public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1,LocalDate date2, String sType2 ){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         Branch b = branches.get(branchId);
         Employee em1 = em.getEmployee(e1);
         Employee em2 = em.getEmployee(e2);
@@ -146,6 +180,8 @@ public class BusinessManager {
 
     //
     public void removeEmployeeFromShift(int branchId,LocalDate date, String sType, int idofemployee) {
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
         Employee e = em.getEmployee(branchId, idofemployee);
         ShiftType st = convertShiftType(sType);
         if (branches.get(branchId).getDm().isDriverOrStorekeeper(e,date,st) != 0)
@@ -164,6 +200,8 @@ public class BusinessManager {
         //add to service layer
         public void addDelivery(int branchid, LocalDate date, String stype, int driverid, int storekeeperid){
         //if employee dosent exist throw error
+        if(!branches.containsKey(branchid))
+            throw new IllegalArgumentException("no such branch");
         Employee e1 = em.getEmployee(branchid,driverid);
         Employee e2 = em.getEmployee(branchid,storekeeperid);
         branches.get(branchid).addDelivery(date,stype,e1,e2);
@@ -171,7 +209,15 @@ public class BusinessManager {
 
 
     public void removeDelivery(int branchid, LocalDate date, String stype, int deliveryId){
-        branches.get(branchid).removeDelivery(new Pair<>(date,convertShiftType(stype)),deliveryId);
+        if(!branches.containsKey(branchid))
+            throw new IllegalArgumentException("no such branch");
+        branches.get(branchid).removeDelivery(date,stype,deliveryId);
+    }
+
+    public void changeDriver(int branchId, LocalDate date, String sType,int deliveryId, int newDriverId){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
+        branches.get(branchId).changeDeliveryDriver(date,sType,deliveryId,em.getEmployee(branchId,newDriverId));
     }
 
 

@@ -237,4 +237,14 @@ public class Shift {
                 ", endevening=" + endevening +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Shift)
+            return this.shiftID.equals(((Shift)obj).shiftID);
+        if(obj instanceof Pair<?,?>){
+            return this.shiftID.equals(((Pair<?, ?>) obj));
+        }
+        return false;
+    }
 }

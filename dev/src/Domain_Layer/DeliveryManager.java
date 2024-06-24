@@ -39,9 +39,6 @@ public class DeliveryManager {
     }
 
 
-
-
-
     public void removeDelivery(Pair<LocalDate,ShiftType> shift, int deliveryId){
         Delivery d = getDelivery(shift,deliveryId);
         if(deliveriesbyshift.containsKey(shift)){
@@ -51,6 +48,14 @@ public class DeliveryManager {
         else
             throw new IllegalArgumentException("no deliveries in this shifft or no such shifft");
         deliveriesbyshift.get(shift).remove(d);
+    }
+
+    public void changeDriver(Shift shift, int deliveryId, Employee e){
+        if(!shift.getEmployees().contains(e)){
+            throw new IllegalArgumentException("employee1 is not in shift");
+        }
+        Delivery d = getDelivery(shift.getShiftID(),deliveryId);
+        d.setDriver(e);
     }
 
 

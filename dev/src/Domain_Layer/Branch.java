@@ -108,11 +108,13 @@ public class Branch {
 
     }
 
-    public void removeDelivery(Pair<LocalDate,ShiftType> shift, int delId){
-        dm.removeDelivery(shift,delId);
+    public void removeDelivery(LocalDate date,String stype, int delId){
+        dm.removeDelivery(sm.getShift(date,stype).getShiftID(),delId);
     }
 
-
+    public void changeDeliveryDriver(LocalDate date,String stype, int delId, Employee newDriver){
+        dm.changeDriver(sm.getShift(date,stype),delId,newDriver);
+    }
 
 
 
