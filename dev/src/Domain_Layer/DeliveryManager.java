@@ -44,8 +44,15 @@ public class DeliveryManager {
 
     public void removeDelivery(Pair<LocalDate,ShiftType> shift, int deliveryId){
         Delivery d = getDelivery(shift,deliveryId);
+        if(deliveriesbyshift.containsKey(shift)){
+            if(!deliveriesbyshift.get(shift).remove(d)) //if no such thing
+                throw new IllegalArgumentException("no such delivery in this shift");
+        }
+        else
+            throw new IllegalArgumentException("no deliveries in this shifft or no such shifft");
         deliveriesbyshift.get(shift).remove(d);
     }
+
 
     public Delivery getDelivery(Pair<LocalDate,ShiftType> shift, int deliveryId){
         List<Delivery> c = deliveriesbyshift.get(shift);

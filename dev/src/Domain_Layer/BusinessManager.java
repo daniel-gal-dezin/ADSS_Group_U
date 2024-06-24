@@ -112,18 +112,30 @@ public class BusinessManager {
 
 
 
+    public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1){
+        Branch b = branches.get(branchId);
+        Employee em1 = em.getEmployee(e1);
+        Employee em2 = em.getEmployee(e2);
+        Shift s1 = b.getSm().getShift(date1,sType1);
+        if(s1.getShiftmanager().equals(em1)){
+            if(em2.isIsmanagar())
+                changeManager(branchId,date1,sType1,e1);
+            else
+                throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
+        }
 
+    }
 
 
     public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1,LocalDate date2, String sType2 ){
-        if(em.getEmployee(e1).isIsmanagar() == true){
-            throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
-        }
         Branch b = branches.get(branchId);
         Employee em1 = em.getEmployee(e1);
         Employee em2 = em.getEmployee(e2);
         Shift s1 = b.getSm().getShift(date1,sType1);
         Shift s2 = b.getSm().getShift(date2, sType2);
+        if((s1.getShiftmanager().equals(em1) || s2.getShiftmanager().equals(em2)))
+            throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
+
         int e1type = branches.get(branchId).getDm().isDriverOrStorekeeper(em1,s1.getShiftID().getFirst(), s1.getShiftID().getSecond());
         int e2type = branches.get(branchId).getDm().isDriverOrStorekeeper(em2,s2.getShiftID().getFirst(), s2.getShiftID().getSecond());
         //if((e1type == e2type && e1type == 0)|| )
@@ -158,7 +170,9 @@ public class BusinessManager {
     }
 
 
-
+    public void removeDelivery(int branchid, LocalDate date, String stype, int deliveryId){
+        branches.get(branchid).removeDelivery(new Pair<>(date,convertShiftType(stype)),deliveryId);
+    }
 
 
 

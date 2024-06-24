@@ -18,10 +18,9 @@ public class Delivery {
 
 
     public Delivery(int deliveryid, Employee driver, Employee store_keeper) {
-        if(!checkDriver(driver) || !checkStoreKeeper(store_keeper)) throw new IllegalArgumentException("must insert driver and store keeper for delivery");
+        setDriver(driver);
+        setStore_keeper(store_keeper);
         this.deliveryid = deliveryid;
-        this.driver = driver;
-        this.store_keeper = store_keeper;
     }
 
     public int getDeliveryid() {
@@ -46,6 +45,8 @@ public class Delivery {
         if(!checkStoreKeeper(store_keeper)) throw new IllegalArgumentException("must insert store keeper");
         this.store_keeper = store_keeper;
     }
+
+
 
     @Override
     public boolean equals(Object obj) {

@@ -108,7 +108,9 @@ public class Branch {
 
     }
 
-
+    public void removeDelivery(Pair<LocalDate,ShiftType> shift, int delId){
+        dm.removeDelivery(shift,delId);
+    }
 
 
 
