@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
 public class Store {
+    private String name;
     private Map<String, Category> categoryList;
     private Map<Integer, String> serialNumCheck;
     private LinkedList<String> periodicalReportList;
@@ -18,7 +19,8 @@ public class Store {
 
     public boolean open;
 
-    public Store(){
+    public Store(String name){
+        this.name=name;
         this.categoryList=new LinkedHashMap<String, Category>();
         this.serialNumCheck=new LinkedHashMap<Integer, String>();
         this.periodicalReportList=new LinkedList<>();
@@ -29,12 +31,9 @@ public class Store {
     }
 
 
-     public boolean removeExpItems(){
+     public boolean removeExpItems() throws Exception {
         for (Category c: categoryList.values()){
             c.removeExpItems();
-            if(c.getSubcatList().size()==0){
-                categoryList.remove(c.getName());
-            }
         }
         return true;
      }
@@ -57,7 +56,7 @@ public class Store {
         else{ 
             serialNumCheck.put(serialNum, check);
         }
-        boolean b=cat.addItem(subcategory, name, serialNum, id, categoryList.size()+1, producer, cost, soldPrice, size, expDate);
+        boolean b=cat.addItem(this.name, subcategory, name, serialNum, id, categoryList.size()+1, producer, cost, soldPrice, size, expDate);
         if(!b){
             throw new Exception("Id already exists.");
         }
@@ -72,7 +71,6 @@ public class Store {
 
     public boolean sellItem(String category, String subcategory, int serialNum, int id) throws Exception{
         Category c=categoryList.get(category);
-        Product p=c.getSubcatList().get(subcategory).getProductList().get(serialNum);
         if (c==null){
             throw new Exception("Category does not exist.");
         }
@@ -80,16 +78,14 @@ public class Store {
         if (!success){
             throw new Exception("Item does not exist.");
         }
+        Product p=c.getSubcatList().get(subcategory).getProductList().get(serialNum);
         if(success){
-            int ans=stockWarning(category, subcategory, serialNum);
-            if(ans!=-1){
-                if(lowStock.containsKey(p)) {
+            int ans = stockWarning(category, subcategory, serialNum);
+            if (ans != -1) {
+                if (lowStock.containsKey(p)) {
                     lowStock.remove(p);
                 }
                 lowStock.put(p, new ProductForLists(category, subcategory, p));
-            }
-            if(c.getSubcatList().size()==0){
-                categoryList.remove(category);
             }
         }
         return true;
@@ -107,7 +103,7 @@ public class Store {
         return c.productExists(subcategory, serialNum);
     }
 
-    public boolean updateMinimumAmount(String category, String subcategory, int serialNum, int amount){
+    public boolean updateMinimumAmount(String category, String subcategory, int serialNum, int amount) throws Exception {
         return categoryList.get(category).updateMinimumAmount(subcategory, serialNum, amount);
     }
 
@@ -119,11 +115,6 @@ public class Store {
         boolean success=c.updateDamagedItem(subcategory, serialNum, id);
         if (!success){
             throw new Exception("Item does not exist.");
-        }
-        if(success){
-            if(c.getSubcatList().size()==0){
-                categoryList.remove(category);
-            }
         }
         return true;
     }
@@ -200,6 +191,13 @@ public class Store {
             output=output+s+"\n";
         }
         return output;
+    }
+
+    public Category addCategory(String categoryName){
+        if (!categoryList.containsKey(categoryName)){
+            categoryList.put(categoryName, new Category(categoryName));
+        }
+        return categoryList.get(categoryName);
     }
 
     public String openStore(){

@@ -17,6 +17,7 @@ public class StoreInterface {
 
     public void mainLoop(){
         Scanner scanner = new Scanner(System.in);
+        sr.loadData();
         System.out.println("Welcome To Our System! \n");
         while(!open){
             System.out.println("Would you like to open a new store? yes/no");

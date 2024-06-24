@@ -18,24 +18,18 @@ public class Category {
         damagedList=new LinkedHashMap<Product, Integer>();
     }
 
-    public boolean removeExpItems(){
+    public boolean removeExpItems() throws Exception {
         for (Subcategory sub: subcatList.values()){
             for(Product p: sub.getProductList().values()){
-                Product pro=p.removeExpItems();
-                if(pro!=null){
-                    if(pro.getStock()==0){
-                        sub.getProductList().remove(pro.getSerialNum());
-                    }
-                    if(expList.containsKey(pro)){
-                        expList.put(pro, expList.get(pro)+1);
+                int removedItems=p.removeExpItems();
+                if(removedItems>0){
+                    if(expList.containsKey(p)){
+                        expList.put(p, expList.get(p)+removedItems);
                     }
                     else{
-                        expList.put(pro, 1);
+                        expList.put(p, removedItems);
                     }
                 }
-            }
-            if(sub.getProductList().size()==0){
-                subcatList.remove(sub.getName());
             }
         }
         return true;
@@ -45,26 +39,27 @@ public class Category {
         return this.name;
      }
 
-    public boolean addItem(String subcategory, String name, int serialNum, int id, int aigleNum, String producer, int cost, int soldPrice, int size, String expDate){
+    public Subcategory addSubcategory(String subcategoryName){
+        if (!subcatList.containsKey(subcategoryName)){
+            subcatList.put(subcategoryName, new Subcategory(subcategoryName));
+        }
+        return subcatList.get(subcategoryName);
+    }
+
+    public boolean addItem(String store, String subcategory, String name, int serialNum, int id, int aigleNum, String producer, int cost, int soldPrice, int size, String expDate) throws Exception {
         if(!subcatList.containsKey(subcategory)){
             subcatList.put(subcategory, new Subcategory(subcategory));
         }
         Subcategory subcat=subcatList.get(subcategory);
-        return subcat.addItem(name, serialNum, id, aigleNum, subcatList.size()+1, producer, cost, soldPrice, size, expDate);
+        return subcat.addItem(store, this.name, name, serialNum, id, aigleNum, subcatList.size()+1, producer, cost, soldPrice, size, expDate);
     }
 
-    public boolean sellItem(String subcategory, int serialNum, int id){
+    public boolean sellItem(String subcategory, int serialNum, int id) throws Exception {
         Subcategory sub=subcatList.get(subcategory);
         if(sub==null){
             return false;
         }
-        boolean b=sub.sellItem(serialNum, id);
-        if(b){
-            if(sub.getProductList().size()==0){
-                subcatList.remove(subcategory);
-            }
-        }
-        return b;
+        return sub.sellItem(serialNum, id);
     }
 
     public int stockWarning(String subcategory, int serialNum){
@@ -79,11 +74,11 @@ public class Category {
         return sub.productExists(serialNum);
     }
 
-    public boolean updateMinimumAmount(String subcategory, int serialNum, int amount){
+    public boolean updateMinimumAmount(String subcategory, int serialNum, int amount) throws Exception {
         return subcatList.get(subcategory).updateMinimumAmount(serialNum, amount);
     }
 
-    public boolean updateDamagedItem(String subcategory, int serialNum, int id){
+    public boolean updateDamagedItem(String subcategory, int serialNum, int id) throws Exception {
         Subcategory sub=subcatList.get(subcategory);
         if(sub==null){
             return false;
@@ -98,16 +93,10 @@ public class Category {
         else{
             damagedList.put(pro, damagedList.get(pro)+1);
         }
-        boolean b=sub.updateDamagedItem(serialNum, id);
-        if(b){
-            if(sub.getProductList().size()==0){
-                subcatList.remove(subcategory);
-            }
-        }
-        return true;
+        return sub.updateDamagedItem(serialNum, id);
     }
 
-    public boolean setDiscount(String subcategory, int serialNum, int discount){
+    public boolean setDiscount(String subcategory, int serialNum, int discount) throws Exception {
         Subcategory sub=subcatList.get(subcategory);
         if(sub==null){
             return false;
@@ -148,7 +137,7 @@ public class Category {
         return report;
     }
 
-    public boolean moveToStore(String subcategory, int serialNum, int id){
+    public boolean moveToStore(String subcategory, int serialNum, int id) throws Exception {
         Subcategory sub=subcatList.get(subcategory);
         if(sub==null){
             return false;

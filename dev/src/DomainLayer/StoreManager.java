@@ -1,8 +1,14 @@
 package DomainLayer;
 
+import DataAccessLayer.ItemDTO;
+import DataAccessLayer.ItemsMapper;
+import DataAccessLayer.ProductDTO;
+import DataAccessLayer.ProductsMapper;
 import ServiceLayer.Response;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class StoreManager {
     public HashMap<String, Store> stores;
@@ -27,7 +33,7 @@ public class StoreManager {
             throw new Exception("This store already exists");
         }
         else{
-            stores.put(name, new Store());
+            stores.put(name, new Store(name));
         }
     }
 
@@ -37,6 +43,29 @@ public class StoreManager {
         }
         else {
             return stores.get(name);
+        }
+    }
+
+    public void loadData(){
+        HashMap<Integer, Product> map=new HashMap<>();
+        List<ProductDTO> productDTOList=new ProductsMapper().selectAllProducts();
+        for (ProductDTO p: productDTOList){
+            String storeName=p.getStore();
+            if (!stores.containsKey(storeName)){
+                stores.put(storeName, new Store(storeName));
+            }
+            Store currStore=stores.get(storeName);
+            String categoryName=p.getCategory();
+            Category currCat=currStore.addCategory(categoryName);
+            String subcategoryName=p.getSubcategory();
+            Subcategory currSubcat=currCat.addSubcategory(subcategoryName);
+            Product currProduct=currSubcat.addProduct(p);
+            map.put(p.getProductId(), currProduct);
+        }
+        List<ItemDTO> itemDTOList=new ItemsMapper().selectAllItems();
+        for (ItemDTO i: itemDTOList){
+            Product p=map.get(i.getProductId());
+            p.addItemFromDB(i);
         }
     }
 

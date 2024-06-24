@@ -1,4 +1,5 @@
 package ServiceLayer;
+import DomainLayer.ProductCounter;
 import DomainLayer.Store;
 import DomainLayer.StoreManager;
 
@@ -22,6 +23,16 @@ public class StoreService {
     public String createStore(String name){
         try{
             stores.newStore(name);
+        }
+        catch (Exception e) {
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String loadData(){
+        try{
+            stores.loadData();
         }
         catch (Exception e) {
             return new Response(e.getMessage()).toJson();

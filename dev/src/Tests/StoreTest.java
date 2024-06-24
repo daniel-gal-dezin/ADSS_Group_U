@@ -8,7 +8,7 @@ import DomainLayer.*;
 import org.junit.*;
 
 public class StoreTest {
-    public Store store=new Store();
+    public Store store=new Store("hadas");
 
 
     @BeforeEach
