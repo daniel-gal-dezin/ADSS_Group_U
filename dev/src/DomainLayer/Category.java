@@ -23,16 +23,49 @@ public class Category {
             for(Product p: sub.getProductList().values()){
                 int removedItems=p.removeExpItems();
                 if(removedItems>0){
+                    try {
+                        p.getPdto().decreaseStock();
+                    } catch (Exception ex) {
+                        throw new Exception(ex.getMessage());
+                    }
                     if(expList.containsKey(p)){
+                        try
+                        {
+                            p.getExdto().increaseAmount(removedItems);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception (ex.getMessage());
+                        }
                         expList.put(p, expList.get(p)+removedItems);
                     }
                     else{
+                        try
+                        {
+                            p.setExdto();
+                            p.getExdto().insert();
+                            p.getExdto().increaseAmount(removedItems);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new Exception (ex.getMessage());
+                        }
                         expList.put(p, removedItems);
                     }
                 }
             }
         }
         return true;
+     }
+
+     public void addToList(String type, String subcategory, int serialNumber, int amount){
+        Product p=subcatList.get(subcategory).getProductList().get(serialNumber);
+        if (type.equals("expired")){
+            expList.put(p, amount);
+        }
+        else {
+            damagedList.put(p, amount);
+        }
      }
 
      public String getName(){
@@ -88,9 +121,27 @@ public class Category {
             return false;
         }
         if (!damagedList.containsKey(pro)){
+            try
+            {
+                pro.setDamdto();
+                pro.getDamdto().insert();
+                pro.getDamdto().increaseAmount(1);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception (ex.getMessage());
+            }
             damagedList.put(pro, 1);
         }
         else{
+            try
+            {
+                pro.getDamdto().increaseAmount(1);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception (ex.getMessage());
+            }
             damagedList.put(pro, damagedList.get(pro)+1);
         }
         return sub.updateDamagedItem(serialNum, id);
@@ -112,15 +163,30 @@ public class Category {
         return sub.getProductPrice(serialNum);
     }
 
-    public String getPeriodicalReport(){
+    public String getPeriodicalReport() throws Exception {
+
         String report="Periodical Report for Category " + name + " : \nExpired Items: \n";
         for (Product p: expList.keySet()){
             report=report + p.getName() + ", serial number: " + p.getSerialNum() + ", amount: " + expList.get(p) + " \n";
+            if (p.getExdto()!=null) {
+                try {
+                    p.getExdto().remove();
+                } catch (Exception ex) {
+                    throw new Exception(ex.getMessage());
+                }
+            }
         } 
         report=report+ "Damaged Items: \n";
         for (Product p: damagedList.keySet()){
             report=report + p.getName() + ", serial number: " + p.getSerialNum() + ", amount: " + damagedList.get(p) + " \n";
-        } 
+            if (p.getDamdto()!=null) {
+                try {
+                    p.getDamdto().remove();
+                } catch (Exception ex) {
+                    throw new Exception(ex.getMessage());
+                }
+            }
+        }
         this.expList=new LinkedHashMap<Product, Integer>();
         this.damagedList=new LinkedHashMap<Product, Integer>();
         return report;

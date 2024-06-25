@@ -41,12 +41,16 @@ public class StoreTest {
         assertThrows(Exception.class, ()->{store.sellItem("Dairy", "Milk", 1, 2);});
     }
 
+
+//fix
     @Test
-    public void testSellItem2(){ //checks if sells correct item and deletes the product when the stock is 0
+    public void testSellItem2(){ //checks if sells correct item and the stock is 0
         assertDoesNotThrow(()->{store.sellItem("Dairy", "Milk", 1, 1);});
-        Assert.assertFalse(store.productExists("Dairy", "Milk", 1));
+        Assert.assertEquals(0, store.getCategory("Dairy").getSubcatList().get("Milk").getProductList().get(1).getStock());
     }
 
+
+//fix
     @Test
     public void testDamagedItem(){ //checks if deletes correct item when damaged
         assertDoesNotThrow(()->{store.updateDamagedItem("Dairy", "Milk", 1, 1);});
@@ -70,6 +74,7 @@ public class StoreTest {
             System.out.println("failed");
         }
     }
+
 
     @Test
     public void testMoveToStore1(){ //checks if the category of the item we want to move to the store exists

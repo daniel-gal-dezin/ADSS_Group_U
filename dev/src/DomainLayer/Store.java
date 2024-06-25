@@ -1,5 +1,7 @@
 package DomainLayer;
 
+import DataAccessLayer.ReportDTO;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -35,6 +37,19 @@ public class Store {
         for (Category c: categoryList.values()){
             c.removeExpItems();
         }
+        for (Category c: categoryList.values()){
+            for (Subcategory s: c.getSubcatList().values()){
+                for (Product p: s.getProductList().values()){
+                    int ans = stockWarning(c.getName(), s.getName(), p.getSerialNum());
+                    if (ans != -1) {
+                        if (lowStock.containsKey(p)) {
+                            lowStock.remove(p);
+                        }
+                        lowStock.put(p, new ProductForLists(c.getName(), s.getName(), p));
+                    }
+                }
+            }
+        }
         return true;
      }
 
@@ -61,6 +76,7 @@ public class Store {
             throw new Exception("Id already exists.");
         }
         else{
+            removeExpItems();
             Product p=cat.getSubcatList().get(subcategory).getProductList().get(serialNum);
             if(stockWarning(category, subcategory, serialNum)==-1){
                 lowStock.remove(p);
@@ -116,6 +132,16 @@ public class Store {
         if (!success){
             throw new Exception("Item does not exist.");
         }
+        else {
+            Product p=c.getSubcatList().get(subcategory).getProductList().get(serialNum);
+            int ans = stockWarning(category, subcategory, serialNum);
+            if (ans != -1) {
+                if (lowStock.containsKey(p)) {
+                    lowStock.remove(p);
+                }
+                lowStock.put(p, new ProductForLists(category, subcategory, p));
+            }
+        }
         return true;
     }
 
@@ -150,6 +176,15 @@ public class Store {
         }
         String report=c.getPeriodicalReport();
         periodicalReportList.add(report);
+        ReportDTO rpdto=new ReportDTO(name, "periodical", report);
+        try
+        {
+            rpdto.addReport();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.getMessage());
+        }
         lastPeriodicalReport=LocalDate.now();
         return report;
     }
@@ -161,6 +196,15 @@ public class Store {
         }
         String report=c.getStockReport();
         stockReportList.add(report);
+        ReportDTO rpdto=new ReportDTO(name, "stock", report);
+        try
+        {
+            rpdto.addReport();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.getMessage());
+        }
         lastStockReport=LocalDate.now();
         return report;
     }
@@ -177,7 +221,15 @@ public class Store {
         return true;
     }
 
-    
+    public void addReport(String type, String report){
+        if (type.equals("stock")){
+            stockReportList.add(report);
+        }
+        else{
+            periodicalReportList.add(report);
+        }
+    }
+
     public Category getCategory(String category){
         return categoryList.get(category);
     }

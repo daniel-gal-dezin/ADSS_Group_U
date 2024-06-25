@@ -1,4 +1,6 @@
 package DomainLayer;
+import DataAccessLayer.ExpAndDamagedDTO;
+import DataAccessLayer.ExpAndDamagedMapper;
 import DataAccessLayer.ItemDTO;
 import DataAccessLayer.ProductDTO;
 
@@ -26,6 +28,8 @@ public class Product {
     private Map<Integer, Item> itemListInStore;
     private int minimumAmount;
     private ProductDTO pdto;
+    private ExpAndDamagedDTO exdto;
+    private ExpAndDamagedDTO damdto;
 
     public Product(String store, String category, String subcategory, String name, int serialNum, int aigleNum, int shelfNum, String producer, int cost, int soldPrice, int size){
         this.store=store;
@@ -44,6 +48,8 @@ public class Product {
         itemListInStore=new LinkedHashMap<Integer, Item>();
         this.minimumAmount=-1;
         this.pdto=new ProductDTO(store, category, subcategory, serialNum, name, 0, shelfNum, aigleNum, producer, cost, soldPrice, size, 0, -1);
+        this.exdto=null;
+        this.damdto=null;
     }
 
     public Product(ProductDTO pdto){
@@ -64,24 +70,9 @@ public class Product {
         this.minimumAmount=pdto.getMinimumAmount();
         this.pdto=pdto;
         this.pdto.setPersist();
+        this.exdto=null;
+        this.damdto=null;
     }
-
-    public int removeExpItems() throws Exception {
-        int count=0;
-        for (Item it: itemListInStorage.values()){
-            if (it.getExpDate().isBefore(LocalDate.now())){
-                removeItem(it.getId());
-                count=count+1;
-            }
-        }
-        for (Item it: itemListInStore.values()){
-            if (it.getExpDate().isBefore(LocalDate.now())){
-                removeItem(it.getId());
-                count=count+1;
-            }
-        }
-        return count;
-     }
 
 
     public String getName(){
@@ -116,6 +107,28 @@ public class Product {
         return this.itemListInStore;
     }
 
+    public void setExdto(int amount) {
+        this.exdto=new ExpAndDamagedDTO("expired", store, category, name, serialNum, amount);
+    }
+    public void setExdto() {
+        this.exdto=new ExpAndDamagedDTO("expired", store, category, name, serialNum, 0);
+    }
+
+    public void setDamdto(int amount) {
+        this.damdto=new ExpAndDamagedDTO("damaged", store, category, name, serialNum, amount);
+    }
+    public void setDamdto() {
+        this.damdto=new ExpAndDamagedDTO("damaged", store, category, name, serialNum, 0);
+    }
+
+    public ExpAndDamagedDTO getExdto(){
+        return this.exdto;
+    }
+
+    public ExpAndDamagedDTO getDamdto(){
+        return this.damdto;
+    }
+
     public boolean addItem(int id, String expDate) throws Exception {
         if(itemListInStorage.get(id)!=null || itemListInStore.get(id)!=null)
             return false;
@@ -142,6 +155,23 @@ public class Product {
         }
         it1.getIdto().removeItem();
         return it1;
+    }
+
+    public int removeExpItems() throws Exception {
+        int count=0;
+        for (Item it: itemListInStorage.values()){
+            if (it.getExpDate().isBefore(LocalDate.now())){
+                removeItem(it.getId());
+                count=count+1;
+            }
+        }
+        for (Item it: itemListInStore.values()){
+            if (it.getExpDate().isBefore(LocalDate.now())){
+                removeItem(it.getId());
+                count=count+1;
+            }
+        }
+        return count;
     }
 
     public void addItemFromDB(ItemDTO i){

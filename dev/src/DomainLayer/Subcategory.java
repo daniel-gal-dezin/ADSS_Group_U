@@ -45,14 +45,14 @@ public class Subcategory {
         if (pro==null){
             return false;
         }
-        Item item=pro.removeItem(id);
-        if(item==null)
-            return false;
         try {
             pro.getPdto().decreaseStock();
         } catch (Exception ex) {
             throw new Exception(ex.getMessage());
         }
+        Item item=pro.removeItem(id);
+        if(item==null)
+            return false;
         return true;
     }
 
@@ -76,6 +76,11 @@ public class Subcategory {
         Product pro=productList.get(serialNum);
         if (pro==null){
             return false;
+        }
+        try {
+            pro.getPdto().decreaseStock();
+        } catch (Exception ex) {
+            throw new Exception(ex.getMessage());
         }
         Item item=pro.removeItem(id);
         if(item==null)

@@ -1,9 +1,6 @@
 package DomainLayer;
 
-import DataAccessLayer.ItemDTO;
-import DataAccessLayer.ItemsMapper;
-import DataAccessLayer.ProductDTO;
-import DataAccessLayer.ProductsMapper;
+import DataAccessLayer.*;
 import ServiceLayer.Response;
 
 import java.util.ArrayList;
@@ -66,6 +63,29 @@ public class StoreManager {
         for (ItemDTO i: itemDTOList){
             Product p=map.get(i.getProductId());
             p.addItemFromDB(i);
+        }
+        List<ReportDTO> reportsDTOlist=new ReportsMapper().selectAllReports();
+        for (ReportDTO r: reportsDTOlist){
+            String store=r.getStore();
+            String type=r.getType();
+            stores.get(store).addReport(type, r.getReport());
+        }
+        List<ExpAndDamagedDTO> expDTOlist=new ExpAndDamagedMapper().selectAllExpAndDamaged();
+        for (ExpAndDamagedDTO d: expDTOlist){
+            String store=d.getStore();
+            String type=d.getType();
+            String category=d.getCategory();
+            String subcategory=d.getSubcategory();
+            int serialNumber=d.getSerialNumber();
+            int amount=d.getAmount();
+            Product p=stores.get(store).getCategory(category).getSubcatList().get(subcategory).getProductList().get(serialNumber);
+            if (type.equals("expired")){
+                p.setExdto(amount);
+            }
+            else {
+                p.setDamdto(amount);
+            }
+            stores.get(store).getCategory(category).addToList(type, subcategory, serialNumber, amount);
         }
     }
 

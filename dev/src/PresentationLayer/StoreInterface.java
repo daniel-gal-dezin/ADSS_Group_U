@@ -101,7 +101,7 @@ public class StoreInterface {
                     String id=scanner.nextLine();
                     String output=sr.sellItem(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id));
                     if(output.length()==0){
-                        if(sr.stockWarning(cat, sub, Integer.parseInt(serialNum))){
+                        if(!sr.stockWarning(cat, sub, Integer.parseInt(serialNum)).equals("-1")){
                             System.out.println("Stock Warning! you need to order more items from this product");
                         }
                     }
@@ -120,7 +120,7 @@ public class StoreInterface {
                     String id=scanner.nextLine();
                     String output=sr.updateDamagedItem(cat, sub, Integer.parseInt(serialNum), Integer.parseInt(id));
                     if(output.length()==0){
-                        if(sr.stockWarning(cat, sub, Integer.parseInt(serialNum))){
+                        if(!sr.stockWarning(cat, sub, Integer.parseInt(serialNum)).equals("-1")){
                             System.out.println("Stock Warning! you need to order more items from this product");
                         }
                     }

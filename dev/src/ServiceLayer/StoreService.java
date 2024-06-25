@@ -70,8 +70,15 @@ public class StoreService {
         return new Response().toJson();
     }
 
-    public boolean stockWarning(String category, String subcategory, int serialNum){
-        return stores.productExists(category, subcategory, serialNum);
+    public String stockWarning(String category, String subcategory, int serialNum){
+        Response r = new Response();
+        try{
+            r.ReturnValue = Integer.toString(stores.stockWarning(category, subcategory, serialNum));
+        }
+        catch(Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return r.toJson();
     }
 
     public boolean productExists(String category, String subcategory, int serialNum){
