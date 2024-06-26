@@ -148,11 +148,14 @@ public class Product {
     }
 
     public Item removeItem(int id) throws Exception {
-        this.stock=this.stock-1;
         Item it1=itemListInStorage.remove(id);
         if (it1==null){
             it1=itemListInStore.remove(id);
         }
+        if (it1==null){
+            throw new Exception("no such item");
+        }
+        this.stock=this.stock-1;
         it1.getIdto().removeItem();
         return it1;
     }

@@ -89,6 +89,10 @@ public class StoreManager {
         }
     }
 
+    public int getProductStock(String category, String subcategory, int serialNumber){
+        return currStore.getCategory(category).getSubcatList().get(subcategory).getProductList().get(serialNumber).getStock();
+    }
+
     public boolean removeExpItems() throws Exception {
         if(currStore==null){
             throw new Exception("You are not in a store");
@@ -192,6 +196,10 @@ public class StoreManager {
             throw new Exception("You are not in a store");
         }
         return currStore.openStore();
+    }
+
+    public Category getCategory(String category){
+        return currStore.getCategory(category);
     }
 
     public void closeStore() throws Exception {
