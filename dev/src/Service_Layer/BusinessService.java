@@ -233,7 +233,71 @@ public class BusinessService {
         return new Response().toJson();
     }
 
-    private <T> String listToString(List<T> list){
+
+    //delivery functions:
+    public String addDelivery(int brId, int year, int month, int day, String sType, int driverid, int storekeeperid ){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
+        LocalDate date = LocalDate.of(year,month,day);
+        try{
+            bm.addDelivery(brId,date,sType,driverid,storekeeperid);
+        }catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String removeDelivery(int brId, int year, int month, int day, String sType, int deliveryId){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
+        LocalDate date = LocalDate.of(year,month,day);
+        try{
+            bm.removeDelivery(brId,date,sType,deliveryId);
+        }catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String changeDriver(int branchId, int year, int month, int day, String sType,int deliveryId, int newDriverId){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
+        LocalDate date = LocalDate.of(year,month,day);
+        try{
+            bm.changeDriver(branchId,date,sType,deliveryId,newDriverId);
+        }catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String changeDeliveryStoreKeeper(int branchId, int year, int month, int day, String sType, int skId, int newskId){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
+        LocalDate date = LocalDate.of(year,month,day);
+        try{
+            bm.changeDeliveryStoreKeeper(branchId,date,sType,skId,newskId);
+        }catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return new Response().toJson();
+    }
+
+    public String getdelivery(int branchId, int year, int month, int day, String sType, int deliveryId){
+        if(year == 0 || month == 0 || day == 0)
+            return new Response("Invalid date").toJson();
+        Response r = new Response();
+        LocalDate date = LocalDate.of(year,month,day);
+        try{
+            r.ReturnValue = bm.getdelivery(branchId,date,sType,deliveryId);
+        }catch (Exception e){
+            return new Response(e.getMessage()).toJson();
+        }
+        return r.toJson();
+    }
+
+
+        private <T> String listToString(List<T> list){
         String s = "";
         for(T element:list){
             s += element + ",";

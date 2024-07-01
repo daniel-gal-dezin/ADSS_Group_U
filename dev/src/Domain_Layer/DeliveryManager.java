@@ -52,10 +52,18 @@ public class DeliveryManager {
 
     public void changeDriver(Shift shift, int deliveryId, Employee e){
         if(!shift.getEmployees().contains(e)){
-            throw new IllegalArgumentException("employee1 is not in shift");
+            throw new IllegalArgumentException("employee is not in shift");
         }
         Delivery d = getDelivery(shift.getShiftID(),deliveryId);
         d.setDriver(e);
+    }
+
+    public void changeStoreKeeper(Shift shift, int deliveryId, Employee e){
+        if(!shift.getEmployees().contains(e)){
+            throw new IllegalArgumentException("employee is not in shift");
+        }
+        Delivery d = getDelivery(shift.getShiftID(),deliveryId);
+        d.setStore_keeper(e);
     }
 
 

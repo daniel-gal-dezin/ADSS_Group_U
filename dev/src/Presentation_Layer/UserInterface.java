@@ -95,7 +95,7 @@ public class UserInterface {
 
     public void hr_loop(int bId) {
         while (true) {
-            System.out.println("what would you like to do? \n1.  add employee\n2.  set employee\n3.  get employee\n4.  set default roles\n5.  create shift\n6.  block shift\n7.  unblock shift\n8.  get available employees for shift\n9.  change shift manager\n10. create new branch\n11. exit\n12. add employee to shift\n13. delete employee from shift\n14. get shift\n15. change shifts\n16. get employee from branch\n17. get shift history\n18. get employee history\n19. change shift dead line for emlpoyees' constrains\n20. change end time of morning shift");
+            System.out.println("what would you like to do? \n1.  add employee\n2.  set employee\n3.  get employee\n4.  set default roles\n5.  create shift\n6.  block shift\n7.  unblock shift\n8.  get available employees for shift\n9.  change shift manager\n10. create new branch\n11. exit\n12. add employee to shift\n13. delete employee from shift\n14. get shift\n15. change shifts\n16. get employee from branch\n17. get shift history\n18. get employee history\n19. change shift dead line for emlpoyees' constrains\n20. change end time of morning shift\n21. add delivery\n22. remove delivery\n23. change driver\n24. change storekeeper\n5.get delivery ");
             String input = System.console().readLine();
             String output = "";
             if (input.equals("1")) { //add employee
@@ -283,6 +283,62 @@ public class UserInterface {
                 System.out.print("minute: ");
                 int minute = numberChecker();
                 output = bs.changeendofmornig(bId,year,month,day,sType==1?"morning":"evening",hour, minute);
+            } else if (input.equals("21")) { //add delivery
+                int[] date1 = inputShiftDetails();
+                int year = date1[0];
+                int month = date1[1];
+                int day = date1[2];
+                int sType = date1[3];
+                System.out.println("enter driver id");
+                int id1 = numberChecker();
+                System.out.println("enter storekeeper id");
+                int id2 = numberChecker();
+                output = bs.addDelivery(bId,year,month,day,sType==1?"morning":"evening",id1,id2);
+            } else if (input.equals("22")) { //remove delivery
+                int[] date1 = inputShiftDetails();
+                int year = date1[0];
+                int month = date1[1];
+                int day = date1[2];
+                int sType = date1[3];
+                System.out.println("enter delivery id to remove: ");
+                int id = numberChecker();
+
+                output = bs.removeDelivery(bId,year,month,day,sType==1?"morning":"evening",id);
+            } else if (input.equals("23")) {//change driver (delivery)
+                int[] date1 = inputShiftDetails();
+                int year = date1[0];
+                int month = date1[1];
+                int day = date1[2];
+                int sType = date1[3];
+                System.out.println("enter old driver id");
+                int id1 = numberChecker();
+                System.out.println("enter new driver id");
+                int id2 = numberChecker();
+
+                output = bs.changeDriver(bId,year,month,day,sType==1?"morning":"evening",id1,id2);
+            } else if (input.equals("24")) { //change storeKeeper (delivery)
+                int[] date1 = inputShiftDetails();
+                int year = date1[0];
+                int month = date1[1];
+                int day = date1[2];
+                int sType = date1[3];
+                System.out.println("enter old storekeeper id");
+                int id1 = numberChecker();
+                System.out.println("enter new storekeeper id");
+                int id2 = numberChecker();
+
+                output = bs.changeDeliveryStoreKeeper(bId,year,month,day,sType==1?"morning":"evening",id1,id2);
+
+            }else if (input.equals("25")) { //get delivery
+                int[] date1 = inputShiftDetails();
+                int year = date1[0];
+                int month = date1[1];
+                int day = date1[2];
+                int sType = date1[3];
+                System.out.println("enter delivery id: ");
+                int id = numberChecker();
+
+                output = bs.getdelivery(bId,year,month,day,sType==1?"morning":"evening",id);
             }else {
                 output = "invalid input";
             }

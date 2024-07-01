@@ -86,6 +86,9 @@ public class Branch {
     }
 
 
+
+
+
 // from here relevant function for delivery
 
     public void addDelivery(LocalDate date, String stype, Employee driver, Employee storeKeeper){
@@ -114,6 +117,14 @@ public class Branch {
 
     public void changeDeliveryDriver(LocalDate date,String stype, int delId, Employee newDriver){
         dm.changeDriver(sm.getShift(date,stype),delId,newDriver);
+    }
+
+    public void changeDeliveryStoreKeeper(LocalDate date,String stype, int delId, Employee newDriver){
+        dm.changeStoreKeeper(sm.getShift(date,stype),delId,newDriver);
+    }
+
+    public Delivery getDelivery(LocalDate date,String stype,int delId){
+       return dm.getDelivery(new Pair<>(date,convertShiftType(stype)),delId);
     }
 
 

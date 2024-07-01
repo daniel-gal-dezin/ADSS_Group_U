@@ -2,7 +2,6 @@ package Domain_Layer;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -198,7 +197,7 @@ public class BusinessManager {
 
 
         //add to service layer
-        public void addDelivery(int branchid, LocalDate date, String stype, int driverid, int storekeeperid){
+    public void addDelivery(int branchid, LocalDate date, String stype, int driverid, int storekeeperid){
         //if employee dosent exist throw error
         if(!branches.containsKey(branchid))
             throw new IllegalArgumentException("no such branch");
@@ -219,6 +218,18 @@ public class BusinessManager {
             throw new IllegalArgumentException("no such branch");
         branches.get(branchId).changeDeliveryDriver(date,sType,deliveryId,em.getEmployee(branchId,newDriverId));
     }
+
+    public void changeDeliveryStoreKeeper(int branchId, LocalDate date, String sType, int storeKeeperId, int newstoreKeeperId){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
+        branches.get(branchId).changeDeliveryStoreKeeper(date,sType,storeKeeperId,em.getEmployee(branchId,newstoreKeeperId));
+    }
+    public String getdelivery(int branchId, LocalDate date, String sType, int deliveryId){
+        if(!branches.containsKey(branchId))
+            throw new IllegalArgumentException("no such branch");
+        return branches.get(branchId).getDelivery(date,sType,deliveryId).toString();
+    }
+
 
 
 

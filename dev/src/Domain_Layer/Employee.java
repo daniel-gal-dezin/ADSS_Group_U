@@ -14,8 +14,9 @@ public class Employee {
     private List<Role> roles = new LinkedList<Role>();
     private Terms termsofem;
     private boolean ismanagar;
+    private char license;
 
-    private void set_props(int id, String name, String bankAccount, List<Role> roles, Terms termsofem,boolean managar){
+    private void set_props(int id, String name, String bankAccount, List<Role> roles, Terms termsofem,boolean managar, char license){
         this.id = id;
         this.name = name;
         BankAccount = bankAccount;
@@ -24,15 +25,17 @@ public class Employee {
         }
         if(managar)this.ismanagar = true;
         this.termsofem = termsofem;
+        this.license = license;
     }
 
-    public Employee(int id, String name, String bankAccount, List<Role> roles, Terms termsofem, boolean manager) {
-        set_props(id, name, bankAccount, roles, termsofem, manager);
+
+    public Employee(int id, String name, String bankAccount, List<Role> roles, Terms termsofem, boolean manager, char lis) {
+        set_props(id, name, bankAccount, roles, termsofem, manager,lis);
     }
 
-    public Employee(int id, String name, String bankAccount, List<Role> roles, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays,boolean managar){
+    public Employee(int id, String name, String bankAccount, List<Role> roles, LocalDate startWork, char lis, String employmentType, String salaryType, int salary, int vacationDays,boolean managar){
         Terms t = new Terms(startWork, employmentType, salaryType, salary, vacationDays);
-        set_props(id, name, bankAccount, roles, t,managar);
+        set_props(id, name, bankAccount, roles, t,managar, lis);
     }
 
     public void addRole(String role) {
@@ -145,6 +148,10 @@ public class Employee {
         else
             throw new IllegalArgumentException("Could't add role '" + role + "'. does not exist!");
 
+    }
+
+    public char getLicense(){
+        return license;
     }
 
     @Override

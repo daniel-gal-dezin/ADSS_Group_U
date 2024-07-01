@@ -25,6 +25,9 @@ public class Shift {
 
     public Shift() {
     }
+    public Employee getmanager(){
+        return this.shiftmanager;
+    }
 
     public Shift(Pair<LocalDate, ShiftType> shiftID,List<Role> rolesneeded, Employee manager) {
         if(!manager.isIsmanagar())

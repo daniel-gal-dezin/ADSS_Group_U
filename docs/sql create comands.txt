@@ -41,7 +41,7 @@ CREATE TABLE "Deliverytoemployee" (
 CREATE TABLE "Employee" (
 	"ID"	INTEGER,
 	"name"	TEXT,
-	"bank-account"	INTEGER,
+	"bank-account"	TEXT,
 	"start-work"	DATE,
 	"employment-type"	TEXT,
 	"salary-type"	TEXT,
