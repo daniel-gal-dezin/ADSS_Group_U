@@ -4,6 +4,13 @@ public class Delivery {
     int deliveryid;
     Employee driver;
     Employee store_keeper;
+    char licenseneeded;
+
+    public char getLicenseneeded() {
+        return licenseneeded;
+    }
+
+
 
 
 
@@ -17,10 +24,11 @@ public class Delivery {
 
 
 
-    public Delivery(int deliveryid, Employee driver, Employee store_keeper) {
+    public Delivery(int deliveryid, Employee driver, Employee store_keeper ,char license) {
         setDriver(driver);
         setStore_keeper(store_keeper);
         this.deliveryid = deliveryid;
+        this.licenseneeded = license;
     }
 
     public int getDeliveryid() {

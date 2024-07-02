@@ -1,5 +1,7 @@
 package Domain_Layer;
 
+import Domain_Layer.Repositories.ShiftRepository;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -11,12 +13,14 @@ public class ShiftManager {
     private HashMap<Pair<LocalDate, ShiftType>, Shift> shifts;
     private List<Pair<LocalDate, ShiftType>> blockedShift;
     private List<Role> defaultRolesNeeded;
+    private int branchid;
 
 
-    public ShiftManager() {//with diffualt roles needed
+    public ShiftManager(int branchid) {//with diffualt roles needed
         shifts = new HashMap<>();
         blockedShift = new ArrayList<>();
         this.defaultRolesNeeded = createDefaultRolesNeeded();
+        branchid = branchid;
     }
 
 
@@ -43,7 +47,7 @@ public void setDefaultRolesForShift(List<String> roles){
         this.defaultRolesNeeded = rolesneeded;
     }
 
-    public void createShift(LocalDate date, String sType, List<String> rolesneeded, Employee manager) throws IllegalArgumentException{//
+    public Shift createShift(LocalDate date, String sType, List<String> rolesneeded, Employee manager) throws IllegalArgumentException{//
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
@@ -59,11 +63,13 @@ public void setDefaultRolesForShift(List<String> roles){
         List<Role> roles = rolesneeded.stream().map((r)->convertRole(r)).collect(Collectors.toList());
         Shift newshift = new Shift(shift,roles,manager);
         shifts.put(shift, newshift);
+        ShiftRepository.getShiftRepository().insertShift(newshift,this.branchid);
+        return newshift;
     }
 
     //NOTE(dayan): does the low function needed? can send to the func above with roles = null
 
-    public void createShift(LocalDate date, String sType, Employee manager) throws IllegalArgumentException {//create shift without knowing which roles needed
+    public Shift createShift(LocalDate date, String sType, Employee manager) throws IllegalArgumentException {//create shift without knowing which roles needed
         Pair<LocalDate,ShiftType> shift = new Pair<>(date,convertShiftType(sType));
         if (shifts.containsKey(shift))
             throw new IllegalArgumentException("Main.Shift already exists");
@@ -80,6 +86,8 @@ public void setDefaultRolesForShift(List<String> roles){
 
         Shift newshift = new Shift(shift, this.defaultRolesNeeded, manager);
         shifts.put(shift, newshift);
+        ShiftRepository.getShiftRepository().insertShift(newshift,branchid);
+        return newshift;
     }
 
 
@@ -87,6 +95,7 @@ public void setDefaultRolesForShift(List<String> roles){
         Shift shift = getShift(date,sType);
 //        shifts.get(shift).removeEmployees();
         shifts.remove(shift);
+        ShiftRepository.getShiftRepository().deleteShift(shift,branchid);
     }
 
 
@@ -100,6 +109,7 @@ public void setDefaultRolesForShift(List<String> roles){
             deleteShift(date, sType);
         }
         blockedShift.add(shift);
+        ShiftRepository.getShiftRepository().insertBlockedShift(date,sType,this.branchid);
     }
 
 
@@ -109,11 +119,13 @@ public void setDefaultRolesForShift(List<String> roles){
             throw new IllegalArgumentException("Main.Shift is not blocked");
         }
         blockedShift.remove(shift);
+        ShiftRepository.getShiftRepository().deleteBlockedShift(date,sType,this.branchid);
     }
 
     public void setEndOfMorning(LocalDate date, String sType, LocalTime time){
         Shift shift1 = this.getShift(date,sType);
         shift1.setEndMorning(time);
+        ShiftRepository.getShiftRepository().updateShift(shift1);
     }
 
     public void addEmployeeToShift(LocalDate date, String sType, Employee employee){//
@@ -134,11 +146,13 @@ public void setDefaultRolesForShift(List<String> roles){
             throw new IllegalArgumentException("can't add employee to shift! He is in the constraints");
         }
         shift.addEmployee(employee);
+        ShiftRepository.getShiftRepository().addWorkerToShift(date,sType, employee.getId());
     }
 
     public void changeManager(LocalDate date, String sType, Employee employee){//
         Shift shift = getShift(date,sType);
         shift.setShiftmanager(employee);
+        ShiftRepository.getShiftRepository().updateShift(shift);
     }
 
     public Shift getShift(LocalDate date, String sType){//
@@ -191,26 +205,32 @@ public void setDefaultRolesForShift(List<String> roles){
             s1.addEmployee(e1);
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
+        ShiftRepository.getShiftRepository().updateShift(s1);
+        ShiftRepository.getShiftRepository().updateShift(s2);
     }
 
     public void removeEmployeeFromShift(LocalDate date, String sType, Employee employee){
         Shift shift = getShift(date,sType);
         shift.removeEmployee(employee);
+        ShiftRepository.getShiftRepository().deleteWorkerFromShift(date,sType,employee.getId());
     }//
 
     public void changeDeadLine(LocalDate date, String sType,LocalDate newDte){
         Shift shift = getShift(date,sType);
         shift.setDeadLine(newDte);
+        ShiftRepository.getShiftRepository().updateShift(shift);
     }//
 
     public void addConstraint(LocalDate date, String sType, Employee em){
         Shift shift = getShift(date,sType);
         shift.addConstraint(em);
+        ShiftRepository.getShiftRepository().addConstraintToShift(date,sType,em.getId());
     }
 
     public void removeConstraint(LocalDate date, String sType, Employee em){
         Shift shift = getShift(date,sType);
         shift.removeConstraint(em);
+        ShiftRepository.getShiftRepository().deleteConstraintFromShift(date,sType, em.getId());
     }
 
     public List<Employee> getConstraints(LocalDate date, String sType){

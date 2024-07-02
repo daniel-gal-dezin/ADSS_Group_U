@@ -1,10 +1,10 @@
 package Domain_Layer;
 
-import Service_Layer.EmployeeService;
-
+import Domain_Layer.Repositories.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class Employee {
 
@@ -15,6 +15,12 @@ public class Employee {
     private Terms termsofem;
     private boolean ismanagar;
     private char license;
+
+    public Employee(int id, String name, String bankAcc, List<Role> r, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager) {
+        Terms t = new Terms(startWork, employmentType, salaryType, salary, vacationDays);
+        set_props(id, name, bankAcc, roles, t,isManager, 'l');
+    }
+
 
     private void set_props(int id, String name, String bankAccount, List<Role> roles, Terms termsofem,boolean managar, char license){
         this.id = id;
@@ -40,10 +46,12 @@ public class Employee {
 
     public void addRole(String role) {
         roles.add(convertRole(role));
+        //TODO: add function to DAO
     }
 
     public void removeRole(String role) {
         roles.remove(convertRole(role));
+        //TODO: add function to DAO
     }
 
 
@@ -103,12 +111,6 @@ public class Employee {
         return termsofem.Salary;
     }
 
-
-
-    public void setTermsofem(Terms termsofem) {
-        //Note(Dayan) should it include start working date?
-        this.termsofem = termsofem;
-    }
 
     public void setSalary(int salary) {
         if(salary < 0)

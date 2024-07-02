@@ -106,7 +106,7 @@ public class SystemInit {
             int vacationDays = Integer.parseInt(empData[7]);
             boolean isManager = Boolean.parseBoolean(empData[8]);
 
-            String response = employeeService.addEmployee(branchId, name, bankAcc, startWork, employmentType, salaryType, salary, vacationDays, isManager);
+            String response = employeeService.addEmployee(branchId, name, bankAcc, startWork, employmentType, salaryType, salary, vacationDays, isManager,'a' );
         } catch (Exception e) {
             System.err.println("Failed to add employee: " + line + " - " + e.getMessage());
         }

@@ -17,14 +17,14 @@ public class ShiftManagerTest {
 
     @BeforeEach
     public void setUp() {
-        shiftManager = new ShiftManager();
+        shiftManager = new ShiftManager(1);
         List<Role> roles1 = new LinkedList<>();
         roles1.add(Role.MANAGER);
         List<Role> roles2 = new LinkedList<>();
         roles2.add(Role.CASHIER);
         Terms t = new Terms(LocalDate.now(), "full", "global", 1, 1);
-        manager = new Employee(1, "John Doe", "123456",roles1, t, true);
-        employee = new Employee(2, "Jane", "654321",roles2, t, false);
+        manager = new Employee(1, "John Doe", "123456",roles1, t, true,'a');
+        employee = new Employee(2, "Jane", "654321",roles2, t, false,'a');
         futureDate = LocalDate.now().plusDays(10);
         morningShift = "morning";
         rolesNeeded = Arrays.asList("cashier", "driver", "manager", "storekeeper");

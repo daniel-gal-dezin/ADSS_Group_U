@@ -1,5 +1,8 @@
 package Domain_Layer;
 
+import Domain_Layer.Repositories.BranchRepository;
+import Domain_Layer.Repositories.ShiftRepository;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
@@ -19,8 +22,8 @@ public class BusinessManager {
         branches = new HashMap<>();
         em = em1;
         branch_idcounter = 1;
-        shiftmanagerFactory =  () -> new ShiftManager();
-        deliverymanagerfactory = () -> new DeliveryManager();
+        shiftmanagerFactory =  () -> new ShiftManager(branch_idcounter);
+        deliverymanagerfactory = () -> new DeliveryManager(branch_idcounter);
         this.createBranch("First Branch");
     }
 
@@ -30,8 +33,10 @@ public class BusinessManager {
     }
 
     public void createBranch(String name){
-        branches.put(branch_idcounter,new Branch(branch_idcounter, name,shiftmanagerFactory.createShiftManager(), deliverymanagerfactory.createDeliveryManager()));
+        Branch newBranch = new Branch(branch_idcounter, name,shiftmanagerFactory.createShiftManager(), deliverymanagerfactory.createDeliveryManager());
+        branches.put(branch_idcounter,newBranch);
         em.createBranch(branch_idcounter);
+        BranchRepository.getBranchRepository().insertBranch(newBranch);
         branch_idcounter++;
     }
 
@@ -39,13 +44,15 @@ public class BusinessManager {
     public void createShift(int branchId, LocalDate date, String sType, List<String> rolesneeded, int manager )throws IllegalArgumentException{
         if(!branches.containsKey(branchId))
             throw new IllegalArgumentException("no such branch");
-        branches.get(branchId).createShift(date,sType,rolesneeded,em.getEmployee(manager));
+        Shift s = branches.get(branchId).createShift(date,sType,rolesneeded,em.getEmployee(manager));
+        ShiftRepository.getShiftRepository().insertShift(s);
     }
 
     public void createShiftwithdefroles(int branchId,LocalDate date, String sType, int managerId) throws IllegalArgumentException{
         if(!branches.containsKey(branchId))
             throw new IllegalArgumentException("no such branch");
-        branches.get(branchId).createShiftwithdefroles(date,sType,em.getEmployee(branchId,managerId));
+        Shift s = branches.get(branchId).createShiftwithdefroles(date,sType,em.getEmployee(branchId,managerId));
+        ShiftRepository.getShiftRepository().insertShift(s);
     }
 
 
@@ -172,6 +179,8 @@ public class BusinessManager {
         int e1type = branches.get(branchId).getDm().isDriverOrStorekeeper(em1,s1.getShiftID().getFirst(), s1.getShiftID().getSecond());
         int e2type = branches.get(branchId).getDm().isDriverOrStorekeeper(em2,s2.getShiftID().getFirst(), s2.getShiftID().getSecond());
         //if((e1type == e2type && e1type == 0)|| )
+        if(!branches.get(branchId).getDm().canBeRemoven(em1,s1) || !branches.get(branchId).getDm().canBeRemoven(em2,s2))
+            throw new IllegalArgumentException("one of the employees cannot be removen! he is part of an expected delivery");
         branches.get(branchId).getSm().changeShift(em.getEmployee(e1),em.getEmployee(e2),date1,sType1,date2,sType2);
     }
 
@@ -197,13 +206,13 @@ public class BusinessManager {
 
 
         //add to service layer
-    public void addDelivery(int branchid, LocalDate date, String stype, int driverid, int storekeeperid){
+    public void addDelivery(int branchid, LocalDate date, String stype, int driverid, int storekeeperid,char lisence){
         //if employee dosent exist throw error
         if(!branches.containsKey(branchid))
             throw new IllegalArgumentException("no such branch");
         Employee e1 = em.getEmployee(branchid,driverid);
         Employee e2 = em.getEmployee(branchid,storekeeperid);
-        branches.get(branchid).addDelivery(date,stype,e1,e2);
+        branches.get(branchid).addDelivery(date,stype,e1,e2,lisence);
     }
 
 
@@ -268,8 +277,8 @@ public class BusinessManager {
     }
 //comment -// Employee Manager Domain we don't use them why they here?
 
-    public int addEmployeeToBranch(int branchId, String name, String bankAcc, List<String> roles, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager){
-        return em.addEmployee(branchId,name,bankAcc,LocalDate.now(),employmentType,salaryType,salary,vacationDays,isManager);
+    public int addEmployeeToBranch(int branchId, String name, String bankAcc, List<String> roles, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager, char lis){
+        return em.addEmployee(branchId,name,bankAcc,LocalDate.now(), lis,employmentType,salaryType,salary,vacationDays,isManager);
     }
 
     public void deleteEmployeeFromBranch(int branchId, int id){

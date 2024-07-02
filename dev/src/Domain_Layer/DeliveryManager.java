@@ -1,5 +1,7 @@
 package Domain_Layer;
 
+import Domain_Layer.Repositories.DeliveryRepository;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,9 +11,11 @@ import java.util.Map;
 public class DeliveryManager {
     int delivery_id_counter = 1;
     Map<Shift, List<Delivery>> deliveriesbyshift;
+    int branchid;
 
 
-    public  DeliveryManager(){
+    public  DeliveryManager(int branchid){
+        this.branchid = branchid;
         deliveriesbyshift = new HashMap<>();
     }
 
@@ -20,8 +24,8 @@ public class DeliveryManager {
         delivery_id_counter = deliveriesbyshift.size()+1;
     }
 
-    public void addDelivery(Shift shift,  Employee driver, Employee store_keeper){
-        Delivery newDel = new Delivery(delivery_id_counter++, driver,store_keeper);
+    public void addDelivery(Shift shift,  Employee driver, Employee store_keeper, char license){
+        Delivery newDel = new Delivery(delivery_id_counter++, driver,store_keeper,license);
         if(!deliveriesbyshift.containsKey(shift)){
             deliveriesbyshift.put(shift,new ArrayList<>());
         }
@@ -36,6 +40,7 @@ public class DeliveryManager {
         }
 
         deliveriesbyshift.get(shift).add(newDel);
+        DeliveryRepository.getDeliveryRepository().insertDelivery(newDel,shift.getShiftID().getFirst(),shift.getShiftID().getSecond().toString());
     }
 
 
@@ -47,7 +52,7 @@ public class DeliveryManager {
         }
         else
             throw new IllegalArgumentException("no deliveries in this shifft or no such shifft");
-        deliveriesbyshift.get(shift).remove(d);
+        DeliveryRepository.getDeliveryRepository().deleteDelivery(deliveryId);
     }
 
     public void changeDriver(Shift shift, int deliveryId, Employee e){
@@ -56,6 +61,7 @@ public class DeliveryManager {
         }
         Delivery d = getDelivery(shift.getShiftID(),deliveryId);
         d.setDriver(e);
+        DeliveryRepository.getDeliveryRepository().updateDelivery(d);
     }
 
     public void changeStoreKeeper(Shift shift, int deliveryId, Employee e){
@@ -64,6 +70,7 @@ public class DeliveryManager {
         }
         Delivery d = getDelivery(shift.getShiftID(),deliveryId);
         d.setStore_keeper(e);
+        DeliveryRepository.getDeliveryRepository().updateDelivery(d);
     }
 
 
@@ -91,4 +98,13 @@ public class DeliveryManager {
         return 0;
     }
 
+
+    public boolean canBeRemoven(Employee em, Shift s){
+        if(this.deliveriesbyshift.containsKey(s))
+            for(Delivery d: deliveriesbyshift.get(s))
+                if(d.getStore_keeper().equals(em) || d.getDriver().equals(em))
+                    return false;
+
+        return true;
+    }
 }

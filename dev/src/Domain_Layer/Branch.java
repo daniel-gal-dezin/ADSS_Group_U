@@ -10,22 +10,30 @@ public class Branch {
     private final DeliveryManager dm;
     private String name;
 
+    public String getName() {
+        return name;
+    }
 
-
-    public Branch(int id,String name, ShiftManager sm, DeliveryManager dm){
+    public Branch(int id, String name, ShiftManager sm, DeliveryManager dm){
         this.id = id;
         this.sm = sm;
         this.dm = dm;
     }
 
-
-
-    public void createShift(LocalDate date,String stype, List<String> rolesneeded,Employee manager){
-        sm.createShift(date,stype,rolesneeded,manager);
+    public Branch(int id, String name){
+        this.id = id;
+        this.sm = new ShiftManager(id);
+        this.dm = new DeliveryManager(id);
     }
 
-    public void createShiftwithdefroles(LocalDate date, String sType, Employee manager){
-        sm.createShift(date,sType,manager);
+
+
+    public Shift createShift(LocalDate date,String stype, List<String> rolesneeded,Employee manager){
+        return sm.createShift(date,stype,rolesneeded,manager);
+    }
+
+    public Shift createShiftwithdefroles(LocalDate date, String sType, Employee manager){
+        return sm.createShift(date,sType,manager);
     }
 
     public void setDefaultRolesShift(List<String> roles){
@@ -91,7 +99,7 @@ public class Branch {
 
 // from here relevant function for delivery
 
-    public void addDelivery(LocalDate date, String stype, Employee driver, Employee storeKeeper){
+    public void addDelivery(LocalDate date, String stype, Employee driver, Employee storeKeeper,char lisence){
         //if shift dosent exist throw error
         Shift s = sm.getShift(date,stype);
 
@@ -107,7 +115,7 @@ public class Branch {
             throw new IllegalArgumentException("store keeper isn't in the shift add hime first");
         }
         //the check if driver already assign to a delivery chech in the delivery manager.
-        dm.addDelivery(s,driver,storeKeeper);
+        dm.addDelivery(s,driver,storeKeeper,lisence);
 
     }
 

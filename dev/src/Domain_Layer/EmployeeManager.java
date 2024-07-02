@@ -1,5 +1,8 @@
 package Domain_Layer;
 
+import Domain_Layer.Repositories.BranchRepository;
+import Domain_Layer.Repositories.EmployeeRepository;
+
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,23 +21,13 @@ public class EmployeeManager {
         next_employee_id = 1;
     }
 
-//    public EmployeeManager(Map<Integer,Map<Integer,Employee>> emplo){
-//        branchHistoryEmployees = new HashMap<>();
-//
-//        for(Map.Entry<Integer,Map<Integer,Employee>> branch : emplo){
-//            for()
-//        }
-//        //emplo.values()
-//    }
-
     public void createBranch(int id){
         branchHistoryEmployees.put(id,new ArrayList<>());
         branchEmployees.put(id,new ArrayList<>());
     }
 
 
-
-    public int addEmployee(int branchId, String name, String bankAcc, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays,boolean isManager){
+    public int addEmployee(int branchId, String name, String bankAcc, LocalDate startWork, char l, String employmentType, String salaryType, int salary, int vacationDays,boolean isManager){
         List<Role> r = new ArrayList<>();
         r.add(Role.CASHIER);
         r.add(Role.STOREKEEPER);
@@ -42,9 +35,11 @@ public class EmployeeManager {
         if(isManager) r.add(Role.MANAGER);
         int id = next_employee_id;
         next_employee_id++;
-        Employee newEmp = new Employee(id,name,bankAcc, r, startWork,employmentType,salaryType,salary,vacationDays,isManager);
+        Employee newEmp = new Employee(id,name,bankAcc, r, startWork, l,employmentType,salaryType,salary,vacationDays,isManager);
         currentEmployees.put(id,newEmp);
         branchEmployees.get(branchId).add(newEmp);
+        BranchRepository.getBranchRepository().insertEmployeeToBranch(id, branchId);
+        EmployeeRepository.getEmployeeRepository().insertEmployee(newEmp,branchId);
         return id;
     }
 
@@ -59,6 +54,7 @@ public class EmployeeManager {
         }
         currentEmployees.remove(id);
         branchEmployees.get(branchId).remove(id);
+        EmployeeRepository.getEmployeeRepository().deleteEmployee(id,branchId);
     }
 
     public void addRole(int id, String role) throws IllegalArgumentException{
@@ -68,10 +64,12 @@ public class EmployeeManager {
         em.addRole(role);
         if(role.toLowerCase() == "manager" && !em.isIsmanagar())
             em.setIsmanagar(true);
+        EmployeeRepository.getEmployeeRepository().addRoleToEmployee(id,role);
     }
     public void removeRole(int id, String role) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.removeRole(role);
+        EmployeeRepository.getEmployeeRepository().removeRollFromEmployee(id,role);
     }
 
     public List<Role> getEmployeeRoles(int id) throws IllegalArgumentException{
@@ -121,31 +119,37 @@ public class EmployeeManager {
     public void setSalary(int id, int salary) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setSalary(salary);
+        EmployeeRepository.getEmployeeRepository().updateEmployee(em);
     }
 
     public void setEmplymentType(int id, String emT) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setEmploymentType(emT);
+        EmployeeRepository.getEmployeeRepository().updateEmployee(em);
     }
 
     public void setVacationDays(int id, int vd) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setVacationDays(vd);
+        EmployeeRepository.getEmployeeRepository().updateEmployee(em);
     }
 
     public void setSalaryType(int id, String st) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setSalaryType(st);
+        EmployeeRepository.getEmployeeRepository().updateEmployee(em);
     }
 
     public void setIsManager(int id, boolean m) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setIsmanagar(m);
+        EmployeeRepository.getEmployeeRepository().updateEmployee(em);
     }
 
     public void setBankAccount(int id, String ba) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setBankAccount(ba);
+        EmployeeRepository.getEmployeeRepository().updateEmployee(em);
     }
 
     public void getSalary(int id) throws IllegalArgumentException{
@@ -155,6 +159,7 @@ public class EmployeeManager {
     public void setName(int id, String n) throws IllegalArgumentException{
         Employee em = getEmployee(id);
         em.setName(n);
+        EmployeeRepository.getEmployeeRepository().updateEmployee(em);
     }
 
     public List<Employee> getHistoryEmployees(int branchId){

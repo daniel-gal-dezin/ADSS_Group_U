@@ -136,8 +136,13 @@ public class UserInterface {
                     else
                         break;
                 }
+                char lis;
+                System.out.println("if the employee is driver, what is his license? ");
+                lis = (System.console().readLine()).charAt(0);
+                if(lis<'a' || lis>'c')
+                    lis = '0';
 
-                output = es.addEmployee(bId, name, bankAcc, LocalDate.now(), employmentType == 1? "full":"partial", salaryType==1? "global":"hourly", salary, vacationDays, isManager == 1);
+                output = es.addEmployee(bId, name, bankAcc, LocalDate.now(), employmentType == 1? "full":"partial", salaryType==1? "global":"hourly", salary, vacationDays, isManager == 1,lis);
             } else if (input.equals("2")) { //set employee
                 System.out.println("enter id");
                 int id = numberChecker();
@@ -293,7 +298,9 @@ public class UserInterface {
                 int id1 = numberChecker();
                 System.out.println("enter storekeeper id");
                 int id2 = numberChecker();
-                output = bs.addDelivery(bId,year,month,day,sType==1?"morning":"evening",id1,id2);
+                System.out.println("enter lisence needed");
+                String lisence = System.console().readLine();
+                output = bs.addDelivery(bId,year,month,day,sType==1?"morning":"evening",id1,id2,lisence.charAt(0));
             } else if (input.equals("22")) { //remove delivery
                 int[] date1 = inputShiftDetails();
                 int year = date1[0];

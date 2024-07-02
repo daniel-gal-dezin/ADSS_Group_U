@@ -235,12 +235,12 @@ public class BusinessService {
 
 
     //delivery functions:
-    public String addDelivery(int brId, int year, int month, int day, String sType, int driverid, int storekeeperid ){
+    public String addDelivery(int brId, int year, int month, int day, String sType, int driverid, int storekeeperid,char lisence ){
         if(year == 0 || month == 0 || day == 0)
             return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try{
-            bm.addDelivery(brId,date,sType,driverid,storekeeperid);
+            bm.addDelivery(brId,date,sType,driverid,storekeeperid,lisence);
         }catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
