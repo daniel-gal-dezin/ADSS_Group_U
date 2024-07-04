@@ -122,7 +122,7 @@ public class DeliveryDAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             pstmt.setInt(3, deliveryId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -146,7 +146,7 @@ public class DeliveryDAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {

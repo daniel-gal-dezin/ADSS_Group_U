@@ -27,6 +27,11 @@
                                                                                                             18.get employee history: This option allows you to retrieve the history of an employee.
                                                                                                             19.change shift dead line for emlpoyees' constrains: This option allows you to change the deadline for the employees' constraints for specific shift.
                                                                                                             20. change end time of morning shift: This option allows you to change the end time of the morning shift for a specific shift.
+                                                                                                            21. add delivery to specif shift
+                                                                                                            22. delete delivery from shift
+                                                                                                            23. change driver from specific delivery
+                                                                                                            24.change storekeeper from specifi delivery
+                                                                                                            25.get the specifi delivery asked for
 
 
 

@@ -318,81 +318,158 @@ public class BusinessManager {
 
 
 
-    public void uploadDataFromDB(){
+//    public void uploadDataFromDB(){
+//        BranchRepository br = BranchRepository.getBranchRepository();
+//        DeliveryRepository dr = DeliveryRepository.getDeliveryRepository();
+////        EmployeeRepository er = EmployeeRepository.getEmployeeRepository();
+//        ShiftRepository sr = ShiftRepository.getShiftRepository();
+//
+//        Map<Integer,String> branchesLST = br.getAllBranches();
+//        branch_idcounter = Collections.max(branchesLST.keySet()) + 1;
+//
+//        //1. GET EMPLOYEES
+//
+//        // branchID -> list<employee>
+//        Map<Integer, List<Employee>> branchEmployees = new HashMap<>();
+//        // id -> employee
+//        Map<Integer,Employee> currentEmployees = new HashMap<>();
+//
+//        for(int bId : branchesLST.keySet()) {
+//            List<Employee> branchesEmployees = br.getAllEmployeeByBranch(bId);
+//
+//            if (!branchEmployees.containsKey(bId))
+//                branchEmployees.put(bId, new ArrayList<>());
+//            branchEmployees.get(bId).addAll(branchesEmployees);
+//
+//            branchesEmployees.stream().forEach((Employee e) -> currentEmployees.put(e.getId(), e));
+//        }
+//        em = new EmployeeManager(branchEmployees,currentEmployees);
+//
+//        // 2. GET SHIFTS
+//        //+3. GET DELIVERIES
+//
+//        //branch -> shiftManager
+//        HashMap<Integer,ShiftManager> shiftManagers = new HashMap<>();
+//        //branch -> deliveryManager
+//        HashMap<Integer,DeliveryManager> deliveryManagers = new HashMap<>();
+//        for(int bId : branchesLST.keySet()) {
+//            Map<Shift, List<Delivery>> deliveriesbyshift = new HashMap<>(); //delivery
+//
+//            HashMap<Pair<LocalDate, ShiftType>, Shift> shifts = new HashMap<>(); //shift
+//            List<Pair<LocalDate, ShiftType>> blockedShift = new ArrayList<>(); //shift
+//
+//            List<Shift> bShifts = br.getAllShiftsByBranch(bId);
+//            for(Shift s: bShifts){
+//                shifts.put(s.getShiftID(),s); //shift
+//
+//                deliveriesbyshift.put(s,dr.getDeliveriesForShift(s.getShiftID().getFirst(),s.getShiftID().getSecond().equals(ShiftType.MORNING)?"morning":"evening"));//delivery
+//            }
+//
+//            List<Shift> bBlockedShifts = sr.getBlockedShifs(bId); //shift
+//            bBlockedShifts.forEach((Shift s) -> blockedShift.add(s.getShiftID())); //shift
+//
+//            shiftManagers.put(bId,new ShiftManager(bId,shifts,blockedShift)); //shift
+//            deliveryManagers.put(bId,new DeliveryManager(bId,deliveriesbyshift));//delivery
+//        }
+//
+//
+//        //once we have shift manager and deliveery manager, we can move forward to:
+//        //4. CREATE BRANCHES
+//
+//        branches = new HashMap<>();
+//
+//        for(int bId : branchesLST.keySet()) {
+//            ShiftManager sm;
+//            DeliveryManager dm;
+//
+//            if(!shiftManagers.containsKey(bId))
+//                sm = new ShiftManager(bId);
+//            else
+//                sm = shiftManagers.get(bId);
+//            if(!deliveryManagers.containsKey(bId))
+//                dm = new DeliveryManager(bId);
+//            else
+//                dm = deliveryManagers.get(bId);
+//
+//            branches.put(bId,new Branch(bId,branchesLST.get(bId),sm,dm));
+//        }
+//
+//    }
+
+
+
+
+
+    public void uploadDataFromDB() {
         BranchRepository br = BranchRepository.getBranchRepository();
         DeliveryRepository dr = DeliveryRepository.getDeliveryRepository();
-//        EmployeeRepository er = EmployeeRepository.getEmployeeRepository();
         ShiftRepository sr = ShiftRepository.getShiftRepository();
 
-        Map<Integer,String> branchesLST = br.getAllBranches();
+        Map<Integer, String> branchesLST = br.getAllBranches(); //get all the branches this method also print the branches
+
+
         branch_idcounter = Collections.max(branchesLST.keySet()) + 1;
 
-        //1. GET EMPLOYEES
-
-        // branchID -> list<employee>
+        // 1. GET EMPLOYEES
         Map<Integer, List<Employee>> branchEmployees = new HashMap<>();
-        // id -> employee
-        Map<Integer,Employee> currentEmployees = new HashMap<>();
+        Map<Integer, Employee> currentEmployees = new HashMap<>();
 
-        for(int bId : branchesLST.keySet()) {
+        for (int bId : branchesLST.keySet()) {
             List<Employee> branchesEmployees = br.getAllEmployeeByBranch(bId);
+            branchEmployees.put(bId,branchesEmployees);
 
-            if (!branchEmployees.containsKey(bId))
-                branchEmployees.put(bId, new ArrayList<>());
-            branchEmployees.get(bId).addAll(branchesEmployees);
+            System.out.println("emplyees list for :" + bId);
+            for(Map.Entry<Integer,List<Employee>> en : branchEmployees.entrySet()){
+                for(Employee em : en.getValue()){
+                    System.out.println("branch " + en.getKey() + " to employee " + em  );
+                }
 
-            branchesEmployees.stream().forEach((Employee e) -> currentEmployees.put(e.getId(), e));
-        }
-        em = new EmployeeManager(branchEmployees,currentEmployees);
-
-        // 2. GET SHIFTS
-        //+3. GET DELIVERIES
-
-        //branch -> shiftManager
-        HashMap<Integer,ShiftManager> shiftManagers = new HashMap<>();
-        //branch -> deliveryManager
-        HashMap<Integer,DeliveryManager> deliveryManagers = new HashMap<>();
-        for(int bId : branchesLST.keySet()) {
-            Map<Shift, List<Delivery>> deliveriesbyshift = new HashMap<>(); //delivery
-
-            HashMap<Pair<LocalDate, ShiftType>, Shift> shifts = new HashMap<>(); //shift
-            List<Pair<LocalDate, ShiftType>> blockedShift = new ArrayList<>(); //shift
-
-            List<Shift> bShifts = br.getAllShiftsByBranch(bId);
-            for(Shift s: bShifts){
-                shifts.put(s.getShiftID(),s); //shift
-
-                deliveriesbyshift.put(s,dr.getDeliveriesForShift(s.getShiftID().getFirst(),s.getShiftID().getSecond().equals(ShiftType.MORNING)?"morning":"evening"));//delivery
             }
 
-            List<Shift> bBlockedShifts = sr.getBlockedShifs(bId); //shift
-            bBlockedShifts.forEach((Shift s) -> blockedShift.add(s.getShiftID())); //shift
+//            if (!branchEmployees.containsKey(bId)) {
+//                branchEmployees.put(bId, new ArrayList<>());
+//            }
+//            branchEmployees.get(bId).addAll(branchesEmployees);
 
-            shiftManagers.put(bId,new ShiftManager(bId,shifts,blockedShift)); //shift
-            deliveryManagers.put(bId,new DeliveryManager(bId,deliveriesbyshift));//delivery
+            for (Employee e : branchesEmployees) {
+                currentEmployees.put(e.getId(), e);
+            }
+        }
+        em = new EmployeeManager(branchEmployees, currentEmployees);
+
+        // 2. GET SHIFTS + 3. GET DELIVERIES
+        Map<Integer, ShiftManager> shiftManagers = new HashMap<>();
+        Map<Integer, DeliveryManager> deliveryManagers = new HashMap<>();
+
+        for (int bId : branchesLST.keySet()) {
+            Map<Shift, List<Delivery>> deliveriesByShift = new HashMap<>();
+            Map<Pair<LocalDate, ShiftType>, Shift> shifts = new HashMap<>();
+            List<Pair<LocalDate, ShiftType>> blockedShift = new ArrayList<>();
+
+            List<Shift> bShifts = br.getAllShiftsByBranch(bId);// get all the sift of the branch
+            for (Shift s : bShifts) {//for each shift get all the deliveries
+                shifts.put(s.getShiftID(), s);// add the shift for the shift list to add later to the shiftmanager of specific branch
+                List<Delivery> deliveries = dr.getDeliveriesForShift(s.getShiftID().getFirst(),//get al the deliveries for that shieft
+                        s.getShiftID().getSecond().equals(ShiftType.MORNING) ? "MORNING" : "EVENING");
+                deliveriesByShift.put(s, deliveries);
+            }
+
+            List<Shift> bBlockedShifts = sr.getBlockedShifs(bId);//get all blocked shift by bid
+            for (Shift s : bBlockedShifts) {
+                blockedShift.add(s.getShiftID());
+            }
+
+            shiftManagers.put(bId, new ShiftManager(bId, (HashMap<Pair<LocalDate, ShiftType>, Shift>) shifts,blockedShift));
+            deliveryManagers.put(bId, new DeliveryManager(bId, deliveriesByShift));
         }
 
-
-        //once we have shift manager and deliveery manager, we can move forward to:
-        //4. CREATE BRANCHES
-
+        // 4. CREATE BRANCHES
         branches = new HashMap<>();
 
-        for(int bId : branchesLST.keySet()) {
-            ShiftManager sm;
-            DeliveryManager dm;
-
-            if(!shiftManagers.containsKey(bId))
-                sm = new ShiftManager(bId);
-            else
-                sm = shiftManagers.get(bId);
-            if(!deliveryManagers.containsKey(bId))
-                dm = new DeliveryManager(bId);
-            else
-                dm = deliveryManagers.get(bId);
-
-            branches.put(bId,new Branch(bId,branchesLST.get(bId),sm,dm));
+        for (int bId : branchesLST.keySet()) {
+            ShiftManager sm = shiftManagers.getOrDefault(bId, new ShiftManager(bId));
+            DeliveryManager dm = deliveryManagers.getOrDefault(bId, new DeliveryManager(bId));
+            branches.put(bId, new Branch(bId, branchesLST.get(bId), sm, dm));
         }
-
     }
 }

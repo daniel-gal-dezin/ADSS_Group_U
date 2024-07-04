@@ -12,4 +12,7 @@ public abstract class DAO {
     public Date fromlocaltodate(LocalDate d){
         return new Date(d.getYear(),d.getMonthValue(),d.getDayOfMonth());
     }
+
+
+
 }

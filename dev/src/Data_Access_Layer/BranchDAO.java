@@ -129,6 +129,11 @@ public class BranchDAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }finally {
+            System.out.println("print branches map");
+            for (Map.Entry<Integer, String> entry : branches.entrySet()) {
+                System.out.println("Branch ID: " + entry.getKey() + ", Branch Name: " + entry.getValue());
+            }
+
             try{
                 conn.close();
             } catch (SQLException e) {
@@ -139,9 +144,8 @@ public class BranchDAO {
     }
 
     public List<Shift> getAllShiftsByBranch(int branchId)   {
-        String sql = "SELECT s.date, s.sType FROM Shift s " +
-                "JOIN BranchtoShift bs ON s.date = bs.Shift_date AND s.sType = bs.shift_type " +
-                "WHERE bs.\"branch-ID\" = ?";
+        String sql = "SELECT \"Shift-date\", \"shift-type\" FROM BranchtoShift " +
+                "WHERE \"branch-ID\" = ?";
         List<Shift> shifts = new ArrayList<>();
 
         Connection conn = null;

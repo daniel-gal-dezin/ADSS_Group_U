@@ -10,6 +10,7 @@ import java.sql.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,11 +28,12 @@ public class ShiftDAO extends DAO {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             LocalDate date = shift.getShiftID().getFirst();
             String stype = shift.getShiftID().getSecond().toString();
-            pstmt.setDate(1, super.fromlocaltodate(shift.getShiftID().getFirst()));
+            Date date1 =Date.valueOf(date);
+            pstmt.setDate(1,date1 );
             pstmt.setString(2, stype);
-            pstmt.setDate(3, super.fromlocaltodate(shift.getDeadLine()));
-            pstmt.setTime(4, fromlocaltimetotime(shift.getStart()));
-            pstmt.setTime(5, fromlocaltimetotime(shift.getEnd()));
+            pstmt.setDate(3, Date.valueOf(shift.getDeadLine()));
+            pstmt.setTime(4, shift.getStart());
+            pstmt.setTime(5, shift.getEnd());
             pstmt.setInt(6, shift.getmanager().getId());
 
             pstmt.executeUpdate();
@@ -49,42 +51,50 @@ public class ShiftDAO extends DAO {
     }
 
 
-
-    public Shift getShift(LocalDate date, String shift)   {
-        String sql = "SELECT * FROM Shift WHERE date = ? AND sType =?";
+    public Shift getShift(LocalDate date, String shift) {
+        String sql = "SELECT * FROM Shift WHERE date = ? AND sType = ?";
         Shift s = null;
 
-
         Connection conn = null;
-        try  {
+        try {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setDate(1, new Date(date.getYear(), date.getMonthValue(), date.getDayOfMonth()));
+            Date sqlDate = Date.valueOf(date);
+            pstmt.setDate(1, sqlDate);
             pstmt.setString(2, shift);
             ResultSet rs = pstmt.executeQuery();
 
-            List<Role> rolesneeded = getRolesneeded(date, shift);
-            s = new Shift(new Pair<LocalDate, ShiftType>(date, convertShiftType(shift)), rolesneeded, edao.getEmployee(rs.getInt("managerid")));
-            List<Employee> worker = getEmployeesForShift(date, shift);
-            for (Employee e : worker) {
-                s.addEmployee(e);
-            }
+            if (rs.next()) {  // Ensure there is data in the result set
+                List<Role> rolesneeded = getRolesneeded(date, shift);
+                int managerid = rs.getInt("managerid");  // Ensure correct column name
 
-            List<Employee> constrains = getconstraintForShift(date, shift);
-            for (Employee e : constrains) {
-                s.addConstraint(e);
-            }
+                // Print managerid for debugging
+                System.out.println("Manager ID: " + managerid);
 
+                s = new Shift(new Pair<>(date, convertShiftType(shift)), rolesneeded, edao.getEmployee(managerid));
+                List<Employee> workers = getEmployeesForShift(date, shift);
+                for (Employee e : workers) {
+                    s.addEmployee(e);
+                }
+
+                List<Employee> constraints = getconstraintForShift(date, shift);
+                for (Employee e : constraints) {
+                    s.addConstraint(e);
+                }
+            } else {
+                System.out.println("No data found for date: " + date + " and shift: " + shift);
+            }
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            try{
-                conn.close();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-
         }
         return s;
     }
@@ -96,11 +106,11 @@ public class ShiftDAO extends DAO {
         try {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
-            pstmt.setDate(1, super.fromlocaltodate(shift.getDeadLine()));
-            pstmt.setTime(2, fromlocaltimetotime(shift.getStart()));
-            pstmt.setTime(3, fromlocaltimetotime(shift.getEnd()));
+            pstmt.setDate(1, Date.valueOf(shift.getDeadLine()));
+            pstmt.setTime(2, shift.getStart());
+            pstmt.setTime(3, shift.getEnd());
             pstmt.setInt(4, shift.getmanager().getId());
-            pstmt.setDate(5, super.fromlocaltodate(shift.getShiftID().getFirst()));
+            pstmt.setDate(5, Date.valueOf(shift.getShiftID().getFirst()));
             pstmt.setString(6, shift.getShiftID().getSecond().toString());
 
             pstmt.executeUpdate();
@@ -155,7 +165,7 @@ public class ShiftDAO extends DAO {
                 String shiftType = rs.getString("sType");
                 List<Role> rolesNeeded = getRolesneeded(date, shiftType);
                 Shift shift = new Shift(new Pair<>(date, convertShiftType(shiftType)), rolesNeeded, edao.getEmployee(rs.getInt("managerid")));
-                List<Employee> workers = getEmployeesForShift(date, shiftType);
+                List<Employee> workers = getEmployeesForShift(date, shiftType.toUpperCase());
                 for (Employee e : workers) {
                     shift.addEmployee(e);
                 }
@@ -189,7 +199,7 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -214,7 +224,7 @@ public class ShiftDAO extends DAO {
         try{
             conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setDate(1, super.fromlocaltodate(date));
+            ps.setDate(1, Date.valueOf(date));
             ps.setString(2, shift);
             ResultSet rs = ps.executeQuery();
 
@@ -250,11 +260,11 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Employee employee = edao.getEmployee(rs.getInt("ID"));
+                Employee employee = edao.getEmployee(rs.getInt("em-id"));
                 employees.add(employee);
             }
         } catch (SQLException e) {
@@ -278,7 +288,7 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -301,7 +311,7 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -331,11 +341,11 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Employee employee = edao.getEmployee(rs.getInt("ID"));
+                Employee employee = edao.getEmployee(rs.getInt("em-id"));
                 employees.add(employee);
             }
         } catch (SQLException e) {
@@ -359,7 +369,7 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -382,7 +392,7 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
-            pstmt.setString(2, shiftType);
+            pstmt.setString(2, shiftType.toUpperCase());
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -405,7 +415,7 @@ public class ShiftDAO extends DAO {
             conn = DriverManager.getConnection(url);
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(2, Date.valueOf(date));
-            pstmt.setString(3, sType);
+            pstmt.setString(3, sType.toUpperCase());
             pstmt.setInt(1, bId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -445,9 +455,8 @@ public class ShiftDAO extends DAO {
     }
 
     public List<Shift> getBlockedShifs(int bId){
-        String sql = "SELECT s.date, s.sType FROM Shift s " +
-                "JOIN BranchtoBlockShifts bs ON bs.date = s.date AND bs.stype = s.sType " +
-                "WHERE bs.branchid = ?";
+        String sql = "SELECT date, sType FROM BranchtoBlockShifts " +
+                "WHERE branchid = ?";
         List<Shift> shifts = new ArrayList<>();
 
         Connection conn = null;
@@ -459,8 +468,9 @@ public class ShiftDAO extends DAO {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                Date d = rs.getDate("s.date");
-                Shift shift = getShift(LocalDate.of(d.getYear(),d.getMonth(), d.getDay()),rs.getString("s.sType"));
+                Date d = rs.getDate("date");
+                LocalDate localDate = d.toLocalDate(); // Convert java.sql.Date to java.time.LocalDate
+                Shift shift = getShift(localDate,rs.getString("sType"));
                 shifts.add(shift);
             }
         } catch (SQLException e) {

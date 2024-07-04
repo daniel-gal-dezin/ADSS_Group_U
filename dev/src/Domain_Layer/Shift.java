@@ -1,8 +1,8 @@
 package Domain_Layer;
 
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +30,8 @@ public class Shift {
     }
 
     public Shift(Pair<LocalDate, ShiftType> shiftID,List<Role> rolesneeded, Employee manager) {
+        if(manager == null)
+            throw new IllegalArgumentException("something went wrong");
         if(!manager.isIsmanagar())
             throw new IllegalArgumentException("can't create a shift, need a manager! the employee inserted isn't one.");
         this.shiftID = shiftID;
@@ -207,16 +209,16 @@ public class Shift {
         this.deadLine = deadLine;
     }
 
-    public LocalTime getStart() {
-        return start;
+    public Time getStart() {
+        return Time.valueOf(start);
     }
 
     public void setStart(LocalTime start) {
         this.start = start;
     }
 
-    public LocalTime getEnd() {
-        return end;
+    public Time getEnd() {
+        return Time.valueOf(end);
     }
 
     public void setEnd(LocalTime end) {

@@ -199,6 +199,9 @@ public void setDefaultRolesForShift(List<String> roles){
 
     public void removeEmployeeFromShift(LocalDate date, String sType, Employee employee){
         Shift shift = getShift(date,sType);
+        if(shift.getmanager().equals(employee)){
+            throw new IllegalArgumentException("cant remove employee he manager");
+        }
         shift.removeEmployee(employee);
         ShiftRepository.getShiftRepository().deleteWorkerFromShift(date,sType,employee.getId());
     }//
