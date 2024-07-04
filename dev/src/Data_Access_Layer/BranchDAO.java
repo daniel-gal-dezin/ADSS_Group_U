@@ -3,31 +3,47 @@ package Data_Access_Layer;
 
 import Domain_Layer.Branch;
 import Domain_Layer.Employee;
+import Domain_Layer.Pair;
 import Domain_Layer.Shift;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BranchDAO {
-    private final String url = "docs/DB.db";
+    String url = "jdbc:sqlite:docs/DB.db";
     private ShiftDAO sDAO = new ShiftDAO();
     private EmployeeDAO eDAO = new EmployeeDAO();
 
-    public BranchDAO() {
+
+    public BranchDAO(){
+        try {
+            Class.forName("org.sqlite.JDBC");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void insertBranch(Branch branch)  {
         String sql = "INSERT INTO Branch(ID, name) VALUES(?, ?)";
-
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, branch.getId());
             pstmt.setString(2, branch.getName());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -35,8 +51,10 @@ public class BranchDAO {
         String sql = "SELECT * FROM Branch WHERE ID = ?";
         Branch branch = null;
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try  {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
 
@@ -45,6 +63,12 @@ public class BranchDAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return branch;
     }
@@ -52,42 +76,64 @@ public class BranchDAO {
     public void updateBranch(Branch branch)   {
         String sql = "UPDATE Branch SET name = ? WHERE ID = ?";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, branch.getName());
             pstmt.setInt(2, branch.getId());
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public void deleteBranch(int id)   {
         String sql = "DELETE FROM Branch WHERE ID = ?";
 
-        try (Connection conn = DriverManager.getConnection(url);
-            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public List<Branch> getAllBranches()   {
+    public Map<Integer,String> getAllBranches()   {
         String sql = "SELECT * FROM Branch";
-        List<Branch> branches = new ArrayList<>();
+        Map<Integer,String> branches = new HashMap<>();
 
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+        Connection conn = null;
+        try  {
+            conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                Branch branch = new Branch(rs.getInt("ID"), rs.getString("name"));
-                branches.add(branch);
+                branches.put(rs.getInt("ID"), rs.getString("name"));
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return branches;
     }
@@ -98,8 +144,10 @@ public class BranchDAO {
                 "WHERE bs.branch_ID = ?";
         List<Shift> shifts = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, branchId);
             ResultSet rs = pstmt.executeQuery();
 
@@ -111,6 +159,12 @@ public class BranchDAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return shifts;
     }
@@ -119,11 +173,13 @@ public class BranchDAO {
 
     ////////////////////////BranchtoEmployee table
     public List<Employee> getAllEmployeeByBranch(int branchId) {
-        String sql = "SELECT emp-id FROM BranchtoEmployee WHERE Branch-id = ?";
+        String sql = "SELECT \"emp-id\" FROM BranchtoEmployee WHERE \"Branch-id\" = ?";
         List<Employee> employees = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, branchId);
             ResultSet rs = pstmt.executeQuery();
 
@@ -136,6 +192,12 @@ public class BranchDAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return employees;
     }
@@ -143,23 +205,33 @@ public class BranchDAO {
 
 
     public void insertEmployeeToBranch(int branchId, int employeeId) {
-        String sql = "INSERT INTO BranchtoEmployee(Branch-id, emp-id) VALUES(?, ?)";
+        String sql = "INSERT INTO BranchtoEmployee(\"Branch-id\", \"emp-id\") VALUES(?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, branchId);
             pstmt.setInt(2, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public void deleteEmployeeFromBranch(int branchId, int employeeId) {
-        String sql = "DELETE FROM BranchtoEmployee WHERE Branch-id = ? AND emp-id = ?";
+        String sql = "DELETE FROM BranchtoEmployee WHERE \"Branch-id\" = ? AND emp-id = ?";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, branchId);
             pstmt.setInt(2, employeeId);
             pstmt.executeUpdate();
@@ -167,6 +239,12 @@ public class BranchDAO {
             eDAO.deleteEmployee(employeeId);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

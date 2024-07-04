@@ -156,9 +156,9 @@ public class EmployeeService {
         return new Response(listToString(em.getHistoryEmployees(bId))).toJson();
     }
 
-    public String deleteEmployee(int empId, int id){
+    public String deleteEmployee(int branchId, int emd){
         try{
-            em.deleteEmployee(empId, id);
+            em.deleteEmployee(branchId, emd);
             return new Response().toJson();
         } catch (Exception e){
             return new Response(e.getMessage()).toJson();

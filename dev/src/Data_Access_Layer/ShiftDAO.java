@@ -14,15 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShiftDAO extends DAO {
-    private final String url = "docs/DB.db";
+    private final String url = "jdbc:sqlite:docs/DB.db";
     EmployeeDAO edao = new EmployeeDAO();
 
 
     public void insertShift(Shift shift)  {
         String sql = "INSERT INTO Shift(date, sType, constraint_deadline, start, end, managerid) VALUES(?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             LocalDate date = shift.getShiftID().getFirst();
             String stype = shift.getShiftID().getSecond().toString();
             pstmt.setDate(1, super.fromlocaltodate(shift.getShiftID().getFirst()));
@@ -37,6 +39,12 @@ public class ShiftDAO extends DAO {
 
         } catch (SQLException e) {
             System.out.println(e);
+        } finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -47,9 +55,10 @@ public class ShiftDAO extends DAO {
         Shift s = null;
 
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
+        Connection conn = null;
+        try  {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, new Date(date.getYear(), date.getMonthValue(), date.getDayOfMonth()));
             pstmt.setString(2, shift);
             ResultSet rs = pstmt.executeQuery();
@@ -69,6 +78,13 @@ public class ShiftDAO extends DAO {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return s;
     }
@@ -76,8 +92,10 @@ public class ShiftDAO extends DAO {
     public void updateShift(Shift shift) {
         String sql = "UPDATE Shift SET constraint_deadline = ?, start = ?, end = ?, managerid = ? WHERE date = ? AND sType = ?";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, super.fromlocaltodate(shift.getDeadLine()));
             pstmt.setTime(2, fromlocaltimetotime(shift.getStart()));
             pstmt.setTime(3, fromlocaltimetotime(shift.getEnd()));
@@ -88,20 +106,36 @@ public class ShiftDAO extends DAO {
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     public void deleteShift(LocalDate date, String shiftType)   {
         String sql = "DELETE FROM Shift WHERE date = ? AND sType = ?";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
             pstmt.setString(2, shiftType);
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
@@ -111,10 +145,11 @@ public class ShiftDAO extends DAO {
         String sql = "SELECT * FROM Shift";
         List<Shift> shifts = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
-
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 LocalDate date = rs.getDate("date").toLocalDate();
                 String shiftType = rs.getString("sType");
@@ -134,19 +169,50 @@ public class ShiftDAO extends DAO {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return shifts;
     }
 
 
+    public void deleteshifttoroll(LocalDate date, String shiftType)   {
+        String sql = "DELETE FROM Rolesneededforshift WHERE date = ? AND sType = ?";
 
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setDate(1, Date.valueOf(date));
+            pstmt.setString(2, shiftType);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+    }
 
 
     public List<Role> getRolesneeded(LocalDate date, String shift) {
         List<String> ans = new ArrayList<>();
         String sql = "SELECT rn.role FROM Rolesneededforshift as rn " +
                 "WHERE se.shiftDate = ? AND se.shiftType = ?";
-        try (Connection conn = DriverManager.getConnection(url)) {
+
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setDate(1, super.fromlocaltodate(date));
             ps.setString(2, shift);
@@ -158,6 +224,13 @@ public class ShiftDAO extends DAO {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return ans.stream().map((String r) -> Employee.convertRole(r)).toList();
     }
@@ -171,9 +244,11 @@ public class ShiftDAO extends DAO {
         String sql = "SELECT se.employeeId FROM ShifttoConstraints se  " +
                 "WHERE se.shiftDate = ? AND se.shiftType = ?";
         List<Employee> employees = new ArrayList<>();
+        Connection conn = null;
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
             pstmt.setString(2, shiftType);
             ResultSet rs = pstmt.executeQuery();
@@ -184,35 +259,60 @@ public class ShiftDAO extends DAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return employees;
     }
 
     public void addConstraintToShift(LocalDate shiftDate, String shiftType, int employeeId)   {
-        String sql = "INSERT INTO ShifttoConstraints(shift-date, shift-type, em-id) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO ShifttoConstraints(\"shift-date\", \"shift-type\", \"em-id\") VALUES(?, ?, ?)";
+        Connection conn = null;
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try  {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
             pstmt.setString(2, shiftType);
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     public void deleteConstraintFromShift(LocalDate shiftDate, String shiftType, int employeeId)   {
-        String sql = "DELETE FROM ShifttoConstraints WHERE shift-date = ? AND shift-type = ? AND em-id = ?";
+        String sql = "DELETE FROM ShifttoConstraints WHERE \"shift-date\" = ? AND \"shift-type\" = ? AND \"em-id\" = ?";
+        Connection conn = null;
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try  {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
             pstmt.setString(2, shiftType);
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
@@ -226,9 +326,11 @@ public class ShiftDAO extends DAO {
                 "JOIN Shiftworker se ON e.employeeId = se.employeeId " +
                 "WHERE se.shiftDate = ? AND se.shiftType = ?";
         List<Employee> employees = new ArrayList<>();
+        Connection conn = null;
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try  {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
             pstmt.setString(2, shiftType);
             ResultSet rs = pstmt.executeQuery();
@@ -239,62 +341,107 @@ public class ShiftDAO extends DAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return employees;
     }
 
     public void addWorkerToShift(LocalDate shiftDate, String shiftType, int employeeId)   {
-        String sql = "INSERT INTO Shiftworker(shift-date, shift-type, em-id) VALUES(?, ?, ?)";
+        String sql = "INSERT INTO Shiftworker(\"shift-date\", \"shift-type\", \"em-id\") VALUES(?, ?, ?)";
+        Connection conn = null;
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
             pstmt.setString(2, shiftType);
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     public void deleteWorkerFromShift(LocalDate shiftDate, String shiftType, int employeeId)   {
-        String sql = "DELETE FROM Shiftworker WHERE shift-date = ? AND shift-type = ? AND em-id = ?";
+        String sql = "DELETE FROM Shiftworker WHERE \"shift-date\" = ? AND \"shift-type\" = ? AND \"em-id\" = ?";
+        Connection conn = null;
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(shiftDate));
             pstmt.setString(2, shiftType);
             pstmt.setInt(3, employeeId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     public void insertBlockedShift(LocalDate date, String sType, int bId){
         String sql = "INSERT INTO BranchtoBlockShifts(branchid, date, sType) VALUES(?, ?, ?)";
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(2, Date.valueOf(date));
             pstmt.setString(3, sType);
             pstmt.setInt(1, bId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     public void deleteBlockedShift(LocalDate date, String sType, int bId){
         String sql = "DELETE FROM BranchtoBlockShifts WHERE branchid = ? AND date = ? AND sType = ?";
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+
+        try {
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(2, Date.valueOf(date));
             pstmt.setString(3, sType);
             pstmt.setInt(1, bId);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
@@ -304,8 +451,11 @@ public class ShiftDAO extends DAO {
                 "WHERE bs.branchid = ?";
         List<Shift> shifts = new ArrayList<>();
 
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+
+        try{
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setInt(1, bId);
             ResultSet rs = pstmt.executeQuery();
 
@@ -316,6 +466,13 @@ public class ShiftDAO extends DAO {
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return shifts;
     }
@@ -323,11 +480,11 @@ public class ShiftDAO extends DAO {
 
 /////////////////////////////////////BranchtoShift
 public void insertShiftToBranch(LocalDate date, String sType, int bId){
-    String sql = "INSERT INTO BranchtoShift(\"branch-ID\", \"Shift-date\", \"shif-type\") VALUES(?, ?, ?)";
-
-    try (Connection conn = DriverManager.getConnection(url);
-         PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
+    String sql = "INSERT INTO BranchtoShift(\"branch-ID\", \"Shift-date\", \"shift-type\") VALUES(?, ?, ?)";
+    Connection conn = null;
+    try  {
+        conn = DriverManager.getConnection(url);
+        PreparedStatement pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, bId);
         pstmt.setDate(2, Date.valueOf(date));
         pstmt.setString(3, sType);
@@ -337,14 +494,22 @@ public void insertShiftToBranch(LocalDate date, String sType, int bId){
 
     } catch (SQLException e) {
         System.out.println(e);
+    }finally {
+        try{
+            conn.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
 
     public void deleteShiftFromBranch(LocalDate date, String sType, int bId){
         String sql = "DELETE FROM BranchtoShift WHERE \"Shift-date\" = ? AND \"shift-type\" = ? AND \"branch-ID\" = ?";
-
-        try (Connection conn = DriverManager.getConnection(url);
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
+            PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setDate(1, Date.valueOf(date));
             pstmt.setString(2, sType);
             pstmt.setInt(3, bId);
@@ -352,6 +517,13 @@ public void insertShiftToBranch(LocalDate date, String sType, int bId){
             pstmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
+        }finally {
+            try{
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 

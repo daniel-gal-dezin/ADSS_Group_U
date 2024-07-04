@@ -6,6 +6,7 @@ import Domain_Layer.Employee;
 import Domain_Layer.Shift;
 
 import java.util.List;
+import java.util.Map;
 
 public class BranchRepository {
     BranchDAO BDAO = new BranchDAO();
@@ -35,7 +36,7 @@ public class BranchRepository {
         BDAO.deleteBranch(id);
     }
 
-    public List<Branch> getAllBranches() {
+    public Map<Integer,String> getAllBranches() {
         return BDAO.getAllBranches();
     }
 

@@ -121,12 +121,11 @@ public class BusinessService {
         return r.toJson();
     }
 
-    public String changeShift(int brId, int id1, int id2,int year1, int month1, int day1, String sType1,int year2, int month2, int day2, String sType2){
+    public String changeShift(int brId, int id1, int id2,int year1, int month1, int day1, String sType1){
 
-        LocalDate date1 = LocalDate.of(year2,month2,day2);
-        LocalDate date2 = LocalDate.of(year2,month2,day2);
+        LocalDate date1 = LocalDate.of(year1,month1,day1);
         try {
-            bm.changeShift(brId, id1, id2, date1, sType1, date2, sType2);
+            bm.changeShift(brId, id1, id2, date1, sType1);
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
@@ -145,12 +144,12 @@ public class BusinessService {
         return new Response().toJson();
     }
 
-    public String addConstraint(int brId, int year, int month, int day, String sType, int id){
+    public String addConstraint(int brId, int year, int month, int day, String sType, int emid){
         if(year == 0 || month == 0 || day == 0)
             return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            bm.addConstraint(brId, date, sType, id);
+            bm.addConstraint(brId, date, sType, emid);
         } catch(Exception e){
             return new Response(e.getMessage()).toJson();
         }
@@ -221,12 +220,12 @@ public class BusinessService {
         return new Response().toJson();
     }
 
-    public String addEmployeeToShift(int brId, int year, int month, int day, String sType, int id){
+    public String addEmployeeToShift(int brId, int year, int month, int day, String sType, int emid){
         if(year == 0 || month == 0 || day == 0)
             return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try {
-            bm.addEmployeetoshift(brId, date,sType, id);
+            bm.addEmployeetoshift(brId, date,sType, emid);
         }catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
@@ -239,12 +238,13 @@ public class BusinessService {
         if(year == 0 || month == 0 || day == 0)
             return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
+        Response r = new Response();
         try{
-            bm.addDelivery(brId,date,sType,driverid,storekeeperid,lisence);
+            r.ReturnValue = String.valueOf(bm.addDelivery(brId,date,sType,driverid,storekeeperid,lisence));
         }catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }
-        return new Response().toJson();
+        return r.toJson();
     }
 
     public String removeDelivery(int brId, int year, int month, int day, String sType, int deliveryId){
@@ -271,12 +271,12 @@ public class BusinessService {
         return new Response().toJson();
     }
 
-    public String changeDeliveryStoreKeeper(int branchId, int year, int month, int day, String sType, int skId, int newskId){
+    public String changeDeliveryStoreKeeper(int branchId, int year, int month, int day, String sType, int delId, int newskId){
         if(year == 0 || month == 0 || day == 0)
             return new Response("Invalid date").toJson();
         LocalDate date = LocalDate.of(year,month,day);
         try{
-            bm.changeDeliveryStoreKeeper(branchId,date,sType,skId,newskId);
+            bm.changeDeliveryStoreKeeper(branchId,date,sType,delId,newskId);
         }catch (Exception e){
             return new Response(e.getMessage()).toJson();
         }

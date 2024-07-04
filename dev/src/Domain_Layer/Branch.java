@@ -18,12 +18,14 @@ public class Branch {
         this.id = id;
         this.sm = sm;
         this.dm = dm;
+        this.name = name;
     }
 
     public Branch(int id, String name){
         this.id = id;
         this.sm = new ShiftManager(id);
         this.dm = new DeliveryManager(id);
+        this.name =name;
     }
 
 
@@ -99,7 +101,7 @@ public class Branch {
 
 // from here relevant function for delivery
 
-    public void addDelivery(LocalDate date, String stype, Employee driver, Employee storeKeeper,char lisence){
+    public int addDelivery(LocalDate date, String stype, Employee driver, Employee storeKeeper,char lisence){
         //if shift dosent exist throw error
         Shift s = sm.getShift(date,stype);
 
@@ -115,7 +117,7 @@ public class Branch {
             throw new IllegalArgumentException("store keeper isn't in the shift add hime first");
         }
         //the check if driver already assign to a delivery chech in the delivery manager.
-        dm.addDelivery(s,driver,storeKeeper,lisence);
+        return dm.addDelivery(s,driver,storeKeeper,lisence);
 
     }
 

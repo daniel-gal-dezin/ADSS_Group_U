@@ -1,13 +1,13 @@
 package Domain_Layer;
 
 import Domain_Layer.Repositories.BranchRepository;
+import Domain_Layer.Repositories.DeliveryRepository;
+import Domain_Layer.Repositories.EmployeeRepository;
 import Domain_Layer.Repositories.ShiftRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BusinessManager {
     private Map<Integer,Branch> branches;
@@ -32,6 +32,11 @@ public class BusinessManager {
         return branches.containsKey(id) ? "":"Branch not exist";
     }
 
+    public Branch getBranch(int bid){
+        return branches.get(bid);
+    }
+
+
     public void createBranch(String name){
         Branch newBranch = new Branch(branch_idcounter, name,shiftmanagerFactory.createShiftManager(), deliverymanagerfactory.createDeliveryManager());
         branches.put(branch_idcounter,newBranch);
@@ -45,14 +50,14 @@ public class BusinessManager {
         if(!branches.containsKey(branchId))
             throw new IllegalArgumentException("no such branch");
         Shift s = branches.get(branchId).createShift(date,sType,rolesneeded,em.getEmployee(manager));
-        ShiftRepository.getShiftRepository().insertShift(s);
+        ShiftRepository.getShiftRepository().insertShift(s,branchId);
     }
 
     public void createShiftwithdefroles(int branchId,LocalDate date, String sType, int managerId) throws IllegalArgumentException{
         if(!branches.containsKey(branchId))
             throw new IllegalArgumentException("no such branch");
         Shift s = branches.get(branchId).createShiftwithdefroles(date,sType,em.getEmployee(branchId,managerId));
-        ShiftRepository.getShiftRepository().insertShift(s);
+        ShiftRepository.getShiftRepository().insertShift(s,branchId);
     }
 
 
@@ -148,6 +153,7 @@ public class BusinessManager {
 
 
 
+
     public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1){
         if(!branches.containsKey(branchId))
             throw new IllegalArgumentException("no such branch");
@@ -155,33 +161,17 @@ public class BusinessManager {
         Employee em1 = em.getEmployee(e1);
         Employee em2 = em.getEmployee(e2);
         Shift s1 = b.getSm().getShift(date1,sType1);
-        if(s1.getShiftmanager().equals(em1)){
-            if(em2.isIsmanagar())
-                changeManager(branchId,date1,sType1,e1);
-            else
+        if(s1.getShiftmanager().equals(em1) ) {
+            if (em2.isIsmanagar())
+                changeManager(branchId, date1, sType1, em2.getId());
+            else{
                 throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
+            }
         }
 
-    }
-
-
-    public void changeShift(int branchId,int e1, int e2, LocalDate date1, String sType1,LocalDate date2, String sType2 ){
-        if(!branches.containsKey(branchId))
-            throw new IllegalArgumentException("no such branch");
-        Branch b = branches.get(branchId);
-        Employee em1 = em.getEmployee(e1);
-        Employee em2 = em.getEmployee(e2);
-        Shift s1 = b.getSm().getShift(date1,sType1);
-        Shift s2 = b.getSm().getShift(date2, sType2);
-        if((s1.getShiftmanager().equals(em1) || s2.getShiftmanager().equals(em2)))
-            throw new IllegalArgumentException ("can't change shift of manager please do it via change manager");
-
-        int e1type = branches.get(branchId).getDm().isDriverOrStorekeeper(em1,s1.getShiftID().getFirst(), s1.getShiftID().getSecond());
-        int e2type = branches.get(branchId).getDm().isDriverOrStorekeeper(em2,s2.getShiftID().getFirst(), s2.getShiftID().getSecond());
-        //if((e1type == e2type && e1type == 0)|| )
-        if(!branches.get(branchId).getDm().canBeRemoven(em1,s1) || !branches.get(branchId).getDm().canBeRemoven(em2,s2))
+        if(!branches.get(branchId).getDm().canBeRemoven(em1,s1))
             throw new IllegalArgumentException("one of the employees cannot be removen! he is part of an expected delivery");
-        branches.get(branchId).getSm().changeShift(em.getEmployee(e1),em.getEmployee(e2),date1,sType1,date2,sType2);
+        branches.get(branchId).getSm().changeShift(em.getEmployee(e1),em.getEmployee(e2),date1,sType1);
     }
 
 
@@ -206,13 +196,13 @@ public class BusinessManager {
 
 
         //add to service layer
-    public void addDelivery(int branchid, LocalDate date, String stype, int driverid, int storekeeperid,char lisence){
+    public int addDelivery(int branchid, LocalDate date, String stype, int driverid, int storekeeperid,char lisence){
         //if employee dosent exist throw error
         if(!branches.containsKey(branchid))
             throw new IllegalArgumentException("no such branch");
         Employee e1 = em.getEmployee(branchid,driverid);
         Employee e2 = em.getEmployee(branchid,storekeeperid);
-        branches.get(branchid).addDelivery(date,stype,e1,e2,lisence);
+        return branches.get(branchid).addDelivery(date,stype,e1,e2,lisence);
     }
 
 
@@ -228,10 +218,10 @@ public class BusinessManager {
         branches.get(branchId).changeDeliveryDriver(date,sType,deliveryId,em.getEmployee(branchId,newDriverId));
     }
 
-    public void changeDeliveryStoreKeeper(int branchId, LocalDate date, String sType, int storeKeeperId, int newstoreKeeperId){
+    public void changeDeliveryStoreKeeper(int branchId, LocalDate date, String sType, int delId, int newstoreKeeperId){
         if(!branches.containsKey(branchId))
             throw new IllegalArgumentException("no such branch");
-        branches.get(branchId).changeDeliveryStoreKeeper(date,sType,storeKeeperId,em.getEmployee(branchId,newstoreKeeperId));
+        branches.get(branchId).changeDeliveryStoreKeeper(date,sType,delId,em.getEmployee(branchId,newstoreKeeperId));
     }
     public String getdelivery(int branchId, LocalDate date, String sType, int deliveryId){
         if(!branches.containsKey(branchId))
@@ -324,4 +314,83 @@ public class BusinessManager {
     }
 
 
+
+
+    public void uploadDataFromDB(){
+        BranchRepository br = BranchRepository.getBranchRepository();
+        DeliveryRepository dr = DeliveryRepository.getDeliveryRepository();
+//        EmployeeRepository er = EmployeeRepository.getEmployeeRepository();
+        ShiftRepository sr = ShiftRepository.getShiftRepository();
+
+        Map<Integer,String> branchesLST = br.getAllBranches();
+        branch_idcounter = Collections.max(branchesLST.keySet()) + 1;
+
+        //1. GET EMPLOYEES
+
+        // branchID -> list<employee>
+        Map<Integer, List<Employee>> branchEmployees = new HashMap<>();
+        // id -> employee
+        Map<Integer,Employee> currentEmployees = new HashMap<>();
+
+        for(int bId : branchesLST.keySet()) {
+            List<Employee> branchesEmployees = br.getAllEmployeeByBranch(bId);
+
+            if (!branchEmployees.containsKey(bId))
+                branchEmployees.put(bId, new ArrayList<>());
+            branchEmployees.get(bId).addAll(branchesEmployees);
+
+            branchesEmployees.stream().forEach((Employee e) -> currentEmployees.put(e.getId(), e));
+        }
+        em = new EmployeeManager(branchEmployees,currentEmployees);
+
+        // 2. GET SHIFTS
+        //+3. GET DELIVERIES
+
+        //branch -> shiftManager
+        HashMap<Integer,ShiftManager> shiftManagers = new HashMap<>();
+        //branch -> deliveryManager
+        HashMap<Integer,DeliveryManager> deliveryManagers = new HashMap<>();
+        for(int bId : branchesLST.keySet()) {
+            Map<Shift, List<Delivery>> deliveriesbyshift = new HashMap<>(); //delivery
+
+            HashMap<Pair<LocalDate, ShiftType>, Shift> shifts = new HashMap<>(); //shift
+            List<Pair<LocalDate, ShiftType>> blockedShift = new ArrayList<>(); //shift
+
+            List<Shift> bShifts = br.getAllShiftsByBranch(bId);
+            for(Shift s: bShifts){
+                shifts.put(s.getShiftID(),s); //shift
+
+                deliveriesbyshift.put(s,dr.getDeliveriesForShift(s.getShiftID().getFirst(),s.getShiftID().getSecond().equals(ShiftType.MORNING)?"morning":"evening"));//delivery
+            }
+
+            List<Shift> bBlockedShifts = sr.getBlockedShifs(bId); //shift
+            bBlockedShifts.forEach((Shift s) -> blockedShift.add(s.getShiftID())); //shift
+
+            shiftManagers.put(bId,new ShiftManager(bId,shifts,blockedShift)); //shift
+            deliveryManagers.put(bId,new DeliveryManager(bId,deliveriesbyshift));//delivery
+        }
+
+
+        //once we have shift manager and deliveery manager, we can move forward to:
+        //4. CREATE BRANCHES
+
+        branches = new HashMap<>();
+
+        for(int bId : branchesLST.keySet()) {
+            ShiftManager sm;
+            DeliveryManager dm;
+
+            if(!shiftManagers.containsKey(bId))
+                sm = new ShiftManager(bId);
+            else
+                sm = shiftManagers.get(bId);
+            if(!deliveryManagers.containsKey(bId))
+                dm = new DeliveryManager(bId);
+            else
+                dm = deliveryManagers.get(bId);
+
+            branches.put(bId,new Branch(bId,branchesLST.get(bId),sm,dm));
+        }
+
+    }
 }

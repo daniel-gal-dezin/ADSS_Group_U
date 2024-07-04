@@ -25,11 +25,13 @@ public class Delivery {
 
 
     public Delivery(int deliveryid, Employee driver, Employee store_keeper ,char license) {
-        setDriver(driver);
-        setStore_keeper(store_keeper);
         this.deliveryid = deliveryid;
         this.licenseneeded = license;
+        setDriver(driver);
+        setStore_keeper(store_keeper);
     }
+
+
 
     public int getDeliveryid() {
         return deliveryid;
@@ -40,8 +42,11 @@ public class Delivery {
         return driver;
     }
 
+
     public void setDriver(Employee driver) {
         if(!checkDriver(driver)) throw new IllegalArgumentException("must insert driver");
+        if(driver.getLicense() < this.licenseneeded) // if he has 'a' but need 'b' or 'c'\
+            throw new IllegalArgumentException("must insert driver with appropriate license");
         this.driver = driver;
     }
 

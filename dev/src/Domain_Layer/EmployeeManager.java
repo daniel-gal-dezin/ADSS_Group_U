@@ -21,6 +21,11 @@ public class EmployeeManager {
         next_employee_id = 1;
     }
 
+    public EmployeeManager(Map<Integer, List<Employee>> branchEmployees, Map<Integer,Employee> currentEmployees){
+        this.branchEmployees = branchEmployees;
+        this.currentEmployees = currentEmployees;
+    }
+
     public void createBranch(int id){
         branchHistoryEmployees.put(id,new ArrayList<>());
         branchEmployees.put(id,new ArrayList<>());
@@ -38,7 +43,7 @@ public class EmployeeManager {
         Employee newEmp = new Employee(id,name,bankAcc, r, startWork, l,employmentType,salaryType,salary,vacationDays,isManager);
         currentEmployees.put(id,newEmp);
         branchEmployees.get(branchId).add(newEmp);
-        BranchRepository.getBranchRepository().insertEmployeeToBranch(id, branchId);
+        BranchRepository.getBranchRepository().insertEmployeeToBranch(branchId, id);
         EmployeeRepository.getEmployeeRepository().insertEmployee(newEmp,branchId);
         return id;
     }

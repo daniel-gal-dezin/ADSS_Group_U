@@ -41,8 +41,9 @@ public class ShiftRepository {
 
 
     public void deleteShift(Shift shift, int bId){
-        shDAO.deleteShift(shift.getShiftID().getFirst(), shift.getShiftID().getSecond().toString());
         shDAO.deleteShiftFromBranch(shift.getShiftID().getFirst(),shift.getShiftID().getSecond().toString(),bId);
+        shDAO.deleteshifttoroll(shift.getShiftID().getFirst(),shift.getShiftID().getSecond().toString());
+        shDAO.deleteShift(shift.getShiftID().getFirst(), shift.getShiftID().getSecond().toString());
     }
 
     public List<Shift> getAllShifts(){

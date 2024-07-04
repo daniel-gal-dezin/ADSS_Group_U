@@ -3,6 +3,7 @@ package Presentation_Layer;
 import Service_Layer.EmployeeService;
 import Service_Layer.BusinessService;
 import Service_Layer.SystemInit;
+import com.sun.java.swing.action.AlignCenterAction;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -26,11 +27,11 @@ public class UserInterface {
 
         System.out.println("welcome to the system\n");
 
-        System.out.println("would you like to recover default data? y/n");
-        String input = System.console().readLine();
-        if(input.equals("y")){
-            si.adddefualtinit();
-        }
+//        System.out.println("would you like to recover default data? y/n");
+//        String input = System.console().readLine();
+//        if(input.equals("y")){
+//            si.adddefualtinit();
+//        }
         while(true) {
 
             System.out.println("Who is using the system? \n1.hr\n2.worker");
@@ -95,7 +96,7 @@ public class UserInterface {
 
     public void hr_loop(int bId) {
         while (true) {
-            System.out.println("what would you like to do? \n1.  add employee\n2.  set employee\n3.  get employee\n4.  set default roles\n5.  create shift\n6.  block shift\n7.  unblock shift\n8.  get available employees for shift\n9.  change shift manager\n10. create new branch\n11. exit\n12. add employee to shift\n13. delete employee from shift\n14. get shift\n15. change shifts\n16. get employee from branch\n17. get shift history\n18. get employee history\n19. change shift dead line for emlpoyees' constrains\n20. change end time of morning shift\n21. add delivery\n22. remove delivery\n23. change driver\n24. change storekeeper\n5.get delivery ");
+            System.out.println("what would you like to do? \n1.  add employee\n2.  set employee\n3.  get employee\n4.  set default roles\n5.  create shift\n6.  block shift\n7.  unblock shift\n8.  get available employees for shift\n9.  change shift manager\n10. create new branch\n11. exit\n12. add employee to shift\n13. delete employee from shift\n14. get shift\n15. change shifts\n16. get employee from branch\n17. get shift history\n18. get employee history\n19. change shift dead line for emlpoyees' constrains\n20. change end time of morning shift\n21. add delivery\n22. remove delivery\n23. change driver\n24. change storekeeper\n25.get delivery ");
             String input = System.console().readLine();
             String output = "";
             if (input.equals("1")) { //add employee
@@ -138,7 +139,8 @@ public class UserInterface {
                 }
                 char lis;
                 System.out.println("if the employee is driver, what is his license? ");
-                lis = (System.console().readLine()).charAt(0);
+                String str = System.console().readLine();
+                lis = str.equals("")? '0':str.charAt(0);
                 if(lis<'a' || lis>'c')
                     lis = '0';
 
@@ -250,13 +252,7 @@ public class UserInterface {
                 int month1 = date1[1];
                 int day1 = date1[2];
                 int sType1 = date1[3];
-                System.out.println("you will be ask next to enter second employee shift date");
-                int[] date2 = inputShiftDetails();
-                int year2 = date2[0];
-                int month2 = date2[1];
-                int day2 = date2[2];
-                int sType2 = date2[3];
-                output = bs.changeShift(bId, id1, id2, year1, month1, day1, sType1==1?"morning":"evening", year2, month2, day2, sType2==1?"morning":"evening");
+                output = bs.changeShift(bId, id1, id2, year1, month1, day1, sType1==1?"morning":"evening");
 
             }  else if (input.equals("16")) { //get employees from branch
                 output = es.getBranchEmployees(bId);
@@ -300,6 +296,10 @@ public class UserInterface {
                 int id2 = numberChecker();
                 System.out.println("enter lisence needed");
                 String lisence = System.console().readLine();
+                while(!lisence.equals("a") && !lisence.equals("b") && !lisence.equals("c")){
+                    System.out.println("only accepts 'a', 'b' or 'c'\tenter lisence needed");
+                    lisence = System.console().readLine();
+                }
                 output = bs.addDelivery(bId,year,month,day,sType==1?"morning":"evening",id1,id2,lisence.charAt(0));
             } else if (input.equals("22")) { //remove delivery
                 int[] date1 = inputShiftDetails();
@@ -329,12 +329,12 @@ public class UserInterface {
                 int month = date1[1];
                 int day = date1[2];
                 int sType = date1[3];
-                System.out.println("enter old storekeeper id");
-                int id1 = numberChecker();
+                System.out.println("enter delivery id");
+                int delId = numberChecker();
                 System.out.println("enter new storekeeper id");
-                int id2 = numberChecker();
+                int id = numberChecker();
 
-                output = bs.changeDeliveryStoreKeeper(bId,year,month,day,sType==1?"morning":"evening",id1,id2);
+                output = bs.changeDeliveryStoreKeeper(bId,year,month,day,sType==1?"morning":"evening",delId,id);
 
             }else if (input.equals("25")) { //get delivery
                 int[] date1 = inputShiftDetails();

@@ -42,7 +42,7 @@ public class DeliveryRepository {
         delDAO.addDeliveryToShift(date,shiftType,deliveryId);
     }
 
-    public List<Delivery> getDeliveriesForShift(LocalDate date, String shiftType) throws SQLException {
+    public List<Delivery> getDeliveriesForShift(LocalDate date, String shiftType)  {
         return delDAO.getDeliveriesForShift(date,shiftType);
     }
 

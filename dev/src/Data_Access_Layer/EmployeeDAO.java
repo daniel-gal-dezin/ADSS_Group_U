@@ -11,34 +11,44 @@ import java.util.Locale;
 import Domain_Layer.Role;
 
 public class EmployeeDAO extends DAO {
-    final String url = "docs/DB.db";
+    final String url = "jdbc:sqlite:docs/DB.db";
 
     public void insertEmployee(Employee em)  {
-        String sql = "INSERT INTO Employee(ID,name,\"bank-account\",\"start-work\",\"employment-type\", \"salary-type\", vacation_days,license, ismanager) VALUES(?,?,?,?,?,?,?,?,?)";
-
-        try(Connection conn = DriverManager.getConnection(url)){
+        String sql = "INSERT INTO Employee(ID,name,\"bank-account\",\"start-work\",\"employment-type\", \"salary-type\", vacations_days,license, ismanager, salary) VALUES(?,?,?,?,?,?,?,?,?,?)";
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,em.getId());
             ps.setString(2, em.getName());
             ps.setString(3,em.getBankAccount());
-            ps.setDate(4,super.fromlocaltodate(em.getTermsofem().getStartWork()));
+            ps.setDate(4,Date.valueOf(em.getTermsofem().getStartWork()));
             ps.setString(5, em.getTermsofem().employmentType);
             ps.setString(6, em.getTermsofem().salaryType);
             ps.setInt(7,em.getTermsofem().vacationDays);
             ps.setString(8, String.valueOf(em.getLicense()));
             ps.setInt(9,em.isIsmanagar() ? 1:0);
+            ps.setInt(10,em.getSalary());
             ps.executeUpdate();
         }
         catch(SQLException e){
             System.out.println(e.getMessage());
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
     public Employee getEmployee(int id){
         String sql = "SELECT * FROM Employee WHERE ID = ?";
         Employee em = null;
+        Connection conn =null;
 
-        try(Connection conn = DriverManager.getConnection(url)){
+        try{
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1,id);
             ResultSet rs = ps.executeQuery();
@@ -61,6 +71,13 @@ public class EmployeeDAO extends DAO {
         }catch(SQLException e){
             System.out.println(e.getMessage());
             return em;
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return em;
     }
@@ -68,9 +85,10 @@ public class EmployeeDAO extends DAO {
 
 
     public void updateEmployee(Employee em) {
-        String sql = "UPDATE Employee SET name = ?, bank_account = ?, start_work = ?, employment_type = ?, salary_type = ?, vacation_days = ?, license = ?, is_manager = ? WHERE ID = ?";
-
-        try (Connection conn = DriverManager.getConnection(url)) {
+        String sql = "UPDATE Employee SET name = ?, \"bank-account\" = ?, \"start-work\" = ?, \"employment-type\" = ?, \"salary-type\" = ?, vacations_days = ?, license = ?, ismanager = ? WHERE ID = ?";
+        Connection conn = null;
+        try  {
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, em.getName());
             ps.setString(2, em.getBankAccount());
@@ -84,28 +102,44 @@ public class EmployeeDAO extends DAO {
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     public void deleteEmployee(int id) {
         String sql = "DELETE FROM Employee WHERE ID = ?";
-
-        try (Connection conn = DriverManager.getConnection(url)) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
     }
 
     public List<Employee> getAllEmployees() {
         String sql = "SELECT * FROM Employee";
         List<Employee> employees = new ArrayList<>();
-
-        try (Connection conn = DriverManager.getConnection(url);
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        Connection conn = null;
+        try{
+             conn = DriverManager.getConnection(url);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
                 Date d = rs.getDate("start_work");
@@ -133,38 +167,69 @@ public class EmployeeDAO extends DAO {
 
     public void addRoleToEmployee(int id, String r){
         String sql = "INSERT INTO employeetoroles(role,\"em-id\") VALUES(?,?)";
-
-        try (Connection conn = DriverManager.getConnection(url)) {
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(2, id);
             ps.setString(1,r);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            finally {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
     public void removeRoleFromEmployee(int id, String r){
         String sql = "DELETE FROM employeetoroles WHERE \"em-id\" = ?";
-
-        try (Connection conn = DriverManager.getConnection(url)) {
+            Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
+
+
+
     public void removeEmployeeRoles(int id){
         String sql = "DELETE FROM employeetoroles WHERE \"em-id\" = ?  ";
-
-        try (Connection conn = DriverManager.getConnection(url)) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -209,7 +274,9 @@ public class EmployeeDAO extends DAO {
         String sql = "SELECT etr.role FROM Employeetoroles as etr "+
                 "JOIN Employee as e ON etr.em-id = e.id "+
                 "WHERE e.id = ?";
-        try(Connection conn = DriverManager.getConnection(url)) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(url);
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setInt(1, employeeId);
             ResultSet rs = ps.executeQuery();
@@ -220,6 +287,13 @@ public class EmployeeDAO extends DAO {
         } catch(SQLException e){
             System.out.println(e.getMessage());
             return null;
+        }finally {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
         }
         return ans.stream().map((String r) -> Employee.convertRole(r)).toList();
     }

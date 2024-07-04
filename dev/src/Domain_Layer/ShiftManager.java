@@ -23,6 +23,13 @@ public class ShiftManager {
         branchid = branchid;
     }
 
+    public ShiftManager(int bId, HashMap<Pair<LocalDate, ShiftType>, Shift> shifts,List<Pair<LocalDate, ShiftType>> blockedShift){
+        this.shifts=shifts;
+        this.blockedShift = blockedShift;
+        this.branchid = bId;
+        this.defaultRolesNeeded = createDefaultRolesNeeded();
+    }
+
 
     private List<Role> createDefaultRolesNeeded() {
         List<Role> rolesneeded1 = new ArrayList<>();
@@ -86,7 +93,6 @@ public void setDefaultRolesForShift(List<String> roles){
 
         Shift newshift = new Shift(shift, this.defaultRolesNeeded, manager);
         shifts.put(shift, newshift);
-        ShiftRepository.getShiftRepository().insertShift(newshift,branchid);
         return newshift;
     }
 
@@ -171,9 +177,8 @@ public void setDefaultRolesForShift(List<String> roles){
         return shifts.values().stream().toList();
     }//
 
-    public void changeShift(Employee e1, Employee e2, LocalDate date1, String sType1,LocalDate date2, String sType2){//
+    public void changeShift(Employee e1, Employee e2, LocalDate date1, String sType1){//
         Shift s1 = getShift(date1,sType1);
-        Shift s2 = getShift(date2,sType2);
         //Shift shift1 = getShift(s1), shift2 = getShift(s2);
         try{
             s1.addEmployee(e2); //if throws, no actions done
@@ -182,31 +187,13 @@ public void setDefaultRolesForShift(List<String> roles){
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         try{
-            s2.addEmployee(e1);
-        }
-        catch (Exception e){
-            s1.removeEmployee(e2);
-            throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
-        }
-        try{
             s1.removeEmployee(e1);
         }
         catch (Exception e){
             s1.removeEmployee(e2);
-            s2.removeEmployee(e1);
-            throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
-        }
-        try{
-            s2.removeEmployee(e2);
-        }
-        catch (Exception e){
-            s1.removeEmployee(e2);
-            s2.removeEmployee(e1);
-            s1.addEmployee(e1);
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         ShiftRepository.getShiftRepository().updateShift(s1);
-        ShiftRepository.getShiftRepository().updateShift(s2);
     }
 
     public void removeEmployeeFromShift(LocalDate date, String sType, Employee employee){

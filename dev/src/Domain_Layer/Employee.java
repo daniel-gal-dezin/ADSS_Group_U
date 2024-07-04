@@ -16,9 +16,9 @@ public class Employee {
     private boolean ismanagar;
     private char license;
 
-    public Employee(int id, String name, String bankAcc, List<Role> r, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager) {
+    public Employee(int id, String name, String bankAcc, List<Role> r, LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays, boolean isManager,char lisence) {
         Terms t = new Terms(startWork, employmentType, salaryType, salary, vacationDays);
-        set_props(id, name, bankAcc, roles, t,isManager, 'l');
+        set_props(id, name, bankAcc, roles, t,isManager, license);
     }
 
 

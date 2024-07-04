@@ -3,10 +3,7 @@ package Domain_Layer;
 import Domain_Layer.Repositories.DeliveryRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class DeliveryManager {
     int delivery_id_counter = 1;
@@ -19,13 +16,22 @@ public class DeliveryManager {
         deliveriesbyshift = new HashMap<>();
     }
 
-    public DeliveryManager( Map<Shift, List<Delivery>> deliveriesbyshift) {
+    public DeliveryManager(int bId, Map<Shift, List<Delivery>> deliveriesbyshift){
+        int nextId = 0;
+        for(List<Delivery> dels : deliveriesbyshift.values()){
+            int max = Collections.max(dels.stream().map((Delivery d) -> d.getDeliveryid()).toList());
+            if(max>nextId)
+                nextId = max;
+        }
+        delivery_id_counter = nextId + 1;
+
+        branchid = bId;
         this.deliveriesbyshift = deliveriesbyshift;
-        delivery_id_counter = deliveriesbyshift.size()+1;
     }
 
-    public void addDelivery(Shift shift,  Employee driver, Employee store_keeper, char license){
-        Delivery newDel = new Delivery(delivery_id_counter++, driver,store_keeper,license);
+    public int addDelivery(Shift shift,  Employee driver, Employee store_keeper, char license){
+        Delivery newDel = new Delivery(delivery_id_counter, driver,store_keeper,license);
+        delivery_id_counter++;
         if(!deliveriesbyshift.containsKey(shift)){
             deliveriesbyshift.put(shift,new ArrayList<>());
         }
@@ -41,6 +47,8 @@ public class DeliveryManager {
 
         deliveriesbyshift.get(shift).add(newDel);
         DeliveryRepository.getDeliveryRepository().insertDelivery(newDel,shift.getShiftID().getFirst(),shift.getShiftID().getSecond().toString());
+
+        return delivery_id_counter-1;
     }
 
 
@@ -76,6 +84,7 @@ public class DeliveryManager {
 
     public Delivery getDelivery(Pair<LocalDate,ShiftType> shift, int deliveryId){
         List<Delivery> c = deliveriesbyshift.get(shift);
+        if(c == null) throw new IllegalArgumentException("no deliveries in this shift");
         for(Delivery d : c){
             if(d.getDeliveryid() == deliveryId)
                 return d;
@@ -88,6 +97,8 @@ public class DeliveryManager {
     //else 0;
     public int isDriverOrStorekeeper(Employee e, LocalDate date, ShiftType t){
         List<Delivery> c = deliveriesbyshift.get(new Pair<>(date,t));
+        if(c==null)
+            return 0;
         for(Delivery d : c){
             if(d.getDriver().equals(e)) {
                 return 1;

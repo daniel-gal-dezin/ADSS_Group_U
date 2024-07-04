@@ -21,7 +21,6 @@ public class EmployeeRepository {
 
     public void insertEmployee(Employee em, int branchId){
         dao.insertEmployee(em);
-        bRep.insertEmployeeToBranch(branchId,em.getId());
         for(Role r : em.getRoles()){
             addRoleToEmployee(em.getId(),r.toString());
         }
