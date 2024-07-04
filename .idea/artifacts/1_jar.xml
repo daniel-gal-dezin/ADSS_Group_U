@@ -1,8 +1,9 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="1:jar">
+  <artifact type="jar" build-on-make="true" name="1:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/1_jar</output-path>
     <root id="archive" name="1.jar">
       <element id="module-output" name="1" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/sqlite-jdbc-3.46.0.0.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter/5.8.1/junit-jupiter-5.8.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.8.1/junit-jupiter-api-5.8.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" path-in-jar="/" />
@@ -11,18 +12,16 @@
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.8.1/junit-jupiter-params-5.8.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.8.1/junit-jupiter-engine-5.8.1.jar" path-in-jar="/" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.8.1/junit-platform-engine-1.8.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/dev/src/sqlite-jdbc-3.46.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/dev/src/slf4j-simple-1.7.30.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/dev/src/slf4j-api-1.7.30.jar" path-in-jar="/" />
       <element id="dir-copy" path="$PROJECT_DIR$" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/slf4j-api-1.7.30.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/libs/slf4j-simple-1.7.30.jar" path-in-jar="/" />
+      <element id="library" level="project" name="sqlite-jdbc-3.46.0.0" />
+      <element id="library" level="project" name="slf4j-simple-1.7.30" />
       <element id="library" level="project" name="slf4j-api-1.7.30" />
-      <element id="file-copy" path="$PROJECT_DIR$/dev/src/sqlite-jdbc-3.46.0.0.jar" />
-      <element id="file-copy" path="$PROJECT_DIR$/dev/src/slf4j-simple-1.7.30.jar" />
-      <element id="file-copy" path="$PROJECT_DIR$/dev/src/slf4j-api-1.7.30.jar" />
+      <element id="dir-copy" path="$PROJECT_DIR$/dev/src/resources" />
       <element id="library" level="module" name="JUnit5.8.1" module-name="1" />
-      <element id="dir-copy" path="$PROJECT_DIR$/docs" />
-      <element id="file-copy" path="$PROJECT_DIR$/docs/DB.db" />
-      <element id="module-output" name="libs" />
+      <element id="dir-copy" path="$PROJECT_DIR$/dev/src/resources/docs" />
+      <element id="module-source" name="1" />
     </root>
   </artifact>
 </component>
