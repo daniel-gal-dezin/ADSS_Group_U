@@ -51,6 +51,7 @@ public class BusinessManager {
             throw new IllegalArgumentException("no such branch");
         Shift s = branches.get(branchId).createShift(date,sType,rolesneeded,em.getEmployee(manager));
         ShiftRepository.getShiftRepository().insertShift(s,branchId);
+        ShiftRepository.getShiftRepository().addWorkerToShift(date,sType, manager);
     }
 
     public void createShiftwithdefroles(int branchId,LocalDate date, String sType, int managerId) throws IllegalArgumentException{
@@ -58,6 +59,7 @@ public class BusinessManager {
             throw new IllegalArgumentException("no such branch");
         Shift s = branches.get(branchId).createShiftwithdefroles(date,sType,em.getEmployee(branchId,managerId));
         ShiftRepository.getShiftRepository().insertShift(s,branchId);
+        ShiftRepository.getShiftRepository().addWorkerToShift(date,sType, managerId);
     }
 
 

@@ -19,6 +19,7 @@ public class DeliveryManager {
     public DeliveryManager(int bId, Map<Shift, List<Delivery>> deliveriesbyshift){
         int nextId = 0;
         for(List<Delivery> dels : deliveriesbyshift.values()){
+            if(dels.size() == 0) continue;
             int max = Collections.max(dels.stream().map((Delivery d) -> d.getDeliveryid()).toList());
             if(max>nextId)
                 nextId = max;
@@ -52,7 +53,7 @@ public class DeliveryManager {
     }
 
 
-    public void removeDelivery(Pair<LocalDate,ShiftType> shift, int deliveryId){
+    public void removeDelivery(Shift shift, int deliveryId){
         Delivery d = getDelivery(shift,deliveryId);
         if(deliveriesbyshift.containsKey(shift)){
             if(!deliveriesbyshift.get(shift).remove(d)) //if no such thing
@@ -67,7 +68,7 @@ public class DeliveryManager {
         if(!shift.getEmployees().contains(e)){
             throw new IllegalArgumentException("employee is not in shift");
         }
-        Delivery d = getDelivery(shift.getShiftID(),deliveryId);
+        Delivery d = getDelivery(shift,deliveryId);
         d.setDriver(e);
         DeliveryRepository.getDeliveryRepository().updateDelivery(d);
     }
@@ -76,13 +77,13 @@ public class DeliveryManager {
         if(!shift.getEmployees().contains(e)){
             throw new IllegalArgumentException("employee is not in shift");
         }
-        Delivery d = getDelivery(shift.getShiftID(),deliveryId);
+        Delivery d = getDelivery(shift,deliveryId);
         d.setStore_keeper(e);
         DeliveryRepository.getDeliveryRepository().updateDelivery(d);
     }
 
 
-    public Delivery getDelivery(Pair<LocalDate,ShiftType> shift, int deliveryId){
+    public Delivery getDelivery(Shift shift, int deliveryId){
         List<Delivery> c = deliveriesbyshift.get(shift);
         if(c == null) throw new IllegalArgumentException("no deliveries in this shift");
         for(Delivery d : c){

@@ -69,7 +69,7 @@ public class DeliveryDAO {
     }
 
     public void updateDelivery(Delivery delivery) {
-        String sql = "UPDATE Delivery SET Drive_id = ?, store_keeper_id = ?, license = ? WHERE DELIVERY_ID = ?";
+        String sql = "UPDATE Delivery SET \"Drive-id\" = ?, \"store-keeper-id\" = ?, license = ? WHERE DELIVERY_ID = ?";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -172,7 +172,7 @@ public class DeliveryDAO {
 
 
     public void deleteShifttoDelivery(int id) {
-        String sql = "DELETE FROM ShifttoDelivey WHERE DELIVERY_ID = ?";
+        String sql = "DELETE FROM ShifttoDelivery WHERE DELIVERY_ID = ?";
 
         Connection conn = null;
 

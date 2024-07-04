@@ -46,6 +46,8 @@ public class Shift {
             this.start = LocalTime.of(startevening.getHour(), startevening.getMinute());
             this.end = LocalTime.of(endevening.getHour(), endevening.getMinute());
         }
+        if(rolesneeded == null)
+            rolesneeded = getRolesneeded();
     }
     public void setEndMorning(LocalTime time){
         if(time.isAfter(LocalTime.of(23,59))){

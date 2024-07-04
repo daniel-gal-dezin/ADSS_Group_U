@@ -3,7 +3,7 @@ package Presentation_Layer;
 import Service_Layer.EmployeeService;
 import Service_Layer.BusinessService;
 import Service_Layer.SystemInit;
-import com.sun.java.swing.action.AlignCenterAction;
+
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -27,11 +27,11 @@ public class UserInterface {
 
         System.out.println("welcome to the system\n");
 
-//        System.out.println("would you like to recover default data? y/n");
-//        String input = System.console().readLine();
-//        if(input.equals("y")){
-//            si.adddefualtinit();
-//        }
+        System.out.println("would you like to recover default data? y/n");
+        String input = System.console().readLine();
+        if(input.equals("y")){
+            bs.uploadFromDB();
+        }
         while(true) {
 
             System.out.println("Who is using the system? \n1.hr\n2.worker");
@@ -242,9 +242,9 @@ public class UserInterface {
                 int sType = date[3];
                 output = bs.getShift(bId, year, month, day, sType==1?"morning":"evening");
             } else if (input.equals("15")){ //change shifts
-                System.out.println("enter first id");
+                System.out.println("enter first id the one that you want to remove from shift");
                 int id1 = numberChecker();
-                System.out.println("enter second id");
+                System.out.println("enter second id the one you want to add instead");
                 int id2 = numberChecker();
                 System.out.println("you will be ask next to enter first employee shift date");
                 int[] date1 = inputShiftDetails();
@@ -317,12 +317,12 @@ public class UserInterface {
                 int month = date1[1];
                 int day = date1[2];
                 int sType = date1[3];
-                System.out.println("enter old driver id");
-                int id1 = numberChecker();
+                System.out.println("enter delivery id");
+                int delid = numberChecker();
                 System.out.println("enter new driver id");
-                int id2 = numberChecker();
+                int id = numberChecker();
 
-                output = bs.changeDriver(bId,year,month,day,sType==1?"morning":"evening",id1,id2);
+                output = bs.changeDriver(bId,year,month,day,sType==1?"morning":"evening",delid,id);
             } else if (input.equals("24")) { //change storeKeeper (delivery)
                 int[] date1 = inputShiftDetails();
                 int year = date1[0];

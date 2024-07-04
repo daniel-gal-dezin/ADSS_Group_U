@@ -13,6 +13,10 @@ public class BusinessService {
         this.bm = bm;
     }
 
+    public void uploadFromDB(){
+        bm.uploadDataFromDB();
+    }
+
 
     public String setDefaultRoles(int brId, List<String> roles){
         try{

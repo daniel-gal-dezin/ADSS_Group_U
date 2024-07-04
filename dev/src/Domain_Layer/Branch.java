@@ -122,7 +122,7 @@ public class Branch {
     }
 
     public void removeDelivery(LocalDate date,String stype, int delId){
-        dm.removeDelivery(sm.getShift(date,stype).getShiftID(),delId);
+        dm.removeDelivery(sm.getShift(date,stype),delId);
     }
 
     public void changeDeliveryDriver(LocalDate date,String stype, int delId, Employee newDriver){
@@ -134,7 +134,7 @@ public class Branch {
     }
 
     public Delivery getDelivery(LocalDate date,String stype,int delId){
-       return dm.getDelivery(new Pair<>(date,convertShiftType(stype)),delId);
+       return dm.getDelivery(sm.getShift(date,stype),delId);
     }
 
 

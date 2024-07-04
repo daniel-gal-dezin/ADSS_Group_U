@@ -51,7 +51,7 @@ public class ShiftDAO extends DAO {
 
 
     public Shift getShift(LocalDate date, String shift)   {
-        String sql = "SELECT * FROM Shift WHERE date = ? AND shiftType =?";
+        String sql = "SELECT * FROM Shift WHERE date = ? AND sType =?";
         Shift s = null;
 
 
@@ -64,7 +64,7 @@ public class ShiftDAO extends DAO {
             ResultSet rs = pstmt.executeQuery();
 
             List<Role> rolesneeded = getRolesneeded(date, shift);
-            s = new Shift(new Pair<LocalDate, ShiftType>(date, convertShiftType(shift)), rolesneeded, edao.getEmployee(rs.getInt("mangerid")));
+            s = new Shift(new Pair<LocalDate, ShiftType>(date, convertShiftType(shift)), rolesneeded, edao.getEmployee(rs.getInt("managerid")));
             List<Employee> worker = getEmployeesForShift(date, shift);
             for (Employee e : worker) {
                 s.addEmployee(e);
@@ -207,8 +207,8 @@ public class ShiftDAO extends DAO {
 
     public List<Role> getRolesneeded(LocalDate date, String shift) {
         List<String> ans = new ArrayList<>();
-        String sql = "SELECT rn.role FROM Rolesneededforshift as rn " +
-                "WHERE se.shiftDate = ? AND se.shiftType = ?";
+        String sql = "SELECT role FROM Rolesneededforshift as rn " +
+                "WHERE \"shift-date\" = ? AND shifttype = ?";
 
         Connection conn = null;
         try{
@@ -241,8 +241,8 @@ public class ShiftDAO extends DAO {
 /////////////////////////////////////// ShifttoConstranit
 
     public List<Employee> getconstraintForShift(LocalDate date, String shiftType) {
-        String sql = "SELECT se.employeeId FROM ShifttoConstraints se  " +
-                "WHERE se.shiftDate = ? AND se.shiftType = ?";
+        String sql = "SELECT \"em-id\" FROM ShifttoConstraints " +
+                "WHERE \"shift-date\" = ? AND \"shift-type\" = ?";
         List<Employee> employees = new ArrayList<>();
         Connection conn = null;
 
@@ -322,9 +322,8 @@ public class ShiftDAO extends DAO {
 
 
     public List<Employee> getEmployeesForShift(LocalDate date, String shiftType) {
-        String sql = "SELECT e.employeeId FROM Employees e " +
-                "JOIN Shiftworker se ON e.employeeId = se.employeeId " +
-                "WHERE se.shiftDate = ? AND se.shiftType = ?";
+        String sql = "SELECT \"em-id\" FROM Shiftworker " +
+                "WHERE \"shift-date\" = ? AND \"shift-type\" = ?";
         List<Employee> employees = new ArrayList<>();
         Connection conn = null;
 
@@ -447,7 +446,7 @@ public class ShiftDAO extends DAO {
 
     public List<Shift> getBlockedShifs(int bId){
         String sql = "SELECT s.date, s.sType FROM Shift s " +
-                "JOIN BranchtoBlockShifts bs ON bs.date = s.date AND bs.stype = s.sType" +
+                "JOIN BranchtoBlockShifts bs ON bs.date = s.date AND bs.stype = s.sType " +
                 "WHERE bs.branchid = ?";
         List<Shift> shifts = new ArrayList<>();
 

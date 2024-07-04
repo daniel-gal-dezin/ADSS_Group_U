@@ -20,7 +20,7 @@ public class ShiftManager {
         shifts = new HashMap<>();
         blockedShift = new ArrayList<>();
         this.defaultRolesNeeded = createDefaultRolesNeeded();
-        branchid = branchid;
+        this.branchid = branchid;
     }
 
     public ShiftManager(int bId, HashMap<Pair<LocalDate, ShiftType>, Shift> shifts,List<Pair<LocalDate, ShiftType>> blockedShift){
@@ -28,6 +28,7 @@ public class ShiftManager {
         this.blockedShift = blockedShift;
         this.branchid = bId;
         this.defaultRolesNeeded = createDefaultRolesNeeded();
+
     }
 
 
@@ -181,19 +182,19 @@ public void setDefaultRolesForShift(List<String> roles){
         Shift s1 = getShift(date1,sType1);
         //Shift shift1 = getShift(s1), shift2 = getShift(s2);
         try{
-            s1.addEmployee(e2); //if throws, no actions done
+            addEmployeeToShift(date1,sType1,e2); //if throws, no actions done
         }
         catch (Exception e){
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
         try{
-            s1.removeEmployee(e1);
+            removeEmployeeFromShift(date1,sType1,e1);
         }
         catch (Exception e){
             s1.removeEmployee(e2);
             throw new IllegalArgumentException("unable to change shift! " + e.getMessage());
         }
-        ShiftRepository.getShiftRepository().updateShift(s1);
+
     }
 
     public void removeEmployeeFromShift(LocalDate date, String sType, Employee employee){

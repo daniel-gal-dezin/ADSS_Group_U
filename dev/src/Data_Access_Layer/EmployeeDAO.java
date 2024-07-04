@@ -64,8 +64,8 @@ public class EmployeeDAO extends DAO {
                         rs.getString("employment-type"),
                         rs.getString("salary-type"),
                         rs.getInt("salary"),
-                        rs.getInt("vacation_days"),
-                        rs.getInt("ismanger") == 0 ? false:true
+                        rs.getInt("vacations_days"),
+                        rs.getInt("ismanager") == 0 ? false:true
                         );
             }
         }catch(SQLException e){
@@ -152,7 +152,7 @@ public class EmployeeDAO extends DAO {
                         rs.getString("employment_type"),
                         rs.getString("salary_type"),
                         rs.getInt("salary"),
-                        rs.getInt("vacation_days"),
+                        rs.getInt("vacations_days"),
                         rs.getInt("is_manager") == 0 ? false : true
                 );
                 employees.add(em);
@@ -272,7 +272,7 @@ public class EmployeeDAO extends DAO {
     public List<Role> getRoles(int employeeId){
         List<String> ans = new ArrayList<>();
         String sql = "SELECT etr.role FROM Employeetoroles as etr "+
-                "JOIN Employee as e ON etr.em-id = e.id "+
+                "JOIN Employee as e ON etr.\"em-id\" = e.id "+
                 "WHERE e.id = ?";
         Connection conn = null;
         try{

@@ -141,7 +141,7 @@ public class BranchDAO {
     public List<Shift> getAllShiftsByBranch(int branchId)   {
         String sql = "SELECT s.date, s.sType FROM Shift s " +
                 "JOIN BranchtoShift bs ON s.date = bs.Shift_date AND s.sType = bs.shift_type " +
-                "WHERE bs.branch_ID = ?";
+                "WHERE bs.\"branch-ID\" = ?";
         List<Shift> shifts = new ArrayList<>();
 
         Connection conn = null;
@@ -152,8 +152,8 @@ public class BranchDAO {
             ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
-                LocalDate date = rs.getDate("date").toLocalDate();
-                String shiftType = rs.getString("sType");
+                LocalDate date = rs.getDate("Shift-date").toLocalDate();
+                String shiftType = rs.getString("shift-type");
                 Shift shift = sDAO.getShift(date,shiftType);
                 shifts.add(shift);
             }

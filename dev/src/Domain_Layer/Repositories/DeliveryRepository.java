@@ -33,8 +33,9 @@ public class DeliveryRepository {
     }
 
     public void deleteDelivery(int id) {
-        delDAO.deleteDelivery(id);
         deleteShiftfromDelivery(id);
+        delDAO.deleteDelivery(id);
+
 
     }
 
