@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BranchDAO {
-    String url = "jdbc:sqlite:dev/src/resources/docs/DB.db";
+    String url = "jdbc:sqlite:docs/DB.db";
     private ShiftDAO sDAO = new ShiftDAO();
     private EmployeeDAO eDAO = new EmployeeDAO();
 

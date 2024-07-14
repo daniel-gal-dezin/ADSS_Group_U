@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DeliveryDAO {
-    private final String url = "jdev/src/resources/docs/DB.db";
+    private final String url = "jdbc:sqlite:docs/DB.db";
     private final EmployeeDAO employeeDAO = new EmployeeDAO();
 
     public void insertDelivery(Delivery delivery) {

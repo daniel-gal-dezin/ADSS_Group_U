@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ShiftDAO extends DAO {
-    private final String url = "jdbc:sqlite:dev/src/resources/docs/DB.db";
+    private final String url = "jdbc:sqlite:docs/DB.db";
     EmployeeDAO edao = new EmployeeDAO();
 
 

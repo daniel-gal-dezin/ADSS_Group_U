@@ -11,7 +11,6 @@ public class Terms {
 
 
     public Terms() {
-        //TODO: default terms handle
     }
 
     public Terms(LocalDate startWork, String employmentType, String salaryType, int salary, int vacationDays) {

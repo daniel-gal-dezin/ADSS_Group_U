@@ -11,7 +11,7 @@ import java.util.Locale;
 import Domain_Layer.Role;
 
 public class EmployeeDAO extends DAO {
-    final String url = "jdbc:sqlite:dev/src/resources/docs/DB.db";
+    final String url = "jdbc:sqlite:docs/DB.db";
 
     public void insertEmployee(Employee em)  {
         String sql = "INSERT INTO Employee(ID,name,\"bank-account\",\"start-work\",\"employment-type\", \"salary-type\", vacations_days,license, ismanager, salary) VALUES(?,?,?,?,?,?,?,?,?,?)";

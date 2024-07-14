@@ -46,12 +46,10 @@ public class Employee {
 
     public void addRole(String role) {
         roles.add(convertRole(role));
-        //TODO: add function to DAO
     }
 
     public void removeRole(String role) {
         roles.remove(convertRole(role));
-        //TODO: add function to DAO
     }
 
 
