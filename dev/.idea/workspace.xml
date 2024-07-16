@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="35b4164c-69c6-4b4e-b865-daf0a3bc665a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service_Layer/Response.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service_Layer/ShiftService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Domain_Layer/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Domain_Layer/Employee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Domain_Layer/EmployeeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Domain_Layer/EmployeeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Domain_Layer/ShiftManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Domain_Layer/ShiftManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Domain_Layer/SystemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Domain_Layer/SystemManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service_Layer/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service_Layer/EmployeeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Tests/EmployeeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Tests/EmployeeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Employee.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Employee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/EmployeeManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/EmployeeManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Pair.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Pair.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Role.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Role.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Shift.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Shift.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/ShiftManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/ShiftManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/ShiftType.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/ShiftType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/SystemManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Terms.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Domain_Layer/Terms.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Service_Layer/service.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Tests/EmployeeTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Tests/EmployeeTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Tests/MainTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/../out/production/ADSS_Group_U/Tests/MainTest.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="2gn0hVh39ebPYVej9i9Pc7bQiq5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="35b4164c-69c6-4b4e-b865-daf0a3bc665a" name="Changes" comment="" />
+      <created>1716318154863</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1716318154863</updated>
+    </task>
+    <servers />
+  </component>
+</project>
