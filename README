@@ -1,0 +1,56 @@
+315233676
+207195868
+
+Starting the system:
+The system will ask if you want to open a new store, if you enter "yes" it will ask you the name of the store and add it to the stores list. If you enter "no" it will ask you the name of the store and open it. After this, it will ask if you want to load initial data.
+
+Initial data:   
+•	Category: Dairy, Subcategory: Milk, Name: Tnuva Milk 3%, Serial Number: 1, Id: 1, Producer: Tnuva, Cost: 5, Price in store: 8, Size: 1000, Expired date: 01-09-2024, Minimal Amount before warning: 2
+•	Category: Dairy, Subcategory: Milk, Name: Tnuva Milk 3%, Serial Number: 1, Id: 2, Producer: Tnuva, Cost: 5, Price in store: 8, Size: 1000, Expired date: 10-08-2024
+•	Category: Dairy, Subcategory: Yogurt, Name: Go Yogurt 1%, Serial Number: 2, Id: 1, Producer: Tnuva, Cost: 7, Price in store: 10, Size: 50, Expired date: 05-09-2024, Minimal Amount before warning: 6
+•	Category: Hygiene, Subcategory: Shampoo, Name: Herbel Essense Shampoo, Serial Number: 3, Id: 1, Producer: Yossi, Cost: 20, Price in store: 30, Size: 500, Expired date: 04-07-2026, Minimal Amount before warning: 4
+•	Category: Hygiene, Subcategory: Tooth Paste, Name: Colgate Tooth Paste, Serial Number: 4, Id: 1, Producer: Shai, Cost: 20, Price in store: 25, Size: 50, Expired date: 04-11-2024, Minimal Amount before warning: 10
+•	Category: Drinks, Subcategory: Juice, Name: Coke, Serial Number: 5, Id: 1, Producer: Coca Cola, Cost: 6, Price in store: 12, Size: 1500, Expired date: 01-10-2024, Minimal Amount before warning: 20
+
+
+You will choose one of 11 options: (by writing the matching number)
+
+1.	Add item:
+You will be asked to fill the following data: Category (first letter upper-case), Subcategory (first letter upper-case), Name (first letter upper-case), Serial Number (Unique for each product), Id,                              Producer, Cost, Price in store, Size, Expired date, if it's a new product you will be asked of the minimal amount before getting a stock warning.
+
+2.	Sell item:
+You will be asked to fill the following data: Category (first letter upper-case), Subcategory (first letter upper-case), Serial Number (Unique for each product), Id.
+
+3.	Update damaged item:
+You will be asked to fill the following data: Category (first letter upper-case), Subcategory (first letter upper-case), Serial Number (Unique for each product), Id.
+
+4.	 Set discount:
+You will be asked to fill the following data: Category (first letter upper-case), Subcategory (first letter upper-case), Serial Number (Unique for each product), Discount percentage.
+
+5.	Get product price:
+You will be asked to fill the following data: Category (first letter upper-case), Subcategory (first letter upper-case), Serial Number (Unique for each product).
+
+6.	Get periodical report:
+You will be asked to fill the following data: Category (first letter upper-case). This report will include: the damaged items and the expired items. Each item will include the name, serial number and amount.
+
+7.	 Get stock report: You will be asked to fill the following data: Category (first letter upper-case). This report will include: Category chosen and the products for each subcategory with the name of the product, serial number, size, stock, and place (aigle and shelf).
+
+8.	Move to store: This will move the item from storage to the store. You will be asked the following data: Category (first letter upper-case), Subcategory (first letter upper-case), Serial Number (Unique for each product), Id.
+
+9.	Get all previous reports: This will print to the screen all reports that were produced.
+
+10.	 Print low stock reports: This will print to the screen all products that the stock is less than the minimum amount. 
+
+11.	Close store: Every end of day you can close the store, so that next morning when you open it, the system will check automatically for expired items.
+
+
+**If the worker will not produce a report within a week, he will receive a message (periodical report and stock report).
+
+
+
+כלים וספרייה בהם נעשים שימוש:
+Java.util
+Junit.jupiter
+Java.sql
+java.nio.file.Paths
+

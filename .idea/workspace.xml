@@ -11,57 +11,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6af28ca-730a-4fbe-9c8c-c3cb7b4b30f7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ids.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/ids2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/ids.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/ids2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/BranchDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/DAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/DeliveryDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/EmployeeDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/ShiftDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Branch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/BusinessManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Delivery.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/DeliveryManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/DeliveryManagerFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Employee.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/EmployeeManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Pair.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/BranchRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/DeliveryRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/EmployeeRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/Repository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/ShiftRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Role.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Shift.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/ShiftManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/ShiftManagerFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/ShiftType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Terms.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Presentation_Layer/Response.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Presentation_Layer/UserInterface.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Presentation_Layer/main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/BusinessService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/EmployeeService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/Response.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/SystemInit.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Tests/EmployeeTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Tests/ShiftManagerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/Tests/ShiftTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/DB.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/DB.sqbpro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/Program Instructions" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/readme.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/sql create comands.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/release/ids.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/release/ids2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U1.jar" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
