@@ -1,0 +1,6 @@
+In our system, we have successfully integrated two key modules—the stock Module and the Delivery Module—by leveraging a centralized database to manage inventory quantities.
+The stock Module is responsible for maintaining accurate inventory levels by updating quantities whenever stock is received or sold.
+Concurrently, the Delivery Module interacts with the same database to adjust inventory levels based on delivery operations,
+ensuring that items are deducted from the stock when deliveries are dispatched. This seamless integration allows both modules to operate cohesively,
+providing real-time updates to inventory quantities and ensuring data consistency across the system. By synchronizing data between these modules through the database,
+we achieve efficient inventory management and operational transparency, which are crucial for our business processes.

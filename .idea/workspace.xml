@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
-      <artifact name="u1:jar" />
+      <artifact name="ADSS_Group_U1:jar" />
+      <artifact name="roniandhadas:jar" />
     </artifacts-to-build>
   </component>
   <component name="AutoImportSettings">
@@ -10,47 +11,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6af28ca-730a-4fbe-9c8c-c3cb7b4b30f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/dev.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Tests/IntegrationTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/Integration explanation" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/project/src/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/artifacts/1_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/adss2024_v01.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/slf4j_api_1_7_30.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/slf4j_simple_1_7_30.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/sqlite_jdbc_3_46_0_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ADSS_Group_U/FileContentIndex/516b54d1-c1e9-4929-bf2f-d0dcba644643.vsidx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ADSS_Group_U/FileContentIndex/read.lock" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ADSS_Group_U/v17/.wsuo" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ProjectSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/VSWorkspaceState.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/slnx.sqlite" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Data_Access_Layer/DeliveryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Data_Access_Layer/DeliveryDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Branch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/BusinessManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/BusinessManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Delivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Delivery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/DeliveryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/DeliveryManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Repositories/DeliveryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Repositories/DeliveryRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/UserInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Service_Layer/BusinessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Service_Layer/BusinessService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Tests/DeliveryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Tests/DeliveryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/DB.db" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/DB.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/readme.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/libs/libs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/libs/libs.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/ADSS_Group_U.iml" beforeDir="false" afterPath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/ADSS_Group_U.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/dev/stockDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/dev/stockDB.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/ids.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dev/ids2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/ids.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/ids2.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/BranchDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/DAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/DeliveryDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/EmployeeDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Data_Access_Layer/ShiftDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Branch.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/BusinessManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Delivery.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/DeliveryManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/DeliveryManagerFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Employee.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/EmployeeManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Pair.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/BranchRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/DeliveryRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/EmployeeRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/Repository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Repositories/ShiftRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Role.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Shift.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/ShiftManager.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/ShiftManagerFactory.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/ShiftType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Domain_Layer/Terms.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Presentation_Layer/Response.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Presentation_Layer/UserInterface.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Presentation_Layer/main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/BusinessService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/EmployeeService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/Response.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Service_Layer/SystemInit.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Tests/EmployeeTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Tests/ShiftManagerTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/Tests/ShiftTest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/DB.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/DB.sqbpro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/Program Instructions" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/readme.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/dev/resources/docs/sql create comands.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/release/ids.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/release/ids2.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +93,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/ADSS_Group_U" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/dev/src/Domain_Layer/BusinessManager.java" root0="FORCE_HIGHLIGHTING" />
@@ -98,8 +109,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Downloaded.Files.Path.Enabled": "false",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "TODO_SCOPE": "All Places",
     "full.screen.before.presentation.mode": "true",
     "ignore.virus.scanning.warn.message": "true",
@@ -108,7 +122,7 @@
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -117,91 +131,21 @@
       <recent name="C:\projectsJS\oop_dnd\ADSS_Group_U\docs" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Unnamed">
-    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+  <component name="RunManager" selected="Application.Workers">
+    <configuration name="Stock" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="openjdk-22 (2)" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="PresentationLayer.Main" />
+      <module name="roniandhadas" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Workers" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-22 (2)" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="Presentation_Layer.main" />
-      <module name="u1" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DeliveryTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="u1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.DeliveryTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DeliveryTest.checkBadLicense" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="u1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.DeliveryTest" />
-      <option name="METHOD_NAME" value="checkBadLicense" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DeliveryTest.checkBadLisence" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="u1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.DeliveryTest" />
-      <option name="METHOD_NAME" value="checkBadLisence" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DeliveryTest.checkNonDriverInsertionn" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="u1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.DeliveryTest" />
-      <option name="METHOD_NAME" value="checkNonDriverInsertionn" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="DeliveryTest.setGoodDriver" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="u1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="Tests.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="Tests" />
-      <option name="MAIN_CLASS_NAME" value="Tests.DeliveryTest" />
-      <option name="METHOD_NAME" value="setGoodDriver" />
-      <option name="TEST_OBJECT" value="method" />
+      <module name="ADSS_Group_U1" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -220,22 +164,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Unnamed" />
-      <item itemvalue="JUnit.DeliveryTest" />
-      <item itemvalue="JUnit.DeliveryTest.checkBadLicense" />
-      <item itemvalue="JUnit.DeliveryTest.checkBadLisence" />
-      <item itemvalue="JUnit.DeliveryTest.checkNonDriverInsertionn" />
-      <item itemvalue="JUnit.DeliveryTest.setGoodDriver" />
+      <item itemvalue="Application.Workers" />
+      <item itemvalue="Application.Stock" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue="JUnit.DeliveryTest.setGoodDriver" />
-        <item itemvalue="JUnit.DeliveryTest" />
-        <item itemvalue="JUnit.DeliveryTest.checkBadLicense" />
-        <item itemvalue="JUnit.DeliveryTest.checkBadLisence" />
-        <item itemvalue="JUnit.DeliveryTest.checkNonDriverInsertionn" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -261,5 +192,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/ADSS_Group_U" />
+      <path value="$PROJECT_DIR$/roniandhadas" />
+      <path value="$PROJECT_DIR$/roniandhadas/ADSS_Group_U" />
+    </ignored-roots>
   </component>
 </project>
