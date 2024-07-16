@@ -1,0 +1,92 @@
+CREATE TABLE "Branch" (
+	"ID"	INTEGER,
+	"name"	TEXT,
+	PRIMARY KEY("ID")
+);
+
+CREATE TABLE "BranchtoEmployee" (
+	"Branch-id"	INTEGER,
+	"emp-id"	INTEGER,
+	PRIMARY KEY("Branch-id","emp-id"),
+	FOREIGN KEY("emp-id") REFERENCES "Employee",
+	FOREIGN KEY("Branch-id") REFERENCES "Branch"("ID")
+);
+
+CREATE TABLE "BranchtoShift" (
+	"branch-ID"	INTEGER,
+	"Shift-date"	DATE,
+	"shift-type"	TEXT,
+	FOREIGN KEY("branch-ID") REFERENCES "Branch"("ID"),
+	FOREIGN KEY("Shift-date", "shift-type") REFERENCES "Shift"("date", "sType"),
+	PRIMARY KEY("branch-ID","Shift-date","shift-type")
+);
+
+CREATE TABLE "Delivery" (
+	"DELIVERY_ID"	INTEGER,
+	"Drive-id"	INTEGER,
+	"store-keeper-id"	INTEGER,
+	"Field4"	INTEGER,
+	FOREIGN KEY("Drive-id") REFERENCES "Employee"("ID"),
+	FOREIGN KEY("store-keeper-id") REFERENCES "Employee"("ID"),
+	PRIMARY KEY("DELIVERY_ID","Field4")
+);
+
+CREATE TABLE "Deliverytoemployee" (
+	"delivery-id"	INTEGER,
+	"employee-id"	INTEGER,
+	FOREIGN KEY("delivery-id") REFERENCES "Delivery"("DELIVERY_ID"),
+	PRIMARY KEY("delivery-id","employee-id")
+);
+
+CREATE TABLE "Employee" (
+	"ID"	INTEGER,
+	"name"	TEXT,
+	"bank-account"	TEXT,
+	"start-work"	DATE,
+	"employment-type"	TEXT,
+	"salary-type"	TEXT,
+	"vacations_days"	INTEGER,
+	"license"	TEXT,
+	PRIMARY KEY("ID")
+);
+
+CREATE TABLE "Employeetoroles" (
+	"role"	TEXT,
+	"em-id"	INTEGER,
+	PRIMARY KEY("role","em-id")
+);
+
+CREATE TABLE "Rolesneededforshift" (
+	"shift-date"	DATE,
+	"shifttype"	TEXT,
+	"role"	TEXT,
+	PRIMARY KEY("shift-date","shifttype","role"),
+	FOREIGN KEY("shift-date") REFERENCES "Shift"("date")
+);
+
+CREATE TABLE "Shift" (
+	"date"	DATE,
+	"sType"	TEXT,
+	"constraint_deadline"	DATE,
+	"start"	TIME,
+	"end"	TIME,
+	PRIMARY KEY("date","sType")
+);
+
+CREATE TABLE "ShifttoConstraints" (
+	"shift-date"	DATE,
+	"shift-type"	TEXT,
+	"em-id"	INTEGER,
+	FOREIGN KEY("shift-date") REFERENCES "Shift"("date"),
+	FOREIGN KEY("shift-type") REFERENCES "Shift"("sType"),
+	PRIMARY KEY("shift-date","shift-type","em-id")
+);
+
+CREATE TABLE "Shiftworker" (
+	"shift-date"	DATE,
+	"shift-type"	TEXT,
+	"em-id"	INTEGER,
+	FOREIGN KEY("shift-date") REFERENCES "Shift"("date"),
+	FOREIGN KEY("shift-type") REFERENCES "Shift"("sType"),
+	PRIMARY KEY("shift-date","shift-type","em-id")
+);

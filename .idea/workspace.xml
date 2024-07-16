@@ -10,72 +10,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c6af28ca-730a-4fbe-9c8c-c3cb7b4b30f7" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime__2_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/groovy_4_0_14.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/slf4j_simple_1_7_30.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/untitled1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.name" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/1_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/u1_jar.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/adss2024_v01.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/assignment_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/slf4j_api_1_7_30.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/slf4j_api_1_7_30.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_46_0_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/sqlite_jdbc_3_46_0_0.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/u1.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/Domain_Layer/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Domain_Layer/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/Domain_Layer/Terms.java" beforeDir="false" afterPath="$PROJECT_DIR$/dev/src/Domain_Layer/Terms.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/slf4j-api-1.7.30.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/slf4j-api-1.7.30.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/slf4j-simple-1.7.30.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/slf4j-simple-1.7.30.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dev/src/sqlite-jdbc-3.46.0.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/libs/sqlite-jdbc-3.46.0.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/DB.db" beforeDir="false" afterPath="$PROJECT_DIR$/docs/DB.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/DB.sqbpro" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/data.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/sql create comands.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/libs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/libs/libs.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/release/adss2024_v01.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/libs/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/DB.db" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/1/DB.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Data_Access_Layer/BranchDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Data_Access_Layer/DAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Data_Access_Layer/DeliveryDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Data_Access_Layer/EmployeeDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Data_Access_Layer/ShiftDAO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Branch.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/BusinessManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Delivery.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/DeliveryManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/DeliveryManagerFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Employee.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/EmployeeManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Pair.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Repositories/BranchRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Repositories/DeliveryRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Repositories/EmployeeRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Repositories/Repository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Repositories/ShiftRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Role.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Shift.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/ShiftManager.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/ShiftManagerFactory.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/ShiftType.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/Terms.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/debug/main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Domain_Layer/debug/test.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Presentation_Layer/Response.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Presentation_Layer/UserInterface.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Presentation_Layer/main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Service_Layer/BusinessService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Service_Layer/EmployeeService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Service_Layer/Response.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Service_Layer/SystemInit.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Tests/DeliveryTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Tests/EmployeeTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Tests/ShiftManagerTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/Tests/ShiftTest.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/slf4j-api-1.7.30.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/slf4j-simple-1.7.30.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/1/sqlite-jdbc-3.46.0.0.jar" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/dev.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Tests/IntegrationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/Integration explanation" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ADSS_Group_U/project/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/artifacts/1_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/adss2024_v01.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/slf4j_api_1_7_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/slf4j_simple_1_7_30.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/libraries/sqlite_jdbc_3_46_0_0.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ADSS_Group_U/FileContentIndex/516b54d1-c1e9-4929-bf2f-d0dcba644643.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ADSS_Group_U/FileContentIndex/read.lock" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ADSS_Group_U/v17/.wsuo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/ProjectSettings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/VSWorkspaceState.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/.vs/slnx.sqlite" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Data_Access_Layer/DeliveryDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Data_Access_Layer/DeliveryDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Branch.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Branch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/BusinessManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/BusinessManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Delivery.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Delivery.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/DeliveryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/DeliveryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Repositories/DeliveryRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Domain_Layer/Repositories/DeliveryRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Presentation_Layer/main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Service_Layer/BusinessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Service_Layer/BusinessService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Tests/DeliveryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/Tests/DeliveryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/DB.db" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/DB.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/data.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/readme.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/dev/src/resources/docs/readme.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ADSS_Group_U/libs/libs.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ADSS_Group_U/libs/libs.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/ADSS_Group_U.iml" beforeDir="false" afterPath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/ADSS_Group_U.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/dev/stockDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/roniandhadas/ADSS_Group_U/dev/stockDB.db" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +82,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/ADSS_Group_U" />
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/dev/src/Domain_Layer/BusinessManager.java" root0="FORCE_HIGHLIGHTING" />
@@ -125,10 +100,11 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "TODO_SCOPE": "All Places",
     "full.screen.before.presentation.mode": "true",
     "ignore.virus.scanning.warn.message": "true",
     "jdk.selected.JAVA_MODULE": "openjdk-22 (2)",
-    "last_opened_file_path": "C:/Program Files/groovy/groovy-5.0.0-alpha-9",
+    "last_opened_file_path": "C:/projectsJS/currGit/ADSS_Group_U",
     "project.structure.last.edited": "Artifacts",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
@@ -141,7 +117,7 @@
       <recent name="C:\projectsJS\oop_dnd\ADSS_Group_U\docs" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Unnamed">
     <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-22 (2)" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
